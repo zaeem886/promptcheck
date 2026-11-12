@@ -1,0 +1,232 @@
+[
+  {
+    "name": "txt-findings.txt",
+    "status": "Findings detected",
+    "expected": [
+      {
+        "category": "email",
+        "value": "demo@example.test"
+      }
+    ]
+  },
+  {
+    "name": "txt-clear.txt",
+    "status": "No supported patterns found",
+    "expected": []
+  },
+  {
+    "name": "txt-mixed.txt",
+    "status": "Findings detected",
+    "expected": [
+      {
+        "category": "phone",
+        "value": "0300-1234567"
+      },
+      {
+        "category": "cnic",
+        "value": "35202-1234567-1"
+      }
+    ]
+  },
+  {
+    "name": "csv-findings.csv",
+    "status": "Findings detected",
+    "expected": [
+      {
+        "category": "email",
+        "value": "demo@example.test"
+      }
+    ]
+  },
+  {
+    "name": "csv-clear.csv",
+    "status": "No supported patterns found",
+    "expected": []
+  },
+  {
+    "name": "csv-mixed.csv",
+    "status": "Findings detected",
+    "expected": [
+      {
+        "category": "phone",
+        "value": "0300-1234567"
+      },
+      {
+        "category": "cnic",
+        "value": "35202-1234567-1"
+      }
+    ]
+  },
+  {
+    "name": "pdf-findings.pdf",
+    "status": "Findings detected",
+    "expected": [
+      {
+        "category": "email",
+        "value": "demo@example.test"
+      }
+    ]
+  },
+  {
+    "name": "pdf-clear.pdf",
+    "status": "No supported patterns found",
+    "expected": []
+  },
+  {
+    "name": "pdf-mixed.pdf",
+    "status": "Findings detected",
+    "expected": [
+      {
+        "category": "phone",
+        "value": "0300-1234567"
+      },
+      {
+        "category": "cnic",
+        "value": "35202-1234567-1"
+      }
+    ]
+  },
+  {
+    "name": "docx-findings.docx",
+    "status": "Findings detected",
+    "expected": [
+      {
+        "category": "email",
+        "value": "demo@example.test"
+      }
+    ]
+  },
+  {
+    "name": "docx-clear.docx",
+    "status": "No supported patterns found",
+    "expected": []
+  },
+  {
+    "name": "docx-mixed.docx",
+    "status": "Findings detected",
+    "expected": [
+      {
+        "category": "phone",
+        "value": "0300-1234567"
+      },
+      {
+        "category": "cnic",
+        "value": "35202-1234567-1"
+      }
+    ]
+  },
+  {
+    "name": "partial.pdf",
+    "status": "Partially scanned",
+    "expected": [
+      {
+        "category": "email",
+        "value": "demo@example.test"
+      },
+      {
+        "category": "phone",
+        "value": "03001234567"
+      }
+    ],
+    "unavailableFindings": 1,
+    "note": "Second page has no text layer; conceptual phone is only in ground truth, standing in for an unexamined image. No OCR claim."
+  },
+  {
+    "name": "image-only.pdf",
+    "status": "Not scanned",
+    "expected": [
+      {
+        "category": "email",
+        "value": "image@example.test"
+      }
+    ],
+    "unavailableFindings": 1,
+    "note": "Vector-only page simulates missing text layer; conceptual label unavailable to extraction."
+  },
+  {
+    "name": "broken.pdf",
+    "status": "Not scanned",
+    "expected": []
+  },
+  {
+    "name": "broken.docx",
+    "status": "Not scanned",
+    "expected": []
+  },
+  {
+    "name": "encrypted.pdf",
+    "status": "Not scanned",
+    "expected": [],
+    "note": "Synthetic standard-encryption dictionary exercises password rejection, not successful encrypted extraction."
+  },
+  {
+    "name": "unsupported.rtf",
+    "status": "Not scanned",
+    "expected": [
+      {
+        "category": "email",
+        "value": "demo@example.test"
+      }
+    ],
+    "unavailableFindings": 1
+  },
+  {
+    "name": "empty.txt",
+    "status": "Not scanned",
+    "expected": []
+  },
+  {
+    "name": "invalid-utf8.txt",
+    "status": "Not scanned",
+    "expected": []
+  },
+  {
+    "name": "large.txt",
+    "status": "Not scanned",
+    "expected": [],
+    "limits": {
+      "maxBytes": 1024
+    }
+  },
+  {
+    "name": "keyword.txt",
+    "status": "Findings detected",
+    "expected": [
+      {
+        "category": "keyword",
+        "value": "PROJECT MARIGOLD"
+      }
+    ],
+    "keywords": [
+      "project marigold"
+    ]
+  },
+  {
+    "name": "page-limit.pdf",
+    "status": "Partially scanned",
+    "expected": [
+      {
+        "category": "email",
+        "value": "hidden@example.test"
+      }
+    ],
+    "limits": {
+      "maxPages": 1
+    },
+    "unavailableFindings": 1
+  },
+  {
+    "name": "text-limit.txt",
+    "status": "Partially scanned",
+    "expected": [
+      {
+        "category": "email",
+        "value": "hidden@example.test"
+      }
+    ],
+    "limits": {
+      "maxTextChars": 30
+    },
+    "unavailableFindings": 1
+  }
+]

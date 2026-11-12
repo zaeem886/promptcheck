@@ -1,0 +1,22 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Local ChatGPT Work composer fixture</title>
+<style>body{font:16px system-ui;max-width:740px;margin:70px auto;padding:20px}[data-composer-markdown]{border:1px solid #888;min-height:80px;padding:12px}button{margin:12px 10px 12px 0;padding:10px}</style>
+<h1>Work composer regression fixture</h1>
+<article>Historical history@example.test must not be scanned.</article>
+<div contenteditable="true" role="textbox" aria-label="Unrelated notes">unrelated@example.test</div>
+<div data-composer-input-variant="default" data-composer-input-layout="multiline">
+  <div contenteditable="true" aria-multiline="true" dir="auto" role="textbox" spellcheck="true" tabindex="0" translate="no" class="ProseMirror" data-composer-markdown aria-label="Work with ChatGPT" data-virtualkeyboard="true"><p><span data-prompt-literal-paste>Contact demo@example.test and call +92 300 1234567</span></p></div>
+</div>
+<button id="send" type="button">Send</button><button id="replace" type="button">Replace Work editor</button><p id="sent">Sent: 0</p>
+<script>
+let sent=0;document.querySelector('#send').onclick=()=>{document.querySelector('#sent').textContent='Sent: '+(++sent);};
+document.querySelector('#replace').onclick=()=>{const previous=document.querySelector('[data-composer-markdown]');const next=previous.cloneNode(false);previous.replaceWith(next);next.focus();};
+// Model ChatGPT converting a large clipboard paste into an attachment, so no
+// pasted body text survives in the contenteditable draft.
+document.addEventListener('paste',event=>{
+  const editor=event.target.closest('[data-composer-markdown]');
+  if(!editor || !event.clipboardData?.getData('text/plain'))return;
+  event.preventDefault(); // The fixture site converts paste; the extension must not block it.
+  editor.replaceChildren();editor.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'insertFromPaste'}));
+  let chip=document.querySelector('#pasted-chip');if(!chip){chip=document.createElement('div');chip.id='pasted-chip';editor.parentElement.prepend(chip);}chip.textContent='Pasted text attachment';
+});
+</script></html>

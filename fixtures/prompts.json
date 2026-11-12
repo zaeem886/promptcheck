@@ -1,0 +1,547 @@
+[
+  {
+    "id": "prompt-001",
+    "text": "Draft 0: reply to person0@example.test.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-002",
+    "text": "Draft 1: reply to person1@example.test.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-003",
+    "text": "Draft 2: reply to person2@example.test.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-004",
+    "text": "Draft 3: reply to person3@example.test.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-005",
+    "text": "Draft 4: reply to person4@example.test.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-006",
+    "text": "Draft 5: reply to person5@example.test.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-007",
+    "text": "Draft 6: reply to person6@example.test.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-008",
+    "text": "Draft 7: reply to person7@example.test.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-009",
+    "text": "Draft 8: reply to person8@example.test.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-010",
+    "text": "Draft 9: reply to person9@example.test.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-011",
+    "text": "Draft 10: reply to person10@example.test.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-012",
+    "text": "Draft 11: reply to person11@example.test.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-013",
+    "text": "Draft 12: reply to person12@example.test.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-014",
+    "text": "Draft 13: reply to person13@example.test.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-015",
+    "text": "Draft 14: reply to person14@example.test.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-016",
+    "text": "Draft 15: reply to person15@example.test.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-017",
+    "text": "Draft 16: reply to person16@example.test.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-018",
+    "text": "Draft 17: reply to person17@example.test.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-019",
+    "text": "Draft 18: reply to person18@example.test.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-020",
+    "text": "Draft 19: reply to person19@example.test.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-021",
+    "text": "Call the synthetic contact 03001234567. Case 0.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-022",
+    "text": "Call the synthetic contact 0300-1234567. Case 1.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-023",
+    "text": "Call the synthetic contact 0300 1234567. Case 2.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-024",
+    "text": "Call the synthetic contact +923001234567. Case 3.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-025",
+    "text": "Call the synthetic contact +92 300 1234567. Case 4.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-026",
+    "text": "Call the synthetic contact +92-300-1234567. Case 5.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-027",
+    "text": "Call the synthetic contact 0092 300 1234567. Case 6.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-028",
+    "text": "Call the synthetic contact 03001234567. Case 7.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-029",
+    "text": "Call the synthetic contact 0300-1234567. Case 8.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-030",
+    "text": "Call the synthetic contact 0300 1234567. Case 9.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-031",
+    "text": "Call the synthetic contact +923001234567. Case 10.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-032",
+    "text": "Call the synthetic contact +92 300 1234567. Case 11.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-033",
+    "text": "Call the synthetic contact +92-300-1234567. Case 12.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-034",
+    "text": "Call the synthetic contact 0092 300 1234567. Case 13.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-035",
+    "text": "CNIC: 35202-1234567-1. Sample 0.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-036",
+    "text": "CNIC: 3520212345671. Sample 1.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-037",
+    "text": "CNIC: 35202-1234567-1. Sample 2.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-038",
+    "text": "CNIC: 3520212345671. Sample 3.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-039",
+    "text": "CNIC: 35202-1234567-1. Sample 4.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-040",
+    "text": "CNIC: 3520212345671. Sample 5.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-041",
+    "text": "CNIC: 35202-1234567-1. Sample 6.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-042",
+    "text": "CNIC: 3520212345671. Sample 7.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-043",
+    "text": "CNIC: 35202-1234567-1. Sample 8.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-044",
+    "text": "CNIC: 3520212345671. Sample 9.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-045",
+    "text": "Synthetic token sk-AAAAAAAAAAAAAAAAAAAAAAAA case 0",
+    "keywords": []
+  },
+  {
+    "id": "prompt-046",
+    "text": "Synthetic token sk-proj-bC_8-bC_8-bC_8-bC_8-bC_8-bC_8-bC_8-bC_8- case 1",
+    "keywords": []
+  },
+  {
+    "id": "prompt-047",
+    "text": "Synthetic token ghp_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa case 2",
+    "keywords": []
+  },
+  {
+    "id": "prompt-048",
+    "text": "Synthetic token github_pat_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa case 3",
+    "keywords": []
+  },
+  {
+    "id": "prompt-049",
+    "text": "Synthetic token AKIAA1A1A1A1A1A1A1A1 case 4",
+    "keywords": []
+  },
+  {
+    "id": "prompt-050",
+    "text": "Synthetic token AIzabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb case 5",
+    "keywords": []
+  },
+  {
+    "id": "prompt-051",
+    "text": "Synthetic token sk-AAAAAAAAAAAAAAAAAAAAAAAA case 6",
+    "keywords": []
+  },
+  {
+    "id": "prompt-052",
+    "text": "Synthetic token sk-proj-bC_8-bC_8-bC_8-bC_8-bC_8-bC_8-bC_8-bC_8- case 7",
+    "keywords": []
+  },
+  {
+    "id": "prompt-053",
+    "text": "Synthetic token ghp_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa case 8",
+    "keywords": []
+  },
+  {
+    "id": "prompt-054",
+    "text": "Synthetic token github_pat_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa case 9",
+    "keywords": []
+  },
+  {
+    "id": "prompt-055",
+    "text": "Synthetic token AKIAA1A1A1A1A1A1A1A1 case 10",
+    "keywords": []
+  },
+  {
+    "id": "prompt-056",
+    "text": "Synthetic token AIzabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb case 11",
+    "keywords": []
+  },
+  {
+    "id": "prompt-057",
+    "text": "Example -----BEGIN PRIVATE KEY-----\nSYNTHETIC ONLY",
+    "keywords": []
+  },
+  {
+    "id": "prompt-058",
+    "text": "Example -----BEGIN RSA PRIVATE KEY-----\nSYNTHETIC ONLY",
+    "keywords": []
+  },
+  {
+    "id": "prompt-059",
+    "text": "Example -----BEGIN EC PRIVATE KEY-----\nSYNTHETIC ONLY",
+    "keywords": []
+  },
+  {
+    "id": "prompt-060",
+    "text": "Example -----BEGIN DSA PRIVATE KEY-----\nSYNTHETIC ONLY",
+    "keywords": []
+  },
+  {
+    "id": "prompt-061",
+    "text": "Example -----BEGIN OPENSSH PRIVATE KEY-----\nSYNTHETIC ONLY",
+    "keywords": []
+  },
+  {
+    "id": "prompt-062",
+    "text": "Example -----BEGIN ENCRYPTED PRIVATE KEY-----\nSYNTHETIC ONLY",
+    "keywords": []
+  },
+  {
+    "id": "prompt-063",
+    "text": "Discuss PROJECT MARIGOLD. Case 0",
+    "keywords": [
+      "project marigold"
+    ]
+  },
+  {
+    "id": "prompt-064",
+    "text": "Discuss PROJECT MARIGOLD. Case 1",
+    "keywords": [
+      "project marigold"
+    ]
+  },
+  {
+    "id": "prompt-065",
+    "text": "Discuss PROJECT MARIGOLD. Case 2",
+    "keywords": [
+      "project marigold"
+    ]
+  },
+  {
+    "id": "prompt-066",
+    "text": "Discuss PROJECT MARIGOLD. Case 3",
+    "keywords": [
+      "project marigold"
+    ]
+  },
+  {
+    "id": "prompt-067",
+    "text": "Discuss PROJECT MARIGOLD. Case 4",
+    "keywords": [
+      "project marigold"
+    ]
+  },
+  {
+    "id": "prompt-068",
+    "text": "Discuss PROJECT MARIGOLD. Case 5",
+    "keywords": [
+      "project marigold"
+    ]
+  },
+  {
+    "id": "prompt-069",
+    "text": "Discuss PROJECT MARIGOLD. Case 6",
+    "keywords": [
+      "project marigold"
+    ]
+  },
+  {
+    "id": "prompt-070",
+    "text": "Discuss PROJECT MARIGOLD. Case 7",
+    "keywords": [
+      "project marigold"
+    ]
+  },
+  {
+    "id": "prompt-071",
+    "text": "Discuss PROJECT MARIGOLD. Case 8",
+    "keywords": [
+      "project marigold"
+    ]
+  },
+  {
+    "id": "prompt-072",
+    "text": "Discuss PROJECT MARIGOLD. Case 9",
+    "keywords": [
+      "project marigold"
+    ]
+  },
+  {
+    "id": "prompt-073",
+    "text": "demo@example.test demo@example.test",
+    "keywords": [
+      "demo"
+    ]
+  },
+  {
+    "id": "prompt-074",
+    "text": "Literal [a-z]+ and <script> only.",
+    "keywords": [
+      "[a-z]+",
+      "<script>"
+    ]
+  },
+  {
+    "id": "prompt-075",
+    "text": "Email demo@example.test and call 0300-1234567.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-076",
+    "text": "Order: 03001234567",
+    "keywords": []
+  },
+  {
+    "id": "prompt-077",
+    "text": "Invoice no: 03001234567",
+    "keywords": []
+  },
+  {
+    "id": "prompt-078",
+    "text": "Order: 3520212345671",
+    "keywords": []
+  },
+  {
+    "id": "prompt-079",
+    "text": "Date 2026-11-13",
+    "keywords": []
+  },
+  {
+    "id": "prompt-080",
+    "text": "Version 1.2.3",
+    "keywords": []
+  },
+  {
+    "id": "prompt-081",
+    "text": "invalid@localhost",
+    "keywords": []
+  },
+  {
+    "id": "prompt-082",
+    "text": "sk-short ghp_short",
+    "keywords": []
+  },
+  {
+    "id": "prompt-083",
+    "text": "-----BEGIN PUBLIC KEY-----",
+    "keywords": []
+  },
+  {
+    "id": "prompt-084",
+    "text": "Read the class notes.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-085",
+    "text": "Budget 25000 PKR.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-086",
+    "text": "2030012345678",
+    "keywords": []
+  },
+  {
+    "id": "prompt-087",
+    "text": "CNIC example omitted.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-088",
+    "text": "Meeting at 10:30.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-089",
+    "text": "The national park is open.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-090",
+    "text": "Tracking: 03001234567",
+    "keywords": []
+  },
+  {
+    "id": "prompt-091",
+    "text": "Use a placeholder for contact details.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-092",
+    "text": "Explain regex syntax.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-093",
+    "text": "What is the weather?",
+    "keywords": []
+  },
+  {
+    "id": "prompt-094",
+    "text": "CSV columns: name,department",
+    "keywords": []
+  },
+  {
+    "id": "prompt-095",
+    "text": "a@.test",
+    "keywords": []
+  },
+  {
+    "id": "prompt-096",
+    "text": "85202-1234567-1",
+    "keywords": []
+  },
+  {
+    "id": "prompt-097",
+    "text": "No private information here.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-098",
+    "text": "030012345678",
+    "keywords": []
+  },
+  {
+    "id": "prompt-099",
+    "text": "The value 3520212345671 is an order number.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-100",
+    "text": "Summarize chapter six.",
+    "keywords": []
+  },
+  {
+    "id": "prompt-101",
+    "text": "Call +92 (300) 1234567",
+    "keywords": []
+  },
+  {
+    "id": "prompt-102",
+    "text": "Contact member at person [at] example [dot] test",
+    "keywords": []
+  },
+  {
+    "id": "prompt-103",
+    "text": "Unlabelled synthetic order reference value: 03001234567",
+    "keywords": []
+  },
+  {
+    "id": "prompt-104",
+    "text": "Illustrative code literal 35202-1234567-1; no identity intended.",
+    "keywords": []
+  }
+]

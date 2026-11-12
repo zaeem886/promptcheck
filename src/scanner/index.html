@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PromptPrivacy — Local document scan</title><link rel="stylesheet" href="style.css"></head>
+<body>
+  <header><a class="brand" href="index.html"><span class="logo" aria-hidden="true">P</span> PromptPrivacy</a><span class="local"><span aria-hidden="true">●</span> Processing stays on this device</span></header>
+  <main>
+    <p class="eyebrow">CS3002 / INFORMATION SECURITY</p>
+    <h1>A moment to check.<br>A choice to share.</h1>
+    <p class="intro">Spot possible sensitive information before you attach a document to an AI chat. Review the findings, then decide what to share.</p>
+    <section id="live-status" class="card" role="status" hidden><h2>ChatGPT live scanner</h2><p id="live-message"></p></section>
+    <div class="columns">
+      <section class="card scan"><div class="section-title"><span class="number">01</span><h2>Scan a document</h2><span class="badge">LOCAL ONLY</span></div>
+        <label class="picker" for="file"><span class="file-icon" aria-hidden="true">↥</span><strong>Choose a file to review</strong><span>TXT, CSV, text-based PDF, or DOCX</span><input id="file" type="file" accept=".txt,.csv,.pdf,.docx"></label>
+        <div class="actions"><button id="cancel" type="button" disabled>Cancel scan</button><button id="clear" class="quiet" type="button">Clear results</button></div>
+        <div id="result" role="status" aria-live="polite" aria-atomic="true"><h3>Ready when you are</h3><p>Select a document. No file is attached or uploaded.</p></div>
+        <p class="footnote">Pattern matches are possible findings, not proof. A clear result does not establish that a document is safe.</p>
+      </section>
+      <aside>
+        <section class="card"><div class="section-title"><span class="number">02</span><h2>Your keywords</h2></div><p>One literal phrase per line. Matching ignores case. Up to 100 keywords, each up to 100 characters.</p><label for="keywords">Sensitive words or phrases</label><textarea id="keywords" rows="5" placeholder="e.g. project marigold"></textarea><button id="save" type="button">Save keywords</button><p id="saved" role="status"></p><p class="footnote">Only these preferences are saved in local extension storage. Keywords are available to the ChatGPT advisory scanner. Prompts, documents, extracted text, and findings are never stored.</p></section>
+        <details class="card"><summary>Limits &amp; coverage</summary><p>Changes apply to the next scan. Limits are session-only and reset when this page closes.</p><label for="max-size">Maximum file size (MiB, 1–25)</label><input id="max-size" type="number" min="1" max="25" value="10"><label for="timeout">Time limit (seconds, 1–60)</label><input id="timeout" type="number" min="1" max="60" value="15"><p>Maximum 200 PDF pages and 2,000,000 extracted characters. TXT/CSV must be UTF-8. DOCX body text only. No OCR, embedded-image analysis, comments, metadata, encrypted extraction, automatic redaction, or attachment.</p></details>
+      </aside>
+    </div>
+    <section class="notice"><strong>You stay in control.</strong> After reviewing a document, manually attach it on ChatGPT if you choose. ChatGPT can access text already typed into its editor; the live warning cannot verify when the website transmits it. Sending is always available.</section>
+  </main><footer>PromptPrivacy <span>Local DLP prototype · Synthetic data recommended for demonstrations</span></footer>
+  <script type="module" src="app.js"></script>
+</body></html>

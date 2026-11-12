@@ -1,0 +1,10 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Local ChatGPT editor integration fixture</title>
+<style>body{font:16px system-ui;max-width:740px;margin:70px auto;padding:20px}#prompt-textarea{border:1px solid #888;min-height:80px;padding:12px}button{margin:12px 10px 12px 0;padding:10px}</style>
+<h1>Synthetic editor fixture</h1><p>This page is fulfilled locally by the test harness. It is not live ChatGPT.</p>
+<article id="conversation">Historical email history@example.test must never be scanned.</article>
+<form><div id="prompt-textarea" contenteditable="true" role="textbox" aria-label="Prompt" aria-multiline="true"></div><button id="send" type="submit">Send</button></form>
+<button id="replace" type="button">Replace editor</button><p id="sent" role="status">Sent: 0</p>
+<script>
+let sent=0; document.querySelector('form').onsubmit=e=>{e.preventDefault();document.querySelector('#sent').textContent='Sent: '+(++sent);};
+document.querySelector('#replace').onclick=()=>{const previous=document.querySelector('#prompt-textarea');const next=previous.cloneNode(false);previous.replaceWith(next);next.focus();};
+</script></html>

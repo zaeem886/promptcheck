@@ -1,0 +1,164 @@
+{
+  "browserProduct": "Brave",
+  "browser": "157.0.8103.50",
+  "checks": [
+    "Production MV3 extension loads in Brave",
+    "Literal keyword preferences save in local storage",
+    "Real browser worker extraction/status/masking for 21 documents",
+    "Replacing a scan prevents stale results",
+    "Cancel terminates active processing",
+    "Deadline terminates a simulated hung worker",
+    "Configured size limit preflight",
+    "Privacy-preserving live-scanner connection diagnostic",
+    "Actual toolbar action reports connected, missing-editor, and disconnected states",
+    "Live adapter reads draft only, excludes conversation history",
+    "Typing produces masked advisory after debounce",
+    "Normal sending remains available with findings",
+    "Empty draft clears stale findings immediately",
+    "Pasted text follows the same input scan path",
+    "Editor replacement and stored literal keywords",
+    "Live credentials are fully masked",
+    "Work composer without an id scans existing nested paragraph/span draft only",
+    "Work editor typing, clearing, unrelated-editor exclusion, and normal sending",
+    "Work editor replacement, nested paste input, and connected diagnostic",
+    "Large clipboard paste is scanned before conversion to an attachment, even with an empty draft",
+    "Paste reviews survive conversion/editor replacement, allow sending, ignore unrelated inputs, and replace older snapshots",
+    "Clipboard scan character limit is explicitly reported as partial",
+    "Dismiss removes the masked clipboard snapshot",
+    "Only configured keyword preferences persisted",
+    "No attempted runtime HTTP(S) requests or page errors in fixtures"
+  ],
+  "documentRuns": [
+    {
+      "name": "txt-findings.txt",
+      "status": "Findings detected",
+      "durationMs": 185.11659999999983
+    },
+    {
+      "name": "txt-clear.txt",
+      "status": "No supported patterns found",
+      "durationMs": 144.38630000000012
+    },
+    {
+      "name": "txt-mixed.txt",
+      "status": "Findings detected",
+      "durationMs": 134.71360000000004
+    },
+    {
+      "name": "csv-findings.csv",
+      "status": "Findings detected",
+      "durationMs": 148.35480000000007
+    },
+    {
+      "name": "csv-clear.csv",
+      "status": "No supported patterns found",
+      "durationMs": 151.86390000000029
+    },
+    {
+      "name": "csv-mixed.csv",
+      "status": "Findings detected",
+      "durationMs": 148.08429999999998
+    },
+    {
+      "name": "pdf-findings.pdf",
+      "status": "Findings detected",
+      "durationMs": 270.6788999999999
+    },
+    {
+      "name": "pdf-clear.pdf",
+      "status": "No supported patterns found",
+      "durationMs": 282.5882999999999
+    },
+    {
+      "name": "pdf-mixed.pdf",
+      "status": "Findings detected",
+      "durationMs": 236.23000000000002
+    },
+    {
+      "name": "docx-findings.docx",
+      "status": "Findings detected",
+      "durationMs": 227.79340000000002
+    },
+    {
+      "name": "docx-clear.docx",
+      "status": "No supported patterns found",
+      "durationMs": 185.1304
+    },
+    {
+      "name": "docx-mixed.docx",
+      "status": "Findings detected",
+      "durationMs": 165.41849999999977
+    },
+    {
+      "name": "partial.pdf",
+      "status": "Partially scanned",
+      "durationMs": 184.6261000000004
+    },
+    {
+      "name": "image-only.pdf",
+      "status": "Not scanned",
+      "durationMs": 183.3778999999995
+    },
+    {
+      "name": "broken.pdf",
+      "status": "Not scanned",
+      "durationMs": 214.98530000000028
+    },
+    {
+      "name": "broken.docx",
+      "status": "Not scanned",
+      "durationMs": 234.83649999999943
+    },
+    {
+      "name": "encrypted.pdf",
+      "status": "Not scanned",
+      "durationMs": 215.47699999999986
+    },
+    {
+      "name": "unsupported.rtf",
+      "status": "Not scanned",
+      "durationMs": 14.429800000000796
+    },
+    {
+      "name": "empty.txt",
+      "status": "Not scanned",
+      "durationMs": 12.88379999999961
+    },
+    {
+      "name": "invalid-utf8.txt",
+      "status": "Not scanned",
+      "durationMs": 138.6779000000006
+    },
+    {
+      "name": "keyword.txt",
+      "status": "Findings detected",
+      "durationMs": 150.92320000000018
+    }
+  ],
+  "promptRuns": [
+    {
+      "case": "clear",
+      "durationMs": 327.516599999999
+    },
+    {
+      "case": "email",
+      "durationMs": 633.731600000001
+    }
+  ],
+  "timingMethod": "performance.now around Playwright file selection or editor fill through observed result; includes automation, 50ms polling (prompt), debounce, file reads and worker initialization (document). Not isolated CPU time.",
+  "memory": {
+    "scanner": {
+      "usedJSHeapSize": 7996877,
+      "totalJSHeapSize": 9760153
+    },
+    "editor": {
+      "usedJSHeapSize": 16622505,
+      "totalJSHeapSize": 19952277
+    },
+    "method": "Chrome performance.memory after workload; coarse renderer snapshots, may share isolate/process and exclude document workers, browser, and peak memory. Not attributable extension overhead."
+  },
+  "outboundRequests": 0,
+  "pageErrors": 0,
+  "liveChatGPT": "Not tested: local route fixture used; sign-in and production selectors require manual verification.",
+  "paste": "Synthetic insertFromPaste event; native clipboard paste remains manual."
+}

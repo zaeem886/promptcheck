@@ -1,0 +1,12 @@
+{
+  "characters": 29513,
+  "totalFindings": 6,
+  "expected": {
+    "email": 2,
+    "phone": 1,
+    "cnic": 1,
+    "apiKey": 1,
+    "privateKey": 1
+  },
+  "note": "Use an empty keyword list for these expected counts."
+}
