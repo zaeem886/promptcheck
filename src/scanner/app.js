@@ -1,14 +1,20 @@
 import { normalizeKeywords } from '../shared/detector.js';
 import { DEFAULT_LIMITS, preflight, notScanned } from '../shared/scan.js';
+import { siteById } from '../shared/sites.js';
+import { appendFindingList } from '../ui/finding-list.js';
 const $ = id => document.getElementById(id);
+const params = new URLSearchParams(location.search);
+const site = siteById(params.get('site'));
+const label = site?.label || 'AI chat';
 const connectionMessages = {
-  'editor-found': 'Connected: the live scanner found the prompt editor in the tab where you clicked the toolbar icon. Typed text stays unchanged; masked previews appear in a separate advisory near the editor.',
-  'editor-not-found': 'The live scanner loaded, but could not find a supported prompt editor. Open a new chat and click the toolbar icon again. If this persists, the ChatGPT editor adapter needs updating.',
-  'not-connected': 'The live scanner is not connected to that tab. Open https://chatgpt.com/, allow PromptPrivacy access to that site in your browser extension settings, and refresh the ChatGPT tab after loading or reloading the extension. Then click the toolbar icon from that tab again.'
+  'editor-found': `Connected: the live scanner found the ${label} prompt editor in the tab where you clicked the toolbar icon. Typed text stays unchanged; masked previews appear in a separate advisory near the editor.`,
+  'editor-not-found': `The ${label} live scanner loaded, but could not find a supported prompt editor. Open a new chat and click the toolbar icon again. If this persists, the ${label} editor adapter needs updating.`,
+  'not-connected': 'The live scanner is not connected to that tab. Open chatgpt.com, claude.ai, or gemini.google.com, allow PromptPrivacy access to that site in your browser extension settings, and refresh the chat tab after loading or reloading the extension. Then click the toolbar icon from that tab again.'
 };
-const connection = new URLSearchParams(location.search).get('live');
+const connection = params.get('live');
 if (Object.hasOwn(connectionMessages, connection)) {
   $('live-status').hidden = false;
+  $('live-title').textContent = `${label} live scanner`;
   $('live-message').textContent = connectionMessages[connection];
 }
 let worker = null, generation = 0, deadline = null, keywords = [];
@@ -20,7 +26,12 @@ function render(result, duration) {
   if (result.partial && result.findings.length) { const p = document.createElement('p'); p.textContent = `${result.findings.length} possible findings in the extracted portion.`; box.append(p); }
   for (const group of result.groups) {
     const row = document.createElement('div'); row.className = 'finding'; row.textContent = `${group.label} · ${group.count}`;
-    const preview = document.createElement('span'); preview.textContent = group.previews.join(' · '); row.append(preview); box.append(row);
+    appendFindingList(row, group.occurrences, group.label); box.append(row);
+  }
+  if (result.findings.length) {
+    const note = document.createElement('p'); note.className = 'footnote';
+    note.textContent = `Locations refer to ${result.locationBasis}${result.partial ? ' in the scanned portion' : ''}. Lines count actual line breaks; Top/Middle/Bottom are thirds of that text. PDF/DOCX visual lines and screen wrapping may differ.`;
+    box.append(note);
   }
   if (result.pages) { const p = document.createElement('p'); p.textContent = `${result.scannedPages} of ${result.pages} pages yielded text.`; box.append(p); }
   if (duration !== undefined) { const p = document.createElement('p'); p.textContent = `Processed locally in ${(duration / 1000).toFixed(2)} s. Nothing was attached or uploaded.`; box.append(p); }

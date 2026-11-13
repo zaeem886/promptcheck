@@ -3,12 +3,16 @@
 <h1>Work composer regression fixture</h1>
 <article>Historical history@example.test must not be scanned.</article>
 <div contenteditable="true" role="textbox" aria-label="Unrelated notes">unrelated@example.test</div>
+<div data-composer-root style="border-radius:20px;background:#edf2ef;padding:14px">
 <div data-composer-input-variant="default" data-composer-input-layout="multiline">
   <div contenteditable="true" aria-multiline="true" dir="auto" role="textbox" spellcheck="true" tabindex="0" translate="no" class="ProseMirror" data-composer-markdown aria-label="Work with ChatGPT" data-virtualkeyboard="true"><p><span data-prompt-literal-paste>Contact demo@example.test and call +92 300 1234567</span></p></div>
 </div>
-<button id="send" type="button">Send</button><button id="replace" type="button">Replace Work editor</button><p id="sent">Sent: 0</p>
+<div class="toolbar"><button id="send" data-testid="send-button" aria-label="Send message" type="button">Send</button><button id="stop" data-testid="stop-button" aria-label="Stop response" hidden type="button">Stop</button></div></div>
+<button id="replace" type="button">Replace Work editor</button><p id="sent">Sent: 0</p>
 <script>
-let sent=0;document.querySelector('#send').onclick=()=>{document.querySelector('#sent').textContent='Sent: '+(++sent);};
+let sent=0;function sendDraft(){document.querySelector('#sent').textContent='Sent: '+(++sent);document.querySelector('[data-composer-markdown]').replaceChildren();document.querySelector('#pasted-chip')?.remove();document.querySelector('#stop').hidden=false;}document.querySelector('#send').onclick=sendDraft;
+document.querySelector('[data-composer-root]').addEventListener('input',()=>{document.querySelector('#stop').hidden=true;});
+document.querySelector('[data-composer-root]').addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing&&!window.enterInsertsNewline){event.preventDefault();sendDraft();}});
 document.querySelector('#replace').onclick=()=>{const previous=document.querySelector('[data-composer-markdown]');const next=previous.cloneNode(false);previous.replaceWith(next);next.focus();};
 // Model ChatGPT converting a large clipboard paste into an attachment, so no
 // pasted body text survives in the contenteditable draft.

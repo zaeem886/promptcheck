@@ -1,0 +1,68 @@
+[
+  {
+    "requestedUrl": "https://claude.ai/new",
+    "finalUrl": "https://claude.ai/new",
+    "title": "Just a moment...",
+    "editorMetadata": [],
+    "signedInTesting": false
+  },
+  {
+    "requestedUrl": "https://gemini.google.com/app",
+    "finalUrl": "https://gemini.google.com/app",
+    "title": "Google Gemini",
+    "editorMetadata": [
+      {
+        "tag": "DIV",
+        "attributes": {
+          "class": "ql-editor ql-blank textarea new-input-ui rich-query-formatting-enabled",
+          "contenteditable": "true",
+          "role": "textbox",
+          "aria-label": "Enter a prompt for Gemini",
+          "data-placeholder": "Ask Gemini"
+        },
+        "ancestors": [
+          {
+            "tag": "RICH-TEXTAREA",
+            "id": "",
+            "class": "text-input-field_textarea ql-container ql-bubble ng-tns-c3407459039-4 simplified-input ng-untouched ng-pristine ng-valid ng-star-inserted"
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "textarea-wrapper"
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "text-input-field_textarea-inner"
+          }
+        ]
+      },
+      {
+        "tag": "DIV",
+        "attributes": {
+          "class": "ql-clipboard",
+          "contenteditable": "true"
+        },
+        "ancestors": [
+          {
+            "tag": "RICH-TEXTAREA",
+            "id": "",
+            "class": "text-input-field_textarea ql-container ql-bubble ng-tns-c3407459039-4 simplified-input ng-untouched ng-pristine ng-valid ng-star-inserted"
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "textarea-wrapper"
+          },
+          {
+            "tag": "DIV",
+            "id": "",
+            "class": "text-input-field_textarea-inner"
+          }
+        ]
+      }
+    ],
+    "signedInTesting": false
+  }
+]

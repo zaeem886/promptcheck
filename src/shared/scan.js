@@ -12,5 +12,15 @@ export function notScanned(reason) { return { status: 'Not scanned', reason, fin
 export function finishScan(extraction, keywords = []) {
   if (!extraction.text.trim()) return notScanned(extraction.reason || 'No extractable text. OCR is outside scope.');
   const findings = detect(extraction.text, keywords);
-  return { status: extraction.partial ? 'Partially scanned' : findings.length ? 'Findings detected' : 'No supported patterns found', partial: !!extraction.partial, reason: extraction.reason || '', findings, groups: summarize(findings), pages: extraction.pages, scannedPages: extraction.scannedPages };
+  if (extraction.pageRanges) for (const finding of findings) {
+    const first = extraction.pageRanges.find(range => finding.start >= range.start && finding.start < range.end);
+    const last = extraction.pageRanges.find(range => finding.end - 1 >= range.start && finding.end - 1 < range.end);
+    if (first) finding.location.page = first.page;
+    if (last) finding.location.endPage = last.page;
+  }
+  return {
+    status: extraction.partial ? 'Partially scanned' : findings.length ? 'Findings detected' : 'No supported patterns found',
+    partial: !!extraction.partial, reason: extraction.reason || '', findings, groups: summarize(findings),
+    pages: extraction.pages, scannedPages: extraction.scannedPages, locationBasis: extraction.locationBasis || 'scanned text'
+  };
 }

@@ -1,0 +1,17 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Local Gemini composer fixture</title>
+<style>body{font:16px system-ui;max-width:740px;margin:40px auto;padding:20px}rich-textarea{display:block;border:1px solid #aaa;padding:12px}.ql-editor{min-height:60px;border:1px solid #888;padding:12px}.ql-clipboard{position:absolute;left:-10000px;top:0}button{margin:8px;padding:8px}</style>
+<h1>Synthetic Gemini composer fixture</h1><p>Composer structure follows the signed-out public DOM probe; text is synthetic.</p>
+<user-query><rich-textarea><div class="ql-editor" contenteditable="true" role="textbox">history@example.test</div></rich-textarea></user-query>
+<model-response><div contenteditable="true" role="textbox">response@example.test</div></model-response>
+<label>Unrelated notes <textarea aria-label="Unrelated notes">notes@example.test</textarea></label>
+<input-area-v2 data-composer-root style="display:block;border-radius:20px;background:#edf2ef;padding:14px"><div class="textarea-wrapper" style="display:flex;flex-direction:row"><rich-textarea class="ql-container" style="width:100%">
+  <div class="ql-editor ql-blank textarea new-input-ui rich-query-formatting-enabled" contenteditable="true" role="textbox" aria-label="Enter a prompt for Gemini" data-placeholder="Ask Gemini"><p><br></p></div>
+  <div class="ql-clipboard" contenteditable="true">clipboard-buffer@example.test</div>
+</rich-textarea></div><div class="toolbar"><button id="send" class="send-button" aria-label="Send message" type="button">Send</button><button id="stop" class="stop-button" aria-label="Stop response" hidden type="button">Stop</button></div></input-area-v2>
+<button id="replace" type="button">Replace editor</button><p id="sent">Sent: 0</p>
+<script>
+let sent=0;function sendDraft(){document.querySelector('#sent').textContent='Sent: '+(++sent);const editor=document.querySelector('[data-composer-root] .ql-editor, [data-composer-root] textarea');if(editor.tagName==='TEXTAREA')editor.value='';else editor.replaceChildren();document.querySelector('#stop').hidden=false;}document.querySelector('#send').onclick=sendDraft;
+document.querySelector('[data-composer-root]').addEventListener('input',()=>{document.querySelector('#stop').hidden=true;});
+document.querySelector('[data-composer-root]').addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing&&!window.enterInsertsNewline){event.preventDefault();sendDraft();}});
+document.querySelector('#replace').onclick=()=>{const old=document.querySelector('[data-composer-root] .ql-editor');const next=old.cloneNode(false);old.replaceWith(next);next.focus();};
+</script></html>

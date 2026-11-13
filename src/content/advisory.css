@@ -1,0 +1,42 @@
+:host {
+  all: initial;
+  display: block;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  flex: 0 0 100%;
+  grid-column: 1 / -1;
+  clear: both;
+  margin: 8px 0 0;
+  color-scheme: light dark;
+  color: light-dark(#263f3c, #d7e5e0);
+  font: 12px/1.5 system-ui, sans-serif;
+  text-align: left;
+}
+:host([hidden]) { display: none !important; }
+* { box-sizing: border-box; }
+section { border: 1px solid light-dark(#d4dfd9, #3c5049); border-radius: 12px; background: light-dark(#f7faf8, #17231f); padding: 10px 12px; }
+header { display: flex; gap: 8px; align-items: center; }
+.brand { font-size: 12px; font-weight: 650; letter-spacing: -.2px; }
+.state { flex: 1; font-size: 11px; color: light-dark(#627268, #a0b7aa); }
+.close { flex: 0 0 28px; width: 28px; height: 28px; border: none; padding: 0; background: transparent; color: inherit; border-radius: 7px; font: 20px/1 system-ui; cursor: pointer; }
+.close:hover { background: light-dark(#e6eee8, #2b3c32); }
+.scope { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; margin-top: 5px; }
+.scope-label { font-size: 11px; color: light-dark(#627268, #a0b7aa); margin-right: 3px; }
+.tag { padding: 2px 7px; border-radius: 5px; font-size: 11px; white-space: nowrap; background: light-dark(#eaf0eb, #293c31); }
+details { margin-top: 7px; }
+summary { cursor: pointer; width: fit-content; font-size: 11px; color: light-dark(#496856, #acc8b6); }
+.detail-scope { margin-top: 8px; padding-top: 7px; border-top: 1px solid light-dark(#e0e7e1, #33483b); }
+strong { display: block; font-size: 11px; margin-bottom: 3px; }
+.finding { font-size: 11px; overflow-wrap: anywhere; }
+.occurrences { padding-left: 19px; margin: 4px 0 8px; }
+.occurrence { padding: 3px 0; font-size: 11px; }
+.occurrence-preview { overflow-wrap: anywhere; font-family: ui-monospace, monospace; }
+.occurrence-location { display: block; color: light-dark(#627268, #a0b7aa); font-size: 10px; }
+.more-findings { font: inherit; color: inherit; background: transparent; border: 1px solid light-dark(#d4dfd9, #3c5049); border-radius: 6px; padding: 4px 7px; cursor: pointer; }
+details[open] { max-height: 320px; overflow: auto; scrollbar-gutter: stable; padding-right: 4px; }
+p { margin: 5px 0 0; font-size: 11px; color: light-dark(#627268, #a0b7aa); }
+.privacy { font-size: 10px; margin-top: 6px; }
+button:focus-visible, summary:focus-visible { outline: 2px solid #b99a5a; outline-offset: 2px; }
+@media(max-width:500px) { header { flex-wrap: wrap; } .state { min-width: 120px; } .close { margin-left: auto; } }

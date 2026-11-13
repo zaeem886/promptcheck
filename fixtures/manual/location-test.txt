@@ -1,0 +1,9 @@
+Synthetic location test. All contacts and identifiers are examples.
+Email: top@example.test
+Normal notes about a university library and its reading rooms.
+Normal notes about indexes, search, borrowing, and class schedules.
+Phone: 03001234567
+Normal notes about studying, writing reports, and returning books.
+Normal notes about class projects, meetings, and team presentations.
+CNIC: 35202-1234567-1
+Final ordinary notes. No additional contact details appear here.

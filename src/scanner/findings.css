@@ -1,0 +1,5 @@
+.occurrences { margin: 8px 0; padding-left: 20px; }
+.occurrence { margin: 8px 0; padding-left: 3px; }
+.finding .occurrence-preview { font-family: ui-monospace, monospace; overflow-wrap: anywhere; margin-top: 0; }
+.finding .occurrence-location { font: 11px/1.6 system-ui, sans-serif; color: #586c65; margin-top: 2px; }
+.more-findings { font-size: 11px; padding: 6px 9px; background: #e7eee8; color: #285d50; }

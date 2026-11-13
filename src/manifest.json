@@ -1,12 +1,12 @@
 {
   "manifest_version": 3,
   "name": "PromptPrivacy",
-  "version": "1.0.3",
-  "description": "Local advisory checks for sensitive patterns in ChatGPT drafts and selected documents.",
+  "version": "1.2.0",
+  "description": "Local sensitive-pattern checks for ChatGPT, Claude, Gemini, pasted text, and selected documents.",
   "minimum_chrome_version": "120",
   "permissions": ["storage"],
   "action": { "default_title": "PromptPrivacy — scan a document and manage keywords" },
   "background": { "service_worker": "background.js" },
-  "content_scripts": [{ "matches": ["https://chatgpt.com/*"], "js": ["content/chatgpt.js"], "run_at": "document_idle" }],
+  "content_scripts": [{ "matches": ["https://chatgpt.com/*", "https://claude.ai/*", "https://gemini.google.com/*"], "js": ["content/index.js"], "run_at": "document_idle" }],
   "content_security_policy": { "extension_pages": "default-src 'self'; script-src 'self'; worker-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'" }
 }

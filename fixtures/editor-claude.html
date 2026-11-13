@@ -1,0 +1,17 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Local Claude composer fixture</title>
+<style>body{font:16px system-ui;max-width:740px;margin:40px auto;padding:20px}fieldset{border:1px solid #aaa;border-radius:20px;padding:14px;background:#edf2ef}[data-testid="chat-input"]{display:grid;height:96px;overflow:hidden}.ProseMirror{min-height:60px;border:1px solid #888;padding:12px;grid-area:1/1;overflow:auto}button{margin:8px;padding:8px}</style>
+<h1>Synthetic Claude composer fixture</h1><p>This is a local contract fixture, not a captured live Claude session.</p>
+<div data-testid="user-message"><div class="ProseMirror" contenteditable="true">history@example.test</div></div>
+<div data-testid="artifact-panel"><div class="ProseMirror" contenteditable="true">artifact@example.test</div></div>
+<label>Unrelated notes <textarea aria-label="Unrelated notes">notes@example.test</textarea></label>
+<fieldset data-composer-root><legend>Message Claude</legend>
+  <div data-testid="chat-input"><div class="tiptap ProseMirror" contenteditable="true" role="textbox" aria-label="Write your prompt to Claude"><p><br></p></div></div>
+  <div class="toolbar"><button id="send" aria-label="Send message" type="button">Send</button><button id="stop" data-testid="stop-button" aria-label="Stop response" hidden type="button">Stop</button></div>
+</fieldset>
+<button id="replace" type="button">Replace editor</button><p id="sent">Sent: 0</p>
+<script>
+let sent=0;function sendDraft(){document.querySelector('#sent').textContent='Sent: '+(++sent);const editor=document.querySelector('[data-composer-root] [contenteditable], [data-composer-root] textarea');if(editor.tagName==='TEXTAREA')editor.value='';else editor.replaceChildren();document.querySelector('#stop').hidden=false;}document.querySelector('#send').onclick=sendDraft;
+document.querySelector('[data-composer-root]').addEventListener('input',()=>{document.querySelector('#stop').hidden=true;});
+document.querySelector('[data-composer-root]').addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing&&!window.enterInsertsNewline){event.preventDefault();sendDraft();}});
+document.querySelector('#replace').onclick=()=>{const old=document.querySelector('[data-composer-root] [contenteditable]');const next=old.cloneNode(false);old.replaceWith(next);next.focus();};
+</script></html>

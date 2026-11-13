@@ -1,4 +1,5 @@
 // Pure detection: no DOM, storage, network, or Chrome APIs.
+import { locateFindings } from './locations.js';
 export const CATEGORY_NAMES = { email: 'Email', phone: 'Pakistani phone', cnic: 'CNIC-like number', apiKey: 'API key format', privateKey: 'Private key marker', keyword: 'Sensitive keyword' };
 const word = /[\p{L}\p{N}_]/u;
 function bounded(text, start, end) {
@@ -46,11 +47,15 @@ export function detect(text, keywords = []) {
     for (let i = candidate.start; i < candidate.end; i++) if (occupied[i]) { overlaps = true; break; }
     if (!overlaps) { occupied.fill(1, candidate.start, candidate.end); accepted.push(candidate); }
   }
-  return accepted.sort((a, b) => a.start - b.start).map(({ priority, ...finding }) => finding);
+  return locateFindings(text, accepted.sort((a, b) => a.start - b.start).map(({ priority, ...finding }) => finding));
 }
 export function summarize(findings) {
   return Object.entries(CATEGORY_NAMES).map(([category, label]) => {
     const group = findings.filter(f => f.category === category);
-    return { category, label, count: group.length, previews: [...new Set(group.map(f => f.preview))].slice(0, 3) };
+    return {
+      category, label, count: group.length, previews: [...new Set(group.map(f => f.preview))].slice(0, 3),
+      // Repeated masked values retain their separate locations.
+      occurrences: group.map(({ preview, location }) => ({ preview, location }))
+    };
   }).filter(x => x.count);
 }

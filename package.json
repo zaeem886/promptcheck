@@ -1,6 +1,6 @@
 {
   "name": "promptprivacy",
-  "version": "1.0.3",
+  "version": "1.2.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,6 +9,8 @@
     "fixtures": "node scripts/fixtures.mjs",
     "evaluate": "node --expose-gc scripts/evaluate.mjs",
     "test:browser": "node scripts/browser-test.mjs",
+    "probe:sites": "node scripts/probe-sites.mjs",
+    "test:live": "node scripts/live-smoke.mjs",
     "package": "node scripts/package.mjs",
     "check": "npm run build && npm test && npm run evaluate && npm run test:browser"
   },

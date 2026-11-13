@@ -5,10 +5,12 @@ await rm(new URL('../build/', import.meta.url), { recursive: true, force: true }
 await mkdir('build/vendor', { recursive: true });
 await mkdir('build/scanner', { recursive: true });
 await Promise.all([
-  build({ entryPoints: ['src/content/chatgpt.js'], outfile: 'build/content/chatgpt.js', bundle: true, format: 'iife', target: 'chrome120' }),
+  build({ entryPoints: ['src/content/index.js'], outfile: 'build/content/index.js', bundle: true, format: 'iife', target: 'chrome120', loader: { '.css': 'text' } }),
+  build({ entryPoints: ['src/background.js'], outfile: 'build/background.js', bundle: true, format: 'iife', target: 'chrome120' }),
   build({ entryPoints: ['src/scanner/app.js', 'src/scanner/worker.js'], outdir: 'build/scanner', bundle: true, format: 'esm', target: 'chrome120' }),
-  cp('src/manifest.json', 'build/manifest.json'), cp('src/background.js', 'build/background.js'),
+  cp('src/manifest.json', 'build/manifest.json'),
   cp('src/scanner/index.html', 'build/scanner/index.html'), cp('src/scanner/style.css', 'build/scanner/style.css'),
+  cp('src/scanner/findings.css', 'build/scanner/findings.css'),
   cp('node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs', 'build/vendor/pdf.worker.mjs')
 ]);
 await cp('node_modules/pdfjs-dist/LICENSE', 'build/vendor/PDFJS-LICENSE.txt');

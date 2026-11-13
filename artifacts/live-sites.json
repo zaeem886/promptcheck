@@ -1,0 +1,26 @@
+{
+  "measuredAt": "2026-11-12T22:05:31.639Z",
+  "browser": "157.0.8103.51",
+  "signedIn": false,
+  "promptSent": false,
+  "gemini": {
+    "status": "Passed",
+    "checks": [
+      "Public composer discovery",
+      "Synthetic draft scan",
+      "Masked email/phone previews",
+      "Provider-specific advisory",
+      "Compact warning outside/below composer",
+      "Clear empty draft"
+    ],
+    "layout": {
+      "composerTag": "INPUT-AREA-V2",
+      "insideComposer": false,
+      "inputBottom": 372,
+      "composerBottom": 392,
+      "warningTop": 400,
+      "warningHeight": 120
+    },
+    "sending": "Not exercised; no prompt sent"
+  }
+}
