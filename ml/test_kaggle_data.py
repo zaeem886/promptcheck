@@ -23,7 +23,7 @@ class NotebookDataTests(unittest.TestCase):
         scope["validate_splits"](splits)
         self.assertEqual(sum(map(len, splits.values())), 3200)
         for name, rows in splits.items():
-            self.assertEqual(sum(all(label == "O" for label in row["labels"]) for row in rows), len(rows) // 4, name)
+            self.assertEqual(sum(all(label == "O" for label in row["labels"]) for row in rows), len(rows) // 5, name)
 
     def test_duplicate_text_across_splits_is_rejected(self):
         splits = self.make_splits()

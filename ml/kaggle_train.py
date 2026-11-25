@@ -28,8 +28,8 @@ assert Version(torch.__version__.split('+')[0]) >= Version("2.6"), "Use a Kaggle
 BASE_MODEL = "prajjwal1/bert-tiny"
 DATA_DIR = None  # e.g. "/kaggle/input/my-labelled-data"; None runs synthetic demo.
 OUTPUT = Path("/kaggle/working/promptprivacy-ml")
-SEED, EPOCHS, BATCH_SIZE, MAX_TOKENS = 42, 6, 32, 256
-LEARNING_RATE, MAX_QUANTIZED_VALIDATION_F1_DROP = 3e-5, 0.02
+SEED, EPOCHS, BATCH_SIZE, MAX_TOKENS = 42, 20, 32, 256
+LEARNING_RATE, MAX_QUANTIZED_VALIDATION_F1_DROP = 3e-4, 0.02  # BERT-Tiny needs a higher LR than base-size BERT
 LABELS = ["O", "B-PERSON", "I-PERSON", "B-ADDRESS", "I-ADDRESS", "B-SECRET", "I-SECRET"]
 LABEL2ID = {name: index for index, name in enumerate(LABELS)}
 ID2LABEL = dict(enumerate(LABELS))
@@ -49,33 +49,123 @@ def compose(parts, group):
     return {"tokens": tokens, "labels": labels, "group_id": group}
 
 def demo_split(split, count):
-    """Different templates AND identity pools per split; labels are authored."""
-    pools = {
-        "train": (["Ayesha", "Hamza", "Fatima", "Hassan", "Sana", "Bilal", "Mariam", "Ali"], ["Rahman", "Iqbal", "Khan", "Malik", "Shah", "Ahmed"], ["Example", "Maple", "Cedar", "Willow"]),
-        "validation": (["Noor", "Faraz", "Hira", "Danish"], ["Siddiqui", "Akhtar", "Raza", "Zaman"], ["Orchard", "Pine"]),
-        "test": (["Zoya", "Usman", "Mehak", "Saad"], ["Qureshi", "Abbasi", "Aslam", "Nawaz"], ["Meadow", "Birch"]),
+    """Synthetic demo data. Every split has its own identity/value pools AND its own sentence templates,
+    so test scores measure generalisation to unseen names, places and wording. Labels are authored."""
+    import re
+    pools = {  # first names, last names, street words, areas, cities, password words - disjoint across splits
+        "train": (
+            ["Ayesha", "Hamza", "Fatima", "Hassan", "Sana", "Bilal", "Mariam", "Ali", "Zainab", "Omar", "Hina", "Kamran", "Rabia", "Imran", "Amna", "Tariq", "Sadia", "Waqas", "Nadia", "Asad",
+             "Emily", "James", "Olivia", "Daniel", "Sophia", "Michael", "Grace", "Lucas", "Chloe", "Ethan", "Laila", "Junaid", "Saima", "Farhan", "Uzma", "Shahid", "Iqra", "Adeel", "Mahnoor", "Rizwan",
+             "Aliya", "Arslan", "Bushra", "Danyal", "Erum", "Fawad", "Ghazala", "Haris", "Ibrahim", "Javeria", "Kinza", "Luqman", "Momina", "Nabeel", "Osama", "Parveen", "Qasim", "Rukhsana", "Shoaib", "Tehmina",
+             "Umair", "Wajiha", "Yasir", "Zubair", "Anaya", "Babar", "Fiza", "Hadia", "Irfan", "Jahanzeb", "Komal", "Mohsin", "Nimra", "Rehan", "Shazia", "Tabish", "Warda", "Yusra", "Zeeshan", "Aiman",
+             "Amelia", "Benjamin", "Charlotte", "David", "Emma", "George", "Hannah", "Isaac", "Jack", "Katie", "Liam", "Mia", "Nathan", "Oscar", "Poppy", "Robert", "Sarah", "Thomas", "Victoria", "William"],
+            ["Rahman", "Iqbal", "Khan", "Malik", "Shah", "Ahmed", "Butt", "Chaudhry", "Mirza", "Hussain", "Javed", "Sheikh", "Baig", "Anwar", "Latif",
+             "Smith", "Johnson", "Brown", "Taylor", "Wilson", "Clark", "Lewis", "Walker", "Hall", "Young", "Farooq", "Saleem", "Haider", "Rana", "Bhatti",
+             "Awan", "Bajwa", "Cheema", "Dar", "Gondal", "Hashmi", "Jamil", "Khattak", "Lodhi", "Memon", "Niazi", "Paracha", "Rizvi", "Soomro", "Tiwana",
+             "Warraich", "Yousaf", "Zafar", "Afridi", "Bukhari", "Gilani", "Hayat", "Kiani", "Mughal", "Naqvi", "Qadri", "Sethi", "Tahir", "Usmani", "Wattoo",
+             "Adams", "Baker", "Campbell", "Davies", "Evans", "Fisher", "Green", "Harris", "Jenkins", "King", "Morgan", "Nelson", "Roberts", "Scott", "Ward"],
+            ["Maple", "Cedar", "Willow", "Example", "Garden", "Canal", "Mall", "Park", "Lake", "River", "Hill", "Station", "Church", "Mill", "Bridge", "Forest", "Spring", "Rose", "Oak", "Ferozepur"],
+            ["Gulberg", "Clifton", "Johar Town", "Bahria Town", "Model Town", "Garden Town", "Wapda Town", "Iqbal Town", "Defence", "North Nazimabad", "Gulshan", "Shadman"],
+            ["Lahore", "Karachi", "Islamabad", "Multan", "Faisalabad", "Peshawar", "London", "Manchester", "Rawalpindi", "Bahawalpur", "Sargodha", "Abbottabad", "Birmingham", "Glasgow"],
+            ["blue", "amber", "tiger", "cloud", "orange", "falcon", "pepper", "silver", "rocket", "mango", "copper", "eagle", "winter", "coffee", "pixel", "garnet"]),
+        "validation": (
+            ["Noor", "Faraz", "Hira", "Danish", "Sobia", "Kashif", "Ella", "Ryan", "Maira", "Owais", "Zara", "Henry"],
+            ["Siddiqui", "Akhtar", "Raza", "Zaman", "Turner", "Parker", "Gill", "Durrani"],
+            ["Orchard", "Pine", "Elm", "Sunset"], ["Saddar", "Cantt"], ["Quetta", "Sialkot", "Leeds"], ["violet", "comet", "panda"]),
+        "test": (
+            ["Zoya", "Usman", "Mehak", "Saad", "Areeba", "Fahad", "Lily", "Adam", "Ramsha", "Talha", "Ruby", "Noah"],
+            ["Qureshi", "Abbasi", "Aslam", "Nawaz", "Cooper", "Bennett", "Jatoi", "Kazmi"],
+            ["Meadow", "Birch", "Harbor", "Valley"], ["Township", "Satellite Town"], ["Hyderabad", "Gujranwala", "Bristol"], ["lemon", "storm", "otter"]),
     }
-    prefixes = {
-        "train": {"PERSON": ["My full name is", "Our customer is", "The employee is called", "Please contact"], "ADDRESS": ["My home address is", "Deliver the parcel to", "The customer lives at", "Send the letter to"], "SECRET": ["My password is", "The login password is", "Use this secret passphrase", "My account password reads"], "O": ["Explain password hashing and its purpose", "Describe how to store addresses safely", "Summarize the class notes about libraries", "The name and password fields are empty"]},
-        "validation": {"PERSON": ["The applicant introduced herself as", "This patient's name is"], "ADDRESS": ["The residence is located at", "Record this delivery location"], "SECRET": ["I sign in with the password", "The password I use is"], "O": ["Discuss the difference between privacy and security", "Please explain why passwords should be unique"]},
-        "test": {"PERSON": ["Our tenant goes by the name", "The registered guardian is"], "ADDRESS": ["The billing address on the form is", "I currently reside at"], "SECRET": ["For authentication my passphrase is", "The credential I type as my password is"], "O": ["Tell me how a password manager works", "Give instructions for updating an address without including one"]},
+    templates = {
+        "train": {
+            "PERSON": ["My full name is {PERSON} .", "Our customer is {PERSON} and she needs help .", "The employee is called {PERSON} .", "Please contact {PERSON} about the invoice .",
+                       "{PERSON} submitted the form yesterday .", "Write a reference letter for {PERSON} .", "Hi , I am {PERSON} from the accounts team .", "Forward this to {PERSON} before Friday .",
+                       "The account holder {PERSON} asked for a refund .", "Schedule a meeting with {PERSON} next week ."],
+            "ADDRESS": ["My home address is {ADDRESS} .", "Deliver the parcel to {ADDRESS} .", "The customer lives at {ADDRESS} .", "Send the letter to {ADDRESS} please .",
+                        "{ADDRESS} is where the office moved .", "Ship it to {ADDRESS} by Monday .", "Our new flat is at {ADDRESS} .", "Update my address to {ADDRESS} ."],
+            "SECRET": ["My password is {SECRET} .", "The login password is {SECRET}", "Use this secret passphrase : {SECRET}", "My account password reads {SECRET} .",
+                       "{SECRET} is the wifi password .", "Log in with password {SECRET} and check the report .", "pwd = {SECRET}", "Can you check if {SECRET} is a strong password ?"],
+            "MIXED": ["My name is {PERSON} and I live at {ADDRESS} .", "{PERSON} uses the password {SECRET} for the portal .", "Send the documents to {PERSON} at {ADDRESS} .", "Login for {PERSON} : password {SECRET}"],
+            "O": ["Explain password hashing and its purpose .", "Describe how to store addresses safely .", "Summarize the class notes about libraries .", "The name and password fields are empty .",
+                  "What makes a strong password ?", "How do I change my home address in the app ?", "Write a story about a dragon that lives near a river .", "List three tips for writing a cover letter .",
+                  "The meeting is in Room 12 on Monday .", "Translate this sentence into Urdu please ."]},
+        "validation": {
+            "PERSON": ["The applicant introduced herself as {PERSON} .", "This patient's name is {PERSON} .", "Kindly email {PERSON} the final draft ."],
+            "ADDRESS": ["The residence is located at {ADDRESS} .", "Record this delivery location : {ADDRESS}", "We moved to {ADDRESS} last month ."],
+            "SECRET": ["I sign in with the password {SECRET} .", "The password I use is {SECRET}", "Is {SECRET} safe to use as a password ?"],
+            "MIXED": ["{PERSON} lives at {ADDRESS} with her family .", "Reset the password {SECRET} for {PERSON} ."],
+            "O": ["Discuss the difference between privacy and security .", "Please explain why passwords should be unique .", "Give me a recipe for vegetable soup .", "Where should I type my address on this form ?"]},
+        "test": {
+            "PERSON": ["Our tenant goes by the name {PERSON} .", "The registered guardian is {PERSON} .", "Book a taxi for {PERSON} tomorrow ."],
+            "ADDRESS": ["The billing address on the form is {ADDRESS} .", "I currently reside at {ADDRESS} .", "Pick me up from {ADDRESS} at noon ."],
+            "SECRET": ["For authentication my passphrase is {SECRET} .", "The credential I type as my password is {SECRET}", "Remember that the admin password is {SECRET} ."],
+            "MIXED": ["{PERSON} , {ADDRESS} , is the shipping contact .", "The portal user {PERSON} has password {SECRET} ."],
+            "O": ["Tell me how a password manager works .", "Give instructions for updating an address without including one .", "Summarize the history of the printing press .", "Name three famous rivers in Asia ."]},
     }
-    first, last, streets = pools[split]
+    first, last, streets, areas, cities, words = pools[split]
     rng = random.Random(SEED + {"train": 1, "validation": 2, "test": 3}[split])
+    alphabet = "abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789"
+    def person(): return rng.choice(first) + " " + rng.choice(last)
+    def address():
+        n, letter = rng.randint(1, 900), rng.choice("ABCDEFGHJK")
+        return rng.choice([f"House {n} {rng.choice(streets)} Street , {rng.choice(cities)}", f"Flat {n} , Block {letter} , {rng.choice(areas)} , {rng.choice(cities)}",
+                           f"{n} {rng.choice(streets)} Road , {rng.choice(areas)}", f"Street {n} , Sector {letter}-{rng.randint(1, 20)} , {rng.choice(cities)}"])
+    def secret():  # always one whitespace-free token containing a digit, in several realistic shapes
+        kind = rng.randrange(3)
+        if kind == 0: return f"{rng.choice(words)}-{rng.choice(words)}-{rng.randint(10, 9999)}"
+        if kind == 1:
+            text = [rng.choice(alphabet) for _ in range(rng.randint(10, 16))]
+            text[rng.randrange(len(text))] = rng.choice("23456789")  # bare letters would look like an unseen name to an uncased model
+            return "".join(text)
+        return f"{rng.choice(words).capitalize()}{rng.randint(1, 9999)}{rng.choice('!@#$%&*')}"
+    makers = {"PERSON": person, "ADDRESS": address, "SECRET": secret}
+    if split == "train":
+        # Compositional training templates: many (lead-in, entity, continuation) combinations, entities at the
+        # start/middle/end, so the model learns where an entity stops instead of memorising whole sentences.
+        # Validation/test keep their own fixed, unseen templates, so their scores stay honest.
+        lead = {
+            "PERSON": ["My full name is", "Our customer is", "The employee is called", "Please contact", "Write a reference letter for", "Hi , I am", "Forward this to",
+                       "The account holder is", "Schedule a meeting with", "The form was signed by", "Call", "My manager is", "Add a note for", "The student enrolled is", "I spoke with"],
+            "ADDRESS": ["My home address is", "Deliver the parcel to", "The customer lives at", "Send the letter to", "Ship it to", "Our new flat is at", "Update my address to",
+                        "The office is at", "Courier the box to", "Her permanent address is", "Drop the keys at", "The shop moved to", "Visit us at", "Address :"],
+            "SECRET": ["My password is", "The login password is", "Use this secret passphrase :", "My account password reads", "Log in with password", "pwd =", "password :",
+                       "The wifi key is", "My PIN and password combo is", "Set the database password to", "The vault passphrase is", "Temporary password :", "Use the password"],
+        }
+        tail = ["", "", "", "please", "and check the report", "before Friday", "by Monday", "for the new account", "and call me back", "if possible", "as soon as you can",
+                "for my records", "thanks", "and confirm by email", "next week", "today"]
+        first_phrase = {"PERSON": ["submitted the form yesterday", "asked for a refund", "joined the team last year", "will attend the meeting"],
+                        "ADDRESS": ["is where the office moved", "is our billing location", "is listed on the invoice"],
+                        "SECRET": ["is the wifi password", "is my email password", "works for the staff portal"]}
+        mixed = ["My name is {PERSON} and I live at {ADDRESS} .", "{PERSON} uses the password {SECRET} for the portal .", "Send the documents to {PERSON} at {ADDRESS} .",
+                 "Login for {PERSON} : password {SECRET}", "Name : {PERSON} , Address : {ADDRESS}",
+                 "Ask {PERSON} to reset {SECRET} today .", "{PERSON} moved to {ADDRESS} and changed the password to {SECRET} .", "Customer {PERSON} at {ADDRESS} needs a callback .",
+                 "{PERSON} shared the password {SECRET} by mistake ."]
+        negatives = templates["train"]["O"] + ["The manager reset the router yesterday .", "Our team uses strong passphrases for every account .",
+                     "Call the help desk if the login fails .", "The parcel arrived at the warehouse on time .", "Please book a room for the workshop .", "Order 4521 was shipped on Tuesday .",
+                     "The user forgot which password field to fill .", "Write an email asking for a new address form .", "The library closes at six on weekdays .",
+                     "Read chapter 7 and answer question 3 .", "Explain how a firewall filters traffic ."]
+        def train_template(kind):
+            if kind == "MIXED": index = rng.randrange(len(mixed)); return mixed[index], f"m{index}"
+            if kind == "O": index = rng.randrange(len(negatives)); return negatives[index], f"o{index}"
+            if rng.random() < 0.2:
+                index = rng.randrange(len(first_phrase[kind])); return "{%s} %s ." % (kind, first_phrase[kind][index]), f"f{index}"
+            a, b = rng.randrange(len(lead[kind])), rng.randrange(len(tail))
+            return f"{lead[kind][a]} {{{kind}}} {tail[b]} .", f"l{a}-{b}"
     rows, seen = [], set()
     while len(rows) < count:
-        entity = ["PERSON", "ADDRESS", "SECRET", "O"][len(rows) % 4]
-        templates = prefixes[split][entity]
-        template_index = rng.randrange(len(templates))
-        before = templates[template_index]
-        if entity == "PERSON": value = rng.choice(first) + " " + rng.choice(last)
-        elif entity == "ADDRESS": value = f"House {rng.randint(1, 900)} {rng.choice(streets)} Street"
-        elif entity == "SECRET": value = f"demo-{split}-{rng.choice(['blue', 'amber', 'green'])}-{rng.randrange(10000, 99999)}"
-        else: value = ""
-        # The item id varies examples without reusing a private value across splits.
-        tail = f". Synthetic record {rng.randrange(1000, 99999)} ."
-        parts = [(before, None), (value, None if entity == "O" else entity), (tail, None)]
-        row = compose(parts, f"{split}/{entity}/{template_index}")
+        kind = ["PERSON", "ADDRESS", "SECRET", "MIXED", "O"][len(rows) % 5]
+        if split == "train": template, template_index = train_template(kind)
+        else:
+            template_index = rng.randrange(len(templates[split][kind]))
+            template = templates[split][kind][template_index]
+        parts = []
+        for piece in re.split(r"(\{(?:PERSON|ADDRESS|SECRET)\})", template):
+            if piece.startswith("{"): parts.append((makers[piece[1:-1]](), piece[1:-1]))
+            elif piece.strip(): parts.append((piece, None))
+        # A random record id on some rows varies the context without reusing private values across splits.
+        if rng.random() < 0.5: parts.append((f"Record {rng.randrange(1000, 99999)} .", None))
+        row = compose(parts, f"{split}/{kind}/{template_index}")
         key = tuple(row["tokens"])
         if key not in seen: rows.append(row); seen.add(key)
     rng.shuffle(rows)
@@ -115,7 +205,7 @@ if DATA_DIR:
             splits[split] = [json.loads(line) for line in file if line.strip()]
     data_mode = "uploaded_labelled_data"
 else:
-    splits = {split: demo_split(split, count) for split, count in [("train", 2400), ("validation", 400), ("test", 400)]}
+    splits = {split: demo_split(split, count) for split, count in [("train", 4000), ("validation", 600), ("test", 600)]}
     data_mode = "synthetic_demo_only"
 validate_splits(splits)
 data_folder = OUTPUT / "data"; data_folder.mkdir(exist_ok=True)
@@ -212,20 +302,52 @@ class ExportWrapper(torch.nn.Module):
     def __init__(self, base): super().__init__(); self.base = base
     def forward(self, input_ids, attention_mask, token_type_ids):
         return self.base(input_ids=input_ids, attention_mask=attention_mask, token_type_ids=token_type_ids, return_dict=False)[0]
-dummy = tokenizer("Synthetic export example", return_tensors="pt")
-with torch.inference_mode():
-    torch.onnx.export(ExportWrapper(model), tuple(dummy[key] for key in ["input_ids", "attention_mask", "token_type_ids"]), str(fp32_path),
-        input_names=["input_ids", "attention_mask", "token_type_ids"], output_names=["logits"], opset_version=17, dynamo=False, external_data=False,
-        dynamic_axes={name: {0: "batch", 1: "sequence"} for name in ["input_ids", "attention_mask", "token_type_ids", "logits"]})
-onnx.checker.check_model(str(fp32_path))
+INPUT_NAMES = ["input_ids", "attention_mask", "token_type_ids"]
+# Padded batch of 2 so tracing sees padding and a non-trivial attention mask.
+dummy = tokenizer(["Synthetic export example", "My name is Ayesha Rahman and I live at House 14 Example Street"], padding=True, return_tensors="pt")
+PARITY_TEXTS = [["Example"], ["A synthetic name is Ayesha Rahman", "A longer ordinary sentence about a university library and its books"],
+                ["Synthetic export example", "My name is Ayesha Rahman and I live at House 14 Example Street"]]
 session_options = ort.SessionOptions(); session_options.intra_op_num_threads = 1
-fp32_session = ort.InferenceSession(str(fp32_path), sess_options=session_options, providers=["CPUExecutionProvider"])
-for texts in [["Example"], ["A synthetic name is Ayesha Rahman", "A longer ordinary sentence about a university library and its books"]]:
-    sample = tokenizer(texts, padding=True, return_tensors="pt")
-    with torch.inference_mode(): expected = model(**sample).logits.numpy()
-    actual = fp32_session.run(None, {item.name: sample[item.name].numpy() for item in fp32_session.get_inputs()})[0]
-    np.testing.assert_allclose(actual, expected, rtol=1e-3, atol=1e-4)
-print("FP32 ONNX/PyTorch parity passed for different batch sizes and sequence lengths.")
+def export_onnx(use_dynamo):
+    fp32_path.unlink(missing_ok=True)
+    # Export under no_grad, NOT inference_mode: tracing inference tensors can bake wrong constants into the graph.
+    with torch.no_grad():
+        # A new wrapper module starts in training mode; the exporter restores that mode afterwards,
+        # which would switch the inner BERT back to training (dropout on). Keep everything in eval mode.
+        torch.onnx.export(ExportWrapper(model).eval(), tuple(dummy[key] for key in INPUT_NAMES), str(fp32_path),
+            input_names=INPUT_NAMES, output_names=["logits"], opset_version=18 if use_dynamo else 17, dynamo=use_dynamo, external_data=False,
+            dynamic_axes={name: {0: "batch", 1: "sequence"} for name in INPUT_NAMES + ["logits"]})
+    onnx.checker.check_model(str(fp32_path))
+    return ort.InferenceSession(str(fp32_path), sess_options=session_options, providers=["CPUExecutionProvider"])
+def parity_max_diff(session):
+    model.eval()  # reference outputs must come from eval mode (no dropout)
+    worst = 0.0
+    for texts in PARITY_TEXTS:
+        sample = tokenizer(texts, padding=True, return_tensors="pt")
+        with torch.no_grad(): expected = model(**sample).logits.numpy()
+        actual = session.run(None, {item.name: sample[item.name].numpy().astype(np.int64) for item in session.get_inputs()})[0]
+        mask = sample["attention_mask"].numpy().astype(bool)  # padded positions are never read
+        diff = float(np.max(np.abs(actual[mask] - expected[mask])))
+        print(f"  batch={len(texts)} seq={sample['input_ids'].shape[1]} max |diff|={diff:.2e}")
+        worst = max(worst, diff)
+    return worst
+fp32_session, export_method = None, None
+for use_dynamo in (False, True):
+    label = "dynamo" if use_dynamo else "legacy TorchScript"
+    print(f"Trying {label} ONNX export...")
+    try:
+        candidate = export_onnx(use_dynamo)
+    except Exception as error:
+        print(f"  {label} export failed: {type(error).__name__}: {str(error)[:300]}")
+        continue
+    worst = parity_max_diff(candidate)
+    if worst <= 1e-3:
+        fp32_session, export_method = candidate, label
+        break
+    print(f"  {label} export does not match PyTorch (max diff {worst:.3f}); trying next exporter.")
+if fp32_session is None:
+    raise RuntimeError("No ONNX export matched PyTorch outputs. Copy the printed diffs and package versions when reporting this.")
+print(f"FP32 ONNX/PyTorch parity passed with the {export_method} exporter for different batch sizes and sequence lengths.")
 
 # %% Quantize, evaluate both exports, and choose using validation only
 def evaluate_onnx(session, loader):
@@ -261,12 +383,18 @@ report = {
     "parameter_count": parameter_count, "split_sizes": {name: len(rows) for name, rows in splits.items()},
     "metric_method": "Strict IOB2 entity precision/recall/F1 at original word boundaries; test split never used for checkpoint or quantization selection.",
     "history": history, "pytorch_test": torch_test, "onnx_fp32_validation": fp32_validation, "onnx_fp32_test": fp32_test,
-    "quantization": quantization, "selected_export": selected_path.name, "selected_test": selected_test,
+    "quantization": quantization, "onnx_export_method": export_method, "selected_export": selected_path.name, "selected_test": selected_test,
     "file_bytes": {path.name: path.stat().st_size for path in [fp32_path, int8_path] if path.exists()},
     "python_cpu_ort_timing": {"tokens": int(sample["input_ids"].shape[1]), "median_ms": float(np.median(timings)), "p95_ms": float(np.percentile(timings, 95)), "threads": 1, "runs": 30},
     "limitations": ["Synthetic demo data is not representative of deployment", "CPU ONNX timing is not browser/WASM timing", "Browser memory, startup and operator compatibility not measured", "Privacy intent and non-English support not established", "Scores are not calibrated privacy probabilities"],
 }
-(OUTPUT / "training-report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+def json_default(value):
+    # seqeval's per-class report contains numpy numbers (e.g. int64 support counts).
+    if isinstance(value, np.integer): return int(value)
+    if isinstance(value, np.floating): return float(value)
+    if isinstance(value, np.ndarray): return value.tolist()
+    raise TypeError(f"Object of type {type(value).__name__} is not JSON serializable")
+(OUTPUT / "training-report.json").write_text(json.dumps(report, indent=2, default=json_default), encoding="utf-8")
 print("Selected:", selected_path.name, "| Test:", {key: value for key, value in selected_test.items() if key != "per_class"})
 print("Export sizes (MiB):", {key: round(value / 2**20, 2) for key, value in report["file_bytes"].items()})
 print("Timing is Python CPU ONNX Runtime, NOT browser performance:", report["python_cpu_ort_timing"])
