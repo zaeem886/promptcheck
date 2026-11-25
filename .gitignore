@@ -2,3 +2,7 @@ node_modules/
 build/
 artifacts/browser-profile/
 test-results/
+__pycache__/
+ml/checkpoint/
+ml/export/
+.venv-ml/
