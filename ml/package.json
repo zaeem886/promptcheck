@@ -1,0 +1,7 @@
+{
+  "name": "promptprivacy-model-benchmark",
+  "private": true,
+  "type": "module",
+  "scripts": { "benchmark": "node bench-browser.mjs" },
+  "devDependencies": { "onnxruntime-web": "1.24.3" }
+}

@@ -5,25 +5,25 @@
     "cpu": "AMD Ryzen 7 4700U with Radeon Graphics         ",
     "logicalCpus": 8,
     "ramBytes": 16504520704,
-    "measuredAt": "2026-11-12T22:19:14.118Z"
+    "measuredAt": "2026-11-25T22:03:17.117Z"
   },
   "method": "One sequential cold/warm mixed run; high resolution performance.now; GC before each case. RSS sampled before/after, heap delta after minus before. Not peak allocation or browser process memory. Prompt timing excludes 300ms UI debounce. Node document timings exclude file I/O and worker startup; browser harness measures UI end-to-end separately.",
   "prompts": {
     "count": 104,
     "metrics": {
-      "tp": 78,
+      "tp": 79,
       "fp": 2,
-      "fn": 2,
-      "precision": 0.975,
-      "recall": 0.975
+      "fn": 1,
+      "precision": 0.9753086419753086,
+      "recall": 0.9875
     },
     "performance": {
-      "totalMs": 12.131900000000485,
-      "medianMs": 0.07789999999999964,
-      "p95Ms": 0.32190000000002783,
-      "maxMs": 1.6301000000000272,
-      "maxObservedRssBytes": 85372928,
-      "maxObservedHeapDeltaBytes": 45704
+      "totalMs": 59.70850000000007,
+      "medianMs": 0.21249999999997726,
+      "p95Ms": 0.8711000000000695,
+      "maxMs": 18.533899999999903,
+      "maxObservedRssBytes": 94326784,
+      "maxObservedHeapDeltaBytes": 348360
     },
     "rows": [
       {
@@ -31,1040 +31,1040 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 1.6301000000000272,
-        "rssBefore": 84811776,
-        "rssAfter": 84881408,
-        "heapDelta": 45704
+        "durationMs": 18.533899999999903,
+        "rssBefore": 92880896,
+        "rssAfter": 93282304,
+        "heapDelta": 215552
       },
       {
         "id": "prompt-002",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.49130000000002383,
-        "rssBefore": 84975616,
-        "rssAfter": 84979712,
-        "heapDelta": 31408
+        "durationMs": 7.699700000000007,
+        "rssBefore": 93323264,
+        "rssAfter": 93569024,
+        "heapDelta": 273032
       },
       {
         "id": "prompt-003",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.12830000000002428,
-        "rssBefore": 85037056,
-        "rssAfter": 85041152,
-        "heapDelta": -221392
+        "durationMs": 0.24480000000005475,
+        "rssBefore": 93569024,
+        "rssAfter": 93573120,
+        "heapDelta": 36776
       },
       {
         "id": "prompt-004",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.11860000000001492,
-        "rssBefore": 85045248,
-        "rssAfter": 85045248,
-        "heapDelta": 13952
+        "durationMs": 0.3143000000000029,
+        "rssBefore": 93597696,
+        "rssAfter": 93597696,
+        "heapDelta": 36840
       },
       {
         "id": "prompt-005",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.14999999999997726,
-        "rssBefore": 85094400,
-        "rssAfter": 85098496,
-        "heapDelta": 15800
+        "durationMs": 0.323099999999954,
+        "rssBefore": 93597696,
+        "rssAfter": 93597696,
+        "heapDelta": 38408
       },
       {
         "id": "prompt-006",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.17980000000000018,
-        "rssBefore": 85102592,
-        "rssAfter": 85102592,
-        "heapDelta": 14632
+        "durationMs": 0.5023000000001048,
+        "rssBefore": 93683712,
+        "rssAfter": 93696000,
+        "heapDelta": -90080
       },
       {
         "id": "prompt-007",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.12749999999999773,
-        "rssBefore": 85164032,
-        "rssAfter": 85164032,
-        "heapDelta": 8896
+        "durationMs": 0.2441000000000031,
+        "rssBefore": 93712384,
+        "rssAfter": 93712384,
+        "heapDelta": 32064
       },
       {
         "id": "prompt-008",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.10449999999997317,
-        "rssBefore": 85164032,
-        "rssAfter": 85164032,
-        "heapDelta": 8640
+        "durationMs": 0.22469999999998436,
+        "rssBefore": 93728768,
+        "rssAfter": 93728768,
+        "heapDelta": 31872
       },
       {
         "id": "prompt-009",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.1414999999999509,
-        "rssBefore": 85168128,
-        "rssAfter": 85168128,
-        "heapDelta": 10200
+        "durationMs": 0.2777999999999565,
+        "rssBefore": 93728768,
+        "rssAfter": 93732864,
+        "heapDelta": 33800
       },
       {
         "id": "prompt-010",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.117999999999995,
-        "rssBefore": 85168128,
-        "rssAfter": 85168128,
-        "heapDelta": 10264
+        "durationMs": 0.2297999999999547,
+        "rssBefore": 93736960,
+        "rssAfter": 93745152,
+        "heapDelta": 43016
       },
       {
         "id": "prompt-011",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.0886000000000422,
-        "rssBefore": 85168128,
-        "rssAfter": 85168128,
-        "heapDelta": 8840
+        "durationMs": 0.2320999999999458,
+        "rssBefore": 93745152,
+        "rssAfter": 93749248,
+        "heapDelta": 35488
       },
       {
         "id": "prompt-012",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.07229999999998427,
-        "rssBefore": 85168128,
-        "rssAfter": 85168128,
-        "heapDelta": 8696
+        "durationMs": 0.22710000000006403,
+        "rssBefore": 93749248,
+        "rssAfter": 93749248,
+        "heapDelta": 33712
       },
       {
         "id": "prompt-013",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.08029999999996562,
-        "rssBefore": 85168128,
-        "rssAfter": 85168128,
-        "heapDelta": 8696
+        "durationMs": 0.16919999999993252,
+        "rssBefore": 93749248,
+        "rssAfter": 93749248,
+        "heapDelta": 33712
       },
       {
         "id": "prompt-014",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.07859999999999445,
-        "rssBefore": 85168128,
-        "rssAfter": 85168128,
-        "heapDelta": 8696
+        "durationMs": 0.20060000000000855,
+        "rssBefore": 93749248,
+        "rssAfter": 93749248,
+        "heapDelta": 33712
       },
       {
         "id": "prompt-015",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.0706000000000131,
-        "rssBefore": 85168128,
-        "rssAfter": 85168128,
-        "heapDelta": 8696
+        "durationMs": 0.16060000000004493,
+        "rssBefore": 93749248,
+        "rssAfter": 93777920,
+        "heapDelta": 33712
       },
       {
         "id": "prompt-016",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.1150000000000091,
-        "rssBefore": 85168128,
-        "rssAfter": 85172224,
-        "heapDelta": 8880
+        "durationMs": 0.15379999999993288,
+        "rssBefore": 93847552,
+        "rssAfter": 93847552,
+        "heapDelta": 33648
       },
       {
         "id": "prompt-017",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.0724999999999909,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8728
+        "durationMs": 0.16250000000002274,
+        "rssBefore": 93847552,
+        "rssAfter": 93847552,
+        "heapDelta": 33712
       },
       {
         "id": "prompt-018",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.07849999999996271,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8696
+        "durationMs": 0.1591000000000804,
+        "rssBefore": 93847552,
+        "rssAfter": 93847552,
+        "heapDelta": 33712
       },
       {
         "id": "prompt-019",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.07319999999998572,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8696
+        "durationMs": 0.15639999999996235,
+        "rssBefore": 93847552,
+        "rssAfter": 93847552,
+        "heapDelta": 33712
       },
       {
         "id": "prompt-020",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.05889999999999418,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8696
+        "durationMs": 0.17449999999996635,
+        "rssBefore": 93847552,
+        "rssAfter": 93847552,
+        "heapDelta": 33976
       },
       {
         "id": "prompt-021",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.3686000000000149,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 12152
+        "durationMs": 4.205000000000041,
+        "rssBefore": 93847552,
+        "rssAfter": 94023680,
+        "heapDelta": 171280
       },
       {
         "id": "prompt-022",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.20530000000002246,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 11800
+        "durationMs": 0.21249999999997726,
+        "rssBefore": 94023680,
+        "rssAfter": 94023680,
+        "heapDelta": 65440
       },
       {
         "id": "prompt-023",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.09370000000001255,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8944
+        "durationMs": 0.21240000000000236,
+        "rssBefore": 94023680,
+        "rssAfter": 94023680,
+        "heapDelta": 65408
       },
       {
         "id": "prompt-024",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.09909999999996444,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8992
+        "durationMs": 1.1482999999999493,
+        "rssBefore": 94023680,
+        "rssAfter": 94048256,
+        "heapDelta": 151696
       },
       {
         "id": "prompt-025",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.07740000000001146,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 9000
+        "durationMs": 0.5727999999999156,
+        "rssBefore": 94048256,
+        "rssAfter": 94048256,
+        "heapDelta": 114792
       },
       {
         "id": "prompt-026",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.0857000000000312,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 9000
+        "durationMs": 0.5141000000000986,
+        "rssBefore": 94048256,
+        "rssAfter": 94113792,
+        "heapDelta": 114016
       },
       {
         "id": "prompt-027",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.09349999999994907,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 9096
+        "durationMs": 0.8711000000000695,
+        "rssBefore": 94113792,
+        "rssAfter": 94117888,
+        "heapDelta": 130920
       },
       {
         "id": "prompt-028",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.07789999999999964,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8864
+        "durationMs": 0.8828000000000884,
+        "rssBefore": 94117888,
+        "rssAfter": 94117888,
+        "heapDelta": 98688
       },
       {
         "id": "prompt-029",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.0969000000000051,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 9120
+        "durationMs": 0.20849999999995816,
+        "rssBefore": 94117888,
+        "rssAfter": 94117888,
+        "heapDelta": 65472
       },
       {
         "id": "prompt-030",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.08969999999999345,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 9016
+        "durationMs": 0.18600000000014916,
+        "rssBefore": 94117888,
+        "rssAfter": 94117888,
+        "heapDelta": 65408
       },
       {
         "id": "prompt-031",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.080600000000004,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8936
+        "durationMs": 0.5416000000000167,
+        "rssBefore": 94117888,
+        "rssAfter": 94117888,
+        "heapDelta": 116384
       },
       {
         "id": "prompt-032",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.06510000000002947,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 9000
+        "durationMs": 0.563899999999876,
+        "rssBefore": 94117888,
+        "rssAfter": 94121984,
+        "heapDelta": 116680
       },
       {
         "id": "prompt-033",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.06439999999997781,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 9000
+        "durationMs": 0.49710000000004584,
+        "rssBefore": 94121984,
+        "rssAfter": 94121984,
+        "heapDelta": 122224
       },
       {
         "id": "prompt-034",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.13990000000001146,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 9008
+        "durationMs": 0.7559000000001106,
+        "rssBefore": 94121984,
+        "rssAfter": 94216192,
+        "heapDelta": 150008
       },
       {
         "id": "prompt-035",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.08999999999997499,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8904
+        "durationMs": 0.34209999999984575,
+        "rssBefore": 94216192,
+        "rssAfter": 94216192,
+        "heapDelta": 79592
       },
       {
         "id": "prompt-036",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.27899999999999636,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 10336
+        "durationMs": 0.3972000000001117,
+        "rssBefore": 94216192,
+        "rssAfter": 94216192,
+        "heapDelta": 73848
       },
       {
         "id": "prompt-037",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.06690000000003238,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8904
+        "durationMs": 0.23029999999994288,
+        "rssBefore": 94216192,
+        "rssAfter": 94216192,
+        "heapDelta": 72664
       },
       {
         "id": "prompt-038",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.16660000000001673,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 9784
+        "durationMs": 0.3486000000000331,
+        "rssBefore": 94216192,
+        "rssAfter": 94216192,
+        "heapDelta": 73400
       },
       {
         "id": "prompt-039",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.08239999999995007,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8904
+        "durationMs": 0.2160999999998694,
+        "rssBefore": 94216192,
+        "rssAfter": 94216192,
+        "heapDelta": 72664
       },
       {
         "id": "prompt-040",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.17899999999997362,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 9784
+        "durationMs": 0.36149999999997817,
+        "rssBefore": 94216192,
+        "rssAfter": 94216192,
+        "heapDelta": 73400
       },
       {
         "id": "prompt-041",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.070699999999988,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8904
+        "durationMs": 0.23309999999992215,
+        "rssBefore": 94216192,
+        "rssAfter": 94216192,
+        "heapDelta": 73056
       },
       {
         "id": "prompt-042",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.16880000000003292,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 9784
+        "durationMs": 0.37400000000002365,
+        "rssBefore": 94216192,
+        "rssAfter": 94216192,
+        "heapDelta": 73504
       },
       {
         "id": "prompt-043",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.06780000000003383,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8904
+        "durationMs": 0.22460000000000946,
+        "rssBefore": 94216192,
+        "rssAfter": 94224384,
+        "heapDelta": 72760
       },
       {
         "id": "prompt-044",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.16630000000009204,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 9784
+        "durationMs": 0.28490000000010696,
+        "rssBefore": 94224384,
+        "rssAfter": 94224384,
+        "heapDelta": 72968
       },
       {
         "id": "prompt-045",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.05960000000004584,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8680
+        "durationMs": 0.1492000000000644,
+        "rssBefore": 94224384,
+        "rssAfter": 94224384,
+        "heapDelta": 28872
       },
       {
         "id": "prompt-046",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.06760000000008404,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8608
+        "durationMs": 0.1956000000000131,
+        "rssBefore": 94224384,
+        "rssAfter": 94224384,
+        "heapDelta": 43520
       },
       {
         "id": "prompt-047",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.06069999999999709,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8688
+        "durationMs": 0.17429999999990287,
+        "rssBefore": 94224384,
+        "rssAfter": 94224384,
+        "heapDelta": 30144
       },
       {
         "id": "prompt-048",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.07330000000001746,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8608
+        "durationMs": 0.1514999999999418,
+        "rssBefore": 94224384,
+        "rssAfter": 94224384,
+        "heapDelta": 28824
       },
       {
         "id": "prompt-049",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.05719999999996617,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8672
+        "durationMs": 0.15670000000000073,
+        "rssBefore": 94224384,
+        "rssAfter": 94224384,
+        "heapDelta": 42120
       },
       {
         "id": "prompt-050",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.05719999999996617,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8688
+        "durationMs": 0.14799999999991087,
+        "rssBefore": 94224384,
+        "rssAfter": 94224384,
+        "heapDelta": 28888
       },
       {
         "id": "prompt-051",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.05889999999999418,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8680
+        "durationMs": 0.1489000000001397,
+        "rssBefore": 94224384,
+        "rssAfter": 94224384,
+        "heapDelta": 28872
       },
       {
         "id": "prompt-052",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.07170000000007803,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8608
+        "durationMs": 0.18170000000009168,
+        "rssBefore": 94224384,
+        "rssAfter": 94224384,
+        "heapDelta": 43336
       },
       {
         "id": "prompt-053",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.05669999999997799,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8688
+        "durationMs": 0.1815999999998894,
+        "rssBefore": 94224384,
+        "rssAfter": 94224384,
+        "heapDelta": 30144
       },
       {
         "id": "prompt-054",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.06419999999991433,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8608
+        "durationMs": 0.1610000000000582,
+        "rssBefore": 94224384,
+        "rssAfter": 94224384,
+        "heapDelta": 28824
       },
       {
         "id": "prompt-055",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.05920000000003256,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8672
+        "durationMs": 0.16059999999993124,
+        "rssBefore": 94224384,
+        "rssAfter": 94224384,
+        "heapDelta": 43744
       },
       {
         "id": "prompt-056",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.17660000000000764,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8688
+        "durationMs": 0.16229999999995925,
+        "rssBefore": 94224384,
+        "rssAfter": 94224384,
+        "heapDelta": 30512
       },
       {
         "id": "prompt-057",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.09450000000003911,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 9024
+        "durationMs": 0.17679999999995744,
+        "rssBefore": 94224384,
+        "rssAfter": 94224384,
+        "heapDelta": 27376
       },
       {
         "id": "prompt-058",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.05489999999997508,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8992
+        "durationMs": 0.13609999999994216,
+        "rssBefore": 94224384,
+        "rssAfter": 94224384,
+        "heapDelta": 27344
       },
       {
         "id": "prompt-059",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.058699999999930697,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8992
+        "durationMs": 0.146900000000187,
+        "rssBefore": 94224384,
+        "rssAfter": 94224384,
+        "heapDelta": 27344
       },
       {
         "id": "prompt-060",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.06769999999994525,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 8992
+        "durationMs": 0.13930000000004839,
+        "rssBefore": 94224384,
+        "rssAfter": 94224384,
+        "heapDelta": 27344
       },
       {
         "id": "prompt-061",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.058400000000006,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 9000
+        "durationMs": 0.16869999999994434,
+        "rssBefore": 94224384,
+        "rssAfter": 94224384,
+        "heapDelta": 27352
       },
       {
         "id": "prompt-062",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.09640000000001692,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 9000
+        "durationMs": 0.1331000000000131,
+        "rssBefore": 94224384,
+        "rssAfter": 94224384,
+        "heapDelta": 27352
       },
       {
         "id": "prompt-063",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.365099999999984,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 13984
+        "durationMs": 0.4961000000000695,
+        "rssBefore": 94253056,
+        "rssAfter": 94253056,
+        "heapDelta": 34072
       },
       {
         "id": "prompt-064",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.10640000000000782,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 9552
+        "durationMs": 0.21900000000005093,
+        "rssBefore": 94253056,
+        "rssAfter": 94253056,
+        "heapDelta": 29640
       },
       {
         "id": "prompt-065",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.07910000000003947,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 9408
+        "durationMs": 0.18039999999996326,
+        "rssBefore": 94253056,
+        "rssAfter": 94253056,
+        "heapDelta": 29496
       },
       {
         "id": "prompt-066",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.07880000000000109,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 9408
+        "durationMs": 0.21529999999984284,
+        "rssBefore": 94253056,
+        "rssAfter": 94253056,
+        "heapDelta": 29496
       },
       {
         "id": "prompt-067",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.07970000000000255,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 9408
+        "durationMs": 0.19090000000005602,
+        "rssBefore": 94253056,
+        "rssAfter": 94253056,
+        "heapDelta": 29496
       },
       {
         "id": "prompt-068",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.0766999999999598,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 9408
+        "durationMs": 0.2053000000000793,
+        "rssBefore": 94253056,
+        "rssAfter": 94253056,
+        "heapDelta": 29496
       },
       {
         "id": "prompt-069",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.07949999999993906,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 9408
+        "durationMs": 0.24310000000014043,
+        "rssBefore": 94253056,
+        "rssAfter": 94253056,
+        "heapDelta": 29496
       },
       {
         "id": "prompt-070",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.07390000000009422,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 9408
+        "durationMs": 0.1711999999999989,
+        "rssBefore": 94253056,
+        "rssAfter": 94253056,
+        "heapDelta": 29496
       },
       {
         "id": "prompt-071",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.10850000000004911,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 9648
+        "durationMs": 0.49739999999997053,
+        "rssBefore": 94253056,
+        "rssAfter": 94253056,
+        "heapDelta": 29736
       },
       {
         "id": "prompt-072",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.09699999999997999,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 9528
+        "durationMs": 0.17029999999999745,
+        "rssBefore": 94253056,
+        "rssAfter": 94253056,
+        "heapDelta": 29616
       },
       {
         "id": "prompt-073",
         "tp": 2,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.32190000000002783,
-        "rssBefore": 85176320,
-        "rssAfter": 85176320,
-        "heapDelta": 14864
+        "durationMs": 0.4017999999998665,
+        "rssBefore": 94253056,
+        "rssAfter": 94253056,
+        "heapDelta": 33056
       },
       {
         "id": "prompt-074",
         "tp": 2,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.3392999999999802,
-        "rssBefore": 85176320,
-        "rssAfter": 85241856,
-        "heapDelta": 16056
+        "durationMs": 0.4579000000001088,
+        "rssBefore": 94253056,
+        "rssAfter": 94253056,
+        "heapDelta": 34376
       },
       {
         "id": "prompt-075",
         "tp": 2,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.10649999999998272,
-        "rssBefore": 85241856,
-        "rssAfter": 85241856,
-        "heapDelta": 11672
+        "durationMs": 0.223700000000008,
+        "rssBefore": 94253056,
+        "rssAfter": 94253056,
+        "heapDelta": 66616
       },
       {
         "id": "prompt-076",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.06830000000002201,
-        "rssBefore": 85241856,
-        "rssAfter": 85241856,
-        "heapDelta": 7632
+        "durationMs": 0.6829999999999927,
+        "rssBefore": 94253056,
+        "rssAfter": 94253056,
+        "heapDelta": 348360
       },
       {
         "id": "prompt-077",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.06309999999996307,
-        "rssBefore": 85241856,
-        "rssAfter": 85241856,
-        "heapDelta": 7544
+        "durationMs": 0.5949000000000524,
+        "rssBefore": 94257152,
+        "rssAfter": 94257152,
+        "heapDelta": 69304
       },
       {
         "id": "prompt-078",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.16859999999996944,
-        "rssBefore": 85241856,
-        "rssAfter": 85245952,
-        "heapDelta": 8656
+        "durationMs": 0.264699999999948,
+        "rssBefore": 94257152,
+        "rssAfter": 94257152,
+        "heapDelta": 48792
       },
       {
         "id": "prompt-079",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.04680000000007567,
-        "rssBefore": 85245952,
-        "rssAfter": 85245952,
-        "heapDelta": 7272
+        "durationMs": 0.1619999999998072,
+        "rssBefore": 94257152,
+        "rssAfter": 94257152,
+        "heapDelta": 38664
       },
       {
         "id": "prompt-080",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.048900000000003274,
-        "rssBefore": 85245952,
-        "rssAfter": 85245952,
-        "heapDelta": 7272
+        "durationMs": 0.15189999999984138,
+        "rssBefore": 94257152,
+        "rssAfter": 94257152,
+        "heapDelta": 30544
       },
       {
         "id": "prompt-081",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.04320000000006985,
-        "rssBefore": 85245952,
-        "rssAfter": 85245952,
-        "heapDelta": 7280
+        "durationMs": 0.16529999999988831,
+        "rssBefore": 94257152,
+        "rssAfter": 94257152,
+        "heapDelta": 25504
       },
       {
         "id": "prompt-082",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.045500000000060936,
-        "rssBefore": 85245952,
-        "rssAfter": 85245952,
-        "heapDelta": 7280
+        "durationMs": 0.1435999999998785,
+        "rssBefore": 94257152,
+        "rssAfter": 94257152,
+        "heapDelta": 25504
       },
       {
         "id": "prompt-083",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.045600000000035834,
-        "rssBefore": 85245952,
-        "rssAfter": 85245952,
-        "heapDelta": 7288
+        "durationMs": 0.12609999999995125,
+        "rssBefore": 94257152,
+        "rssAfter": 94257152,
+        "heapDelta": 25512
       },
       {
         "id": "prompt-084",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.042600000000106775,
-        "rssBefore": 85250048,
-        "rssAfter": 85250048,
-        "heapDelta": 7280
+        "durationMs": 0.1168999999999869,
+        "rssBefore": 94257152,
+        "rssAfter": 94257152,
+        "heapDelta": 25504
       },
       {
         "id": "prompt-085",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.05259999999998399,
-        "rssBefore": 85250048,
-        "rssAfter": 85250048,
-        "heapDelta": 23360
+        "durationMs": 0.15760000000000218,
+        "rssBefore": 94257152,
+        "rssAfter": 94257152,
+        "heapDelta": 49888
       },
       {
         "id": "prompt-086",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.18270000000006803,
-        "rssBefore": 85254144,
-        "rssAfter": 85254144,
-        "heapDelta": 8792
+        "durationMs": 0.740500000000111,
+        "rssBefore": 94257152,
+        "rssAfter": 94322688,
+        "heapDelta": 74664
       },
       {
         "id": "prompt-087",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.037299999999959255,
-        "rssBefore": 85254144,
-        "rssAfter": 85254144,
-        "heapDelta": 7280
+        "durationMs": 0.12310000000002219,
+        "rssBefore": 94322688,
+        "rssAfter": 94322688,
+        "heapDelta": 25504
       },
       {
         "id": "prompt-088",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.03750000000002274,
-        "rssBefore": 85254144,
-        "rssAfter": 85254144,
-        "heapDelta": 7280
+        "durationMs": 0.16560000000004038,
+        "rssBefore": 94322688,
+        "rssAfter": 94322688,
+        "heapDelta": 32184
       },
       {
         "id": "prompt-089",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.04139999999995325,
-        "rssBefore": 85254144,
-        "rssAfter": 85254144,
-        "heapDelta": 7288
+        "durationMs": 0.12740000000007967,
+        "rssBefore": 94322688,
+        "rssAfter": 94322688,
+        "heapDelta": 25512
       },
       {
         "id": "prompt-090",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.05060000000003129,
-        "rssBefore": 85254144,
-        "rssAfter": 85254144,
-        "heapDelta": 7544
+        "durationMs": 0.6570000000001528,
+        "rssBefore": 94322688,
+        "rssAfter": 94322688,
+        "heapDelta": 68816
       },
       {
         "id": "prompt-091",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.03989999999998872,
-        "rssBefore": 85254144,
-        "rssAfter": 85254144,
-        "heapDelta": 7296
+        "durationMs": 0.21929999999997563,
+        "rssBefore": 94322688,
+        "rssAfter": 94322688,
+        "heapDelta": 25520
       },
       {
         "id": "prompt-092",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.04780000000005202,
-        "rssBefore": 85254144,
-        "rssAfter": 85254144,
-        "heapDelta": 7280
+        "durationMs": 0.16440000000011423,
+        "rssBefore": 94322688,
+        "rssAfter": 94322688,
+        "heapDelta": 25504
       },
       {
         "id": "prompt-093",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.042699999999967986,
-        "rssBefore": 85254144,
-        "rssAfter": 85254144,
-        "heapDelta": 7280
+        "durationMs": 0.13619999999991705,
+        "rssBefore": 94322688,
+        "rssAfter": 94322688,
+        "heapDelta": 25504
       },
       {
         "id": "prompt-094",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.037900000000036016,
-        "rssBefore": 85254144,
-        "rssAfter": 85254144,
-        "heapDelta": 7288
+        "durationMs": 0.13360000000011496,
+        "rssBefore": 94322688,
+        "rssAfter": 94322688,
+        "heapDelta": 25512
       },
       {
         "id": "prompt-095",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.05570000000000164,
-        "rssBefore": 85254144,
-        "rssAfter": 85254144,
-        "heapDelta": 7400
+        "durationMs": 0.13169999999990978,
+        "rssBefore": 94322688,
+        "rssAfter": 94322688,
+        "heapDelta": 25816
       },
       {
         "id": "prompt-096",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.03929999999991196,
-        "rssBefore": 85254144,
-        "rssAfter": 85254144,
-        "heapDelta": 7272
+        "durationMs": 0.15229999999996835,
+        "rssBefore": 94322688,
+        "rssAfter": 94322688,
+        "heapDelta": 47512
       },
       {
         "id": "prompt-097",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.04150000000004184,
-        "rssBefore": 85254144,
-        "rssAfter": 85254144,
-        "heapDelta": 7288
+        "durationMs": 0.1249000000000251,
+        "rssBefore": 94322688,
+        "rssAfter": 94322688,
+        "heapDelta": 25512
       },
       {
         "id": "prompt-098",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.055399999999963256,
-        "rssBefore": 85254144,
-        "rssAfter": 85254144,
-        "heapDelta": 7472
+        "durationMs": 0.7109000000000378,
+        "rssBefore": 94322688,
+        "rssAfter": 94322688,
+        "heapDelta": 70552
       },
       {
         "id": "prompt-099",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.15369999999995798,
-        "rssBefore": 85319680,
-        "rssAfter": 85319680,
-        "heapDelta": 8688
+        "durationMs": 0.3386000000000422,
+        "rssBefore": 94322688,
+        "rssAfter": 94322688,
+        "heapDelta": 48848
       },
       {
         "id": "prompt-100",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.03890000000001237,
-        "rssBefore": 85319680,
-        "rssAfter": 85319680,
-        "heapDelta": 7280
+        "durationMs": 0.13190000000008695,
+        "rssBefore": 94322688,
+        "rssAfter": 94322688,
+        "heapDelta": 25504
       },
       {
         "id": "prompt-101",
-        "tp": 0,
+        "tp": 1,
         "fp": 0,
-        "fn": 1,
-        "durationMs": 0.06110000000001037,
-        "rssBefore": 85319680,
-        "rssAfter": 85319680,
-        "heapDelta": 7280
+        "fn": 0,
+        "durationMs": 0.5943999999999505,
+        "rssBefore": 94322688,
+        "rssAfter": 94322688,
+        "heapDelta": 84648
       },
       {
         "id": "prompt-102",
         "tp": 0,
         "fp": 0,
         "fn": 1,
-        "durationMs": 0.044399999999996,
-        "rssBefore": 85319680,
-        "rssAfter": 85319680,
-        "heapDelta": 7304
+        "durationMs": 0.12279999999987012,
+        "rssBefore": 94322688,
+        "rssAfter": 94322688,
+        "heapDelta": 25528
       },
       {
         "id": "prompt-103",
         "tp": 0,
         "fp": 1,
         "fn": 0,
-        "durationMs": 0.18500000000005912,
-        "rssBefore": 85319680,
-        "rssAfter": 85323776,
-        "heapDelta": 13920
+        "durationMs": 0.7126000000000658,
+        "rssBefore": 94322688,
+        "rssAfter": 94322688,
+        "heapDelta": 90592
       },
       {
         "id": "prompt-104",
         "tp": 0,
         "fp": 1,
         "fn": 0,
-        "durationMs": 0.15460000000007312,
-        "rssBefore": 85356544,
-        "rssAfter": 85372928,
-        "heapDelta": 10464
+        "durationMs": 0.33580000000006294,
+        "rssBefore": 94322688,
+        "rssAfter": 94326784,
+        "heapDelta": 75192
       }
     ]
   },
@@ -1078,12 +1078,12 @@
       "recall": 0.7368421052631579
     },
     "performance": {
-      "totalMs": 138.27359999999976,
-      "medianMs": 0.7314999999999827,
-      "p95Ms": 10.002700000000004,
-      "maxMs": 92.19569999999999,
-      "maxObservedRssBytes": 96305152,
-      "maxObservedHeapDeltaBytes": 5123584
+      "totalMs": 216.1216000000004,
+      "medianMs": 2.9062000000001262,
+      "p95Ms": 20.303700000000163,
+      "maxMs": 105.77340000000004,
+      "maxObservedRssBytes": 104927232,
+      "maxObservedHeapDeltaBytes": 5161872
     },
     "statusPasses": 24,
     "unavailableFindings": 5,
@@ -1097,10 +1097,10 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.7314999999999827,
-        "rssBefore": 85450752,
-        "rssAfter": 85450752,
-        "heapDelta": 33240
+        "durationMs": 0.8878999999999451,
+        "rssBefore": 94326784,
+        "rssAfter": 94326784,
+        "heapDelta": 76832
       },
       {
         "name": "txt-clear.txt",
@@ -1111,10 +1111,10 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.30910000000005766,
-        "rssBefore": 85450752,
-        "rssAfter": 85450752,
-        "heapDelta": 21696
+        "durationMs": 0.6585999999999785,
+        "rssBefore": 94326784,
+        "rssAfter": 94326784,
+        "heapDelta": 75688
       },
       {
         "name": "txt-mixed.txt",
@@ -1125,10 +1125,10 @@
         "tp": 2,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.407100000000014,
-        "rssBefore": 85450752,
-        "rssAfter": 85450752,
-        "heapDelta": 25544
+        "durationMs": 0.5152000000000498,
+        "rssBefore": 94326784,
+        "rssAfter": 94326784,
+        "heapDelta": 137696
       },
       {
         "name": "csv-findings.csv",
@@ -1139,10 +1139,10 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.2844000000000051,
-        "rssBefore": 85450752,
-        "rssAfter": 85450752,
-        "heapDelta": 23632
+        "durationMs": 0.4287000000001626,
+        "rssBefore": 94326784,
+        "rssAfter": 94326784,
+        "heapDelta": 56416
       },
       {
         "name": "csv-clear.csv",
@@ -1153,10 +1153,10 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.3050999999999249,
-        "rssBefore": 85450752,
-        "rssAfter": 85450752,
-        "heapDelta": 21568
+        "durationMs": 0.4477999999999156,
+        "rssBefore": 94326784,
+        "rssAfter": 94326784,
+        "heapDelta": 75992
       },
       {
         "name": "csv-mixed.csv",
@@ -1167,10 +1167,10 @@
         "tp": 2,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.3509999999999991,
-        "rssBefore": 85454848,
-        "rssAfter": 85458944,
-        "heapDelta": 27088
+        "durationMs": 0.5576000000000931,
+        "rssBefore": 94334976,
+        "rssAfter": 94334976,
+        "heapDelta": -119104
       },
       {
         "name": "pdf-findings.pdf",
@@ -1181,10 +1181,10 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 92.19569999999999,
-        "rssBefore": 85458944,
-        "rssAfter": 96088064,
-        "heapDelta": 5123584
+        "durationMs": 105.77340000000004,
+        "rssBefore": 94334976,
+        "rssAfter": 104398848,
+        "heapDelta": 5161872
       },
       {
         "name": "pdf-clear.pdf",
@@ -1195,10 +1195,10 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 4.887300000000096,
-        "rssBefore": 94183424,
-        "rssAfter": 94355456,
-        "heapDelta": 779952
+        "durationMs": 20.303700000000163,
+        "rssBefore": 102371328,
+        "rssAfter": 102764544,
+        "heapDelta": 971120
       },
       {
         "name": "pdf-mixed.pdf",
@@ -1209,10 +1209,10 @@
         "tp": 2,
         "fp": 0,
         "fn": 0,
-        "durationMs": 4.596000000000004,
-        "rssBefore": 94355456,
-        "rssAfter": 94609408,
-        "heapDelta": 592264
+        "durationMs": 15.407699999999977,
+        "rssBefore": 102793216,
+        "rssAfter": 103206912,
+        "heapDelta": 1095960
       },
       {
         "name": "docx-findings.docx",
@@ -1223,10 +1223,10 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 10.002700000000004,
-        "rssBefore": 94683136,
-        "rssAfter": 94203904,
-        "heapDelta": 631848
+        "durationMs": 11.715199999999868,
+        "rssBefore": 103215104,
+        "rssAfter": 103383040,
+        "heapDelta": 663544
       },
       {
         "name": "docx-clear.docx",
@@ -1237,10 +1237,10 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 2.8781999999999925,
-        "rssBefore": 94363648,
-        "rssAfter": 94519296,
-        "heapDelta": 345864
+        "durationMs": 5.072300000000041,
+        "rssBefore": 103395328,
+        "rssAfter": 103493632,
+        "heapDelta": 403256
       },
       {
         "name": "docx-mixed.docx",
@@ -1251,10 +1251,10 @@
         "tp": 2,
         "fp": 0,
         "fn": 0,
-        "durationMs": 2.494199999999978,
-        "rssBefore": 94523392,
-        "rssAfter": 94687232,
-        "heapDelta": 390568
+        "durationMs": 4.374000000000024,
+        "rssBefore": 103510016,
+        "rssAfter": 103690240,
+        "heapDelta": 500720
       },
       {
         "name": "partial.pdf",
@@ -1265,10 +1265,10 @@
         "tp": 1,
         "fp": 0,
         "fn": 1,
-        "durationMs": 5.150300000000016,
-        "rssBefore": 94691328,
-        "rssAfter": 95031296,
-        "heapDelta": 762536
+        "durationMs": 9.058999999999969,
+        "rssBefore": 103698432,
+        "rssAfter": 103247872,
+        "heapDelta": 794864
       },
       {
         "name": "image-only.pdf",
@@ -1279,10 +1279,10 @@
         "tp": 0,
         "fp": 0,
         "fn": 1,
-        "durationMs": 3.193300000000022,
-        "rssBefore": 95047680,
-        "rssAfter": 95178752,
-        "heapDelta": 399200
+        "durationMs": 3.6493000000000393,
+        "rssBefore": 103411712,
+        "rssAfter": 103546880,
+        "heapDelta": 399600
       },
       {
         "name": "broken.pdf",
@@ -1293,10 +1293,10 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 1.9489999999999554,
-        "rssBefore": 94580736,
-        "rssAfter": 94691328,
-        "heapDelta": 173424
+        "durationMs": 2.9062000000001262,
+        "rssBefore": 103550976,
+        "rssAfter": 103550976,
+        "heapDelta": 173808
       },
       {
         "name": "broken.docx",
@@ -1307,10 +1307,10 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.3408000000000584,
-        "rssBefore": 94769152,
-        "rssAfter": 94769152,
-        "heapDelta": 15808
+        "durationMs": 0.4805999999998676,
+        "rssBefore": 103550976,
+        "rssAfter": 103550976,
+        "heapDelta": 15968
       },
       {
         "name": "encrypted.pdf",
@@ -1321,10 +1321,10 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 2.7626999999999953,
-        "rssBefore": 94797824,
-        "rssAfter": 94953472,
-        "heapDelta": 210824
+        "durationMs": 4.628699999999981,
+        "rssBefore": 103550976,
+        "rssAfter": 103604224,
+        "heapDelta": 211184
       },
       {
         "name": "unsupported.rtf",
@@ -1335,9 +1335,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 1,
-        "durationMs": 0.04229999999995471,
-        "rssBefore": 94965760,
-        "rssAfter": 94965760,
+        "durationMs": 0.04619999999999891,
+        "rssBefore": 103604224,
+        "rssAfter": 103604224,
         "heapDelta": 1416
       },
       {
@@ -1349,9 +1349,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.05719999999996617,
-        "rssBefore": 94982144,
-        "rssAfter": 94982144,
+        "durationMs": 0.058200000000169894,
+        "rssBefore": 103620608,
+        "rssAfter": 103620608,
         "heapDelta": 1616
       },
       {
@@ -1363,10 +1363,10 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.20660000000009404,
-        "rssBefore": 94998528,
-        "rssAfter": 95002624,
-        "heapDelta": 8568
+        "durationMs": 0.2597000000000662,
+        "rssBefore": 103620608,
+        "rssAfter": 103624704,
+        "heapDelta": 8728
       },
       {
         "name": "large.txt",
@@ -1377,9 +1377,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.059700000000020736,
-        "rssBefore": 96305152,
-        "rssAfter": 96305152,
+        "durationMs": 0.06570000000010623,
+        "rssBefore": 104927232,
+        "rssAfter": 104927232,
         "heapDelta": 1464
       },
       {
@@ -1391,10 +1391,10 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.5540999999998348,
-        "rssBefore": 95002624,
-        "rssAfter": 95023104,
-        "heapDelta": 37696
+        "durationMs": 14.270499999999856,
+        "rssBefore": 104927232,
+        "rssAfter": 103886848,
+        "heapDelta": 203832
       },
       {
         "name": "page-limit.pdf",
@@ -1405,10 +1405,10 @@
         "tp": 0,
         "fp": 0,
         "fn": 1,
-        "durationMs": 4.34719999999993,
-        "rssBefore": 95023104,
-        "rssAfter": 94912512,
-        "heapDelta": 595528
+        "durationMs": 14.261299999999892,
+        "rssBefore": 103886848,
+        "rssAfter": 103550976,
+        "heapDelta": 829664
       },
       {
         "name": "text-limit.txt",
@@ -1419,10 +1419,10 @@
         "tp": 0,
         "fp": 0,
         "fn": 1,
-        "durationMs": 0.16809999999986758,
-        "rssBefore": 95014912,
-        "rssAfter": 95014912,
-        "heapDelta": 18800
+        "durationMs": 0.2941000000000713,
+        "rssBefore": 103641088,
+        "rssAfter": 103641088,
+        "heapDelta": 51416
       }
     ]
   }

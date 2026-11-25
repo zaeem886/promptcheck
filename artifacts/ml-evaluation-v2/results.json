@@ -1,0 +1,4380 @@
+{
+  "model_sha256": "d50fc514f24876438c882c84382390055b9ee09a4166cf34588860b9b0d4cd8b",
+  "cutoff": 0.98,
+  "parity_passed": 5,
+  "fresh_cases": 96,
+  "fresh_exact_span": {
+    "overall": {
+      "tp": 44,
+      "fp": 9,
+      "fn": 32,
+      "precision": 0.8301886792452831,
+      "recall": 0.5789473684210527,
+      "f1": 0.6821705426356589
+    },
+    "by_category": {
+      "PERSON": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 5,
+        "precision": 1.0,
+        "recall": 0.16666666666666666,
+        "f1": 0.2857142857142857
+      },
+      "ADDRESS": {
+        "tp": 4,
+        "fp": 1,
+        "fn": 2,
+        "precision": 0.8,
+        "recall": 0.6666666666666666,
+        "f1": 0.7272727272727273
+      },
+      "PHONE": {
+        "tp": 7,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "EMAIL": {
+        "tp": 6,
+        "fp": 1,
+        "fn": 1,
+        "precision": 0.8571428571428571,
+        "recall": 0.8571428571428571,
+        "f1": 0.8571428571428571
+      },
+      "NATIONAL_ID": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 6,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "PASSPORT": {
+        "tp": 1,
+        "fp": 1,
+        "fn": 5,
+        "precision": 0.5,
+        "recall": 0.16666666666666666,
+        "f1": 0.25
+      },
+      "BANK_ACCOUNT": {
+        "tp": 5,
+        "fp": 0,
+        "fn": 1,
+        "precision": 1.0,
+        "recall": 0.8333333333333334,
+        "f1": 0.9090909090909091
+      },
+      "IBAN": {
+        "tp": 5,
+        "fp": 0,
+        "fn": 1,
+        "precision": 1.0,
+        "recall": 0.8333333333333334,
+        "f1": 0.9090909090909091
+      },
+      "PAYMENT_CARD": {
+        "tp": 7,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "API_KEY": {
+        "tp": 2,
+        "fp": 1,
+        "fn": 4,
+        "precision": 0.6666666666666666,
+        "recall": 0.3333333333333333,
+        "f1": 0.4444444444444444
+      },
+      "PASSWORD": {
+        "tp": 3,
+        "fp": 5,
+        "fn": 4,
+        "precision": 0.375,
+        "recall": 0.42857142857142855,
+        "f1": 0.4
+      },
+      "PIN": {
+        "tp": 3,
+        "fp": 0,
+        "fn": 3,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6666666666666666
+      }
+    },
+    "by_source": {
+      "authored": {
+        "tp": 44,
+        "fp": 9,
+        "fn": 32,
+        "precision": 0.8301886792452831,
+        "recall": 0.5789473684210527,
+        "f1": 0.6821705426356589
+      }
+    },
+    "benign_documents": 20,
+    "benign_false_alarms": 1,
+    "regional_recall_counts": {
+      "PERSON": {
+        "unspecified": {
+          "support": 6,
+          "exact_hits": 1
+        }
+      },
+      "ADDRESS": {
+        "unspecified": {
+          "support": 6,
+          "exact_hits": 4
+        }
+      },
+      "PHONE": {
+        "unspecified": {
+          "support": 7,
+          "exact_hits": 7
+        }
+      },
+      "EMAIL": {
+        "unspecified": {
+          "support": 7,
+          "exact_hits": 6
+        }
+      },
+      "NATIONAL_ID": {
+        "unspecified": {
+          "support": 6,
+          "exact_hits": 0
+        }
+      },
+      "PASSPORT": {
+        "unspecified": {
+          "support": 6,
+          "exact_hits": 1
+        }
+      },
+      "BANK_ACCOUNT": {
+        "unspecified": {
+          "support": 6,
+          "exact_hits": 5
+        }
+      },
+      "IBAN": {
+        "unspecified": {
+          "support": 6,
+          "exact_hits": 5
+        }
+      },
+      "PAYMENT_CARD": {
+        "unspecified": {
+          "support": 7,
+          "exact_hits": 7
+        }
+      },
+      "API_KEY": {
+        "unspecified": {
+          "support": 6,
+          "exact_hits": 2
+        }
+      },
+      "PASSWORD": {
+        "unspecified": {
+          "support": 7,
+          "exact_hits": 3
+        }
+      },
+      "PIN": {
+        "unspecified": {
+          "support": 6,
+          "exact_hits": 3
+        }
+      }
+    }
+  },
+  "saved_heldout": {
+    "overall": {
+      "tp": 3652,
+      "fp": 1334,
+      "fn": 3787,
+      "precision": 0.7324508624147613,
+      "recall": 0.490926199758032,
+      "f1": 0.5878470824949699
+    },
+    "by_category": {
+      "PERSON": {
+        "tp": 134,
+        "fp": 121,
+        "fn": 433,
+        "precision": 0.5254901960784314,
+        "recall": 0.23633156966490299,
+        "f1": 0.3260340632603406
+      },
+      "ADDRESS": {
+        "tp": 190,
+        "fp": 273,
+        "fn": 337,
+        "precision": 0.4103671706263499,
+        "recall": 0.3605313092979127,
+        "f1": 0.3838383838383838
+      },
+      "PHONE": {
+        "tp": 385,
+        "fp": 57,
+        "fn": 179,
+        "precision": 0.8710407239819005,
+        "recall": 0.6826241134751773,
+        "f1": 0.7654075546719682
+      },
+      "EMAIL": {
+        "tp": 373,
+        "fp": 137,
+        "fn": 173,
+        "precision": 0.7313725490196078,
+        "recall": 0.6831501831501832,
+        "f1": 0.7064393939393939
+      },
+      "NATIONAL_ID": {
+        "tp": 88,
+        "fp": 72,
+        "fn": 454,
+        "precision": 0.55,
+        "recall": 0.16236162361623616,
+        "f1": 0.25071225071225073
+      },
+      "PASSPORT": {
+        "tp": 683,
+        "fp": 29,
+        "fn": 310,
+        "precision": 0.9592696629213483,
+        "recall": 0.6878147029204431,
+        "f1": 0.8011730205278592
+      },
+      "BANK_ACCOUNT": {
+        "tp": 75,
+        "fp": 52,
+        "fn": 480,
+        "precision": 0.5905511811023622,
+        "recall": 0.13513513513513514,
+        "f1": 0.21994134897360704
+      },
+      "IBAN": {
+        "tp": 454,
+        "fp": 38,
+        "fn": 81,
+        "precision": 0.9227642276422764,
+        "recall": 0.8485981308411215,
+        "f1": 0.8841285296981499
+      },
+      "PAYMENT_CARD": {
+        "tp": 378,
+        "fp": 40,
+        "fn": 206,
+        "precision": 0.9043062200956937,
+        "recall": 0.6472602739726028,
+        "f1": 0.7544910179640718
+      },
+      "API_KEY": {
+        "tp": 336,
+        "fp": 183,
+        "fn": 207,
+        "precision": 0.6473988439306358,
+        "recall": 0.6187845303867403,
+        "f1": 0.632768361581921
+      },
+      "PASSWORD": {
+        "tp": 556,
+        "fp": 315,
+        "fn": 406,
+        "precision": 0.6383467278989667,
+        "recall": 0.577962577962578,
+        "f1": 0.6066557555919257
+      },
+      "PIN": {
+        "tp": 0,
+        "fp": 17,
+        "fn": 521,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      }
+    },
+    "by_source": {
+      "generator": {
+        "tp": 3652,
+        "fp": 1334,
+        "fn": 3787,
+        "precision": 0.7324508624147613,
+        "recall": 0.490926199758032,
+        "f1": 0.5878470824949699
+      }
+    },
+    "benign_documents": 1252,
+    "benign_false_alarms": 8,
+    "regional_recall_counts": {
+      "PASSPORT": {
+        "generic": {
+          "support": 508,
+          "exact_hits": 366
+        },
+        "RU": {
+          "support": 181,
+          "exact_hits": 136
+        },
+        "AT": {
+          "support": 148,
+          "exact_hits": 107
+        },
+        "US": {
+          "support": 156,
+          "exact_hits": 74
+        }
+      },
+      "PIN": {
+        "global": {
+          "support": 521,
+          "exact_hits": 0
+        }
+      },
+      "PASSWORD": {
+        "global": {
+          "support": 962,
+          "exact_hits": 556
+        }
+      },
+      "PAYMENT_CARD": {
+        "global": {
+          "support": 584,
+          "exact_hits": 378
+        }
+      },
+      "PERSON": {
+        "DE": {
+          "support": 8,
+          "exact_hits": 2
+        },
+        "CO": {
+          "support": 13,
+          "exact_hits": 6
+        },
+        "IN": {
+          "support": 24,
+          "exact_hits": 3
+        },
+        "NG": {
+          "support": 29,
+          "exact_hits": 6
+        },
+        "PT": {
+          "support": 7,
+          "exact_hits": 0
+        },
+        "CN": {
+          "support": 4,
+          "exact_hits": 0
+        },
+        "TH": {
+          "support": 23,
+          "exact_hits": 7
+        },
+        "LV": {
+          "support": 12,
+          "exact_hits": 1
+        },
+        "IS": {
+          "support": 9,
+          "exact_hits": 3
+        },
+        "CL": {
+          "support": 9,
+          "exact_hits": 2
+        },
+        "SK": {
+          "support": 8,
+          "exact_hits": 3
+        },
+        "BG": {
+          "support": 5,
+          "exact_hits": 0
+        },
+        "NO": {
+          "support": 8,
+          "exact_hits": 1
+        },
+        "SI": {
+          "support": 7,
+          "exact_hits": 1
+        },
+        "RO": {
+          "support": 14,
+          "exact_hits": 1
+        },
+        "DZ": {
+          "support": 16,
+          "exact_hits": 2
+        },
+        "US": {
+          "support": 8,
+          "exact_hits": 1
+        },
+        "ZA": {
+          "support": 5,
+          "exact_hits": 1
+        },
+        "GB": {
+          "support": 11,
+          "exact_hits": 1
+        },
+        "SE": {
+          "support": 7,
+          "exact_hits": 1
+        },
+        "TW": {
+          "support": 7,
+          "exact_hits": 2
+        },
+        "LU": {
+          "support": 6,
+          "exact_hits": 2
+        },
+        "AZ": {
+          "support": 5,
+          "exact_hits": 1
+        },
+        "LT": {
+          "support": 8,
+          "exact_hits": 1
+        },
+        "GR": {
+          "support": 8,
+          "exact_hits": 3
+        },
+        "TR": {
+          "support": 10,
+          "exact_hits": 4
+        },
+        "BR": {
+          "support": 7,
+          "exact_hits": 2
+        },
+        "BE": {
+          "support": 16,
+          "exact_hits": 5
+        },
+        "NP": {
+          "support": 12,
+          "exact_hits": 3
+        },
+        "FR": {
+          "support": 8,
+          "exact_hits": 0
+        },
+        "IT": {
+          "support": 12,
+          "exact_hits": 4
+        },
+        "NL": {
+          "support": 7,
+          "exact_hits": 3
+        },
+        "AR": {
+          "support": 5,
+          "exact_hits": 1
+        },
+        "CH": {
+          "support": 14,
+          "exact_hits": 3
+        },
+        "FI": {
+          "support": 9,
+          "exact_hits": 2
+        },
+        "IR": {
+          "support": 5,
+          "exact_hits": 1
+        },
+        "CA": {
+          "support": 14,
+          "exact_hits": 4
+        },
+        "BD": {
+          "support": 4,
+          "exact_hits": 1
+        },
+        "KR": {
+          "support": 5,
+          "exact_hits": 3
+        },
+        "CZ": {
+          "support": 8,
+          "exact_hits": 2
+        },
+        "PL": {
+          "support": 6,
+          "exact_hits": 2
+        },
+        "EE": {
+          "support": 5,
+          "exact_hits": 2
+        },
+        "IL": {
+          "support": 14,
+          "exact_hits": 4
+        },
+        "JP": {
+          "support": 6,
+          "exact_hits": 0
+        },
+        "AM": {
+          "support": 11,
+          "exact_hits": 3
+        },
+        "UA": {
+          "support": 10,
+          "exact_hits": 3
+        },
+        "HU": {
+          "support": 10,
+          "exact_hits": 2
+        },
+        "KE": {
+          "support": 6,
+          "exact_hits": 3
+        },
+        "AT": {
+          "support": 7,
+          "exact_hits": 1
+        },
+        "IE": {
+          "support": 12,
+          "exact_hits": 4
+        },
+        "PK": {
+          "support": 9,
+          "exact_hits": 1
+        },
+        "VN": {
+          "support": 9,
+          "exact_hits": 2
+        },
+        "ES": {
+          "support": 8,
+          "exact_hits": 2
+        },
+        "DK": {
+          "support": 5,
+          "exact_hits": 2
+        },
+        "MX": {
+          "support": 4,
+          "exact_hits": 0
+        },
+        "ID": {
+          "support": 8,
+          "exact_hits": 2
+        },
+        "GE": {
+          "support": 11,
+          "exact_hits": 3
+        },
+        "PS": {
+          "support": 3,
+          "exact_hits": 1
+        },
+        "HR": {
+          "support": 2,
+          "exact_hits": 0
+        },
+        "SA": {
+          "support": 5,
+          "exact_hits": 3
+        },
+        "RU": {
+          "support": 7,
+          "exact_hits": 2
+        },
+        "UZ": {
+          "support": 5,
+          "exact_hits": 2
+        },
+        "GH": {
+          "support": 6,
+          "exact_hits": 1
+        },
+        "NZ": {
+          "support": 1,
+          "exact_hits": 0
+        }
+      },
+      "NATIONAL_ID": {
+        "PL": {
+          "support": 4,
+          "exact_hits": 0
+        },
+        "PH": {
+          "support": 28,
+          "exact_hits": 3
+        },
+        "BE": {
+          "support": 10,
+          "exact_hits": 2
+        },
+        "DK": {
+          "support": 12,
+          "exact_hits": 2
+        },
+        "BR": {
+          "support": 12,
+          "exact_hits": 2
+        },
+        "EE": {
+          "support": 9,
+          "exact_hits": 3
+        },
+        "IT": {
+          "support": 11,
+          "exact_hits": 0
+        },
+        "CA": {
+          "support": 25,
+          "exact_hits": 3
+        },
+        "SK": {
+          "support": 11,
+          "exact_hits": 0
+        },
+        "FR": {
+          "support": 12,
+          "exact_hits": 0
+        },
+        "CO": {
+          "support": 10,
+          "exact_hits": 2
+        },
+        "GB": {
+          "support": 8,
+          "exact_hits": 1
+        },
+        "US": {
+          "support": 7,
+          "exact_hits": 1
+        },
+        "BD": {
+          "support": 7,
+          "exact_hits": 1
+        },
+        "PK": {
+          "support": 79,
+          "exact_hits": 14
+        },
+        "MX": {
+          "support": 9,
+          "exact_hits": 3
+        },
+        "KR": {
+          "support": 11,
+          "exact_hits": 1
+        },
+        "TR": {
+          "support": 8,
+          "exact_hits": 1
+        },
+        "LT": {
+          "support": 11,
+          "exact_hits": 4
+        },
+        "UA": {
+          "support": 7,
+          "exact_hits": 1
+        },
+        "RO": {
+          "support": 7,
+          "exact_hits": 1
+        },
+        "ES": {
+          "support": 8,
+          "exact_hits": 1
+        },
+        "MT": {
+          "support": 5,
+          "exact_hits": 2
+        },
+        "TW": {
+          "support": 13,
+          "exact_hits": 2
+        },
+        "LU": {
+          "support": 10,
+          "exact_hits": 2
+        },
+        "DE": {
+          "support": 10,
+          "exact_hits": 2
+        },
+        "HR": {
+          "support": 16,
+          "exact_hits": 3
+        },
+        "CY": {
+          "support": 6,
+          "exact_hits": 1
+        },
+        "RU": {
+          "support": 11,
+          "exact_hits": 3
+        },
+        "IL": {
+          "support": 11,
+          "exact_hits": 3
+        },
+        "HU": {
+          "support": 7,
+          "exact_hits": 1
+        },
+        "CN": {
+          "support": 10,
+          "exact_hits": 0
+        },
+        "NO": {
+          "support": 5,
+          "exact_hits": 1
+        },
+        "IE": {
+          "support": 12,
+          "exact_hits": 1
+        },
+        "FI": {
+          "support": 9,
+          "exact_hits": 0
+        },
+        "CH": {
+          "support": 19,
+          "exact_hits": 1
+        },
+        "TH": {
+          "support": 8,
+          "exact_hits": 1
+        },
+        "SE": {
+          "support": 7,
+          "exact_hits": 0
+        },
+        "AZ": {
+          "support": 6,
+          "exact_hits": 2
+        },
+        "GR": {
+          "support": 6,
+          "exact_hits": 2
+        },
+        "PT": {
+          "support": 10,
+          "exact_hits": 4
+        },
+        "NL": {
+          "support": 7,
+          "exact_hits": 2
+        },
+        "SI": {
+          "support": 9,
+          "exact_hits": 3
+        },
+        "IN": {
+          "support": 10,
+          "exact_hits": 2
+        },
+        "LV": {
+          "support": 9,
+          "exact_hits": 1
+        },
+        "CZ": {
+          "support": 4,
+          "exact_hits": 0
+        },
+        "BG": {
+          "support": 6,
+          "exact_hits": 0
+        },
+        "CL": {
+          "support": 5,
+          "exact_hits": 1
+        },
+        "AT": {
+          "support": 5,
+          "exact_hits": 2
+        }
+      },
+      "BANK_ACCOUNT": {
+        "MR": {
+          "support": 6,
+          "exact_hits": 0
+        },
+        "GB": {
+          "support": 50,
+          "exact_hits": 5
+        },
+        "BR": {
+          "support": 2,
+          "exact_hits": 0
+        },
+        "CY": {
+          "support": 4,
+          "exact_hits": 1
+        },
+        "IN": {
+          "support": 21,
+          "exact_hits": 3
+        },
+        "JP": {
+          "support": 35,
+          "exact_hits": 4
+        },
+        "US": {
+          "support": 30,
+          "exact_hits": 2
+        },
+        "PL": {
+          "support": 5,
+          "exact_hits": 0
+        },
+        "AT": {
+          "support": 5,
+          "exact_hits": 2
+        },
+        "NZ": {
+          "support": 28,
+          "exact_hits": 0
+        },
+        "AU": {
+          "support": 25,
+          "exact_hits": 2
+        },
+        "CH": {
+          "support": 4,
+          "exact_hits": 0
+        },
+        "UA": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "RE": {
+          "support": 3,
+          "exact_hits": 1
+        },
+        "BA": {
+          "support": 5,
+          "exact_hits": 1
+        },
+        "JE": {
+          "support": 5,
+          "exact_hits": 0
+        },
+        "LC": {
+          "support": 2,
+          "exact_hits": 0
+        },
+        "NI": {
+          "support": 2,
+          "exact_hits": 0
+        },
+        "CA": {
+          "support": 28,
+          "exact_hits": 5
+        },
+        "NO": {
+          "support": 4,
+          "exact_hits": 1
+        },
+        "BE": {
+          "support": 4,
+          "exact_hits": 0
+        },
+        "CR": {
+          "support": 5,
+          "exact_hits": 0
+        },
+        "PS": {
+          "support": 3,
+          "exact_hits": 1
+        },
+        "IT": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "BG": {
+          "support": 4,
+          "exact_hits": 0
+        },
+        "MT": {
+          "support": 5,
+          "exact_hits": 4
+        },
+        "SK": {
+          "support": 5,
+          "exact_hits": 0
+        },
+        "LU": {
+          "support": 5,
+          "exact_hits": 3
+        },
+        "KW": {
+          "support": 7,
+          "exact_hits": 1
+        },
+        "YT": {
+          "support": 3,
+          "exact_hits": 0
+        },
+        "EG": {
+          "support": 4,
+          "exact_hits": 0
+        },
+        "FI": {
+          "support": 4,
+          "exact_hits": 0
+        },
+        "GI": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "BY": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "DO": {
+          "support": 4,
+          "exact_hits": 0
+        },
+        "PK": {
+          "support": 30,
+          "exact_hits": 3
+        },
+        "GE": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "IQ": {
+          "support": 6,
+          "exact_hits": 0
+        },
+        "MN": {
+          "support": 3,
+          "exact_hits": 0
+        },
+        "NL": {
+          "support": 4,
+          "exact_hits": 1
+        },
+        "NC": {
+          "support": 3,
+          "exact_hits": 0
+        },
+        "TN": {
+          "support": 6,
+          "exact_hits": 0
+        },
+        "GF": {
+          "support": 5,
+          "exact_hits": 0
+        },
+        "SD": {
+          "support": 5,
+          "exact_hits": 0
+        },
+        "AD": {
+          "support": 5,
+          "exact_hits": 0
+        },
+        "YE": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "SI": {
+          "support": 3,
+          "exact_hits": 1
+        },
+        "PF": {
+          "support": 4,
+          "exact_hits": 1
+        },
+        "RO": {
+          "support": 2,
+          "exact_hits": 0
+        },
+        "DE": {
+          "support": 2,
+          "exact_hits": 0
+        },
+        "JO": {
+          "support": 4,
+          "exact_hits": 1
+        },
+        "LB": {
+          "support": 3,
+          "exact_hits": 0
+        },
+        "AZ": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "ME": {
+          "support": 4,
+          "exact_hits": 0
+        },
+        "DK": {
+          "support": 6,
+          "exact_hits": 1
+        },
+        "MK": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "GL": {
+          "support": 2,
+          "exact_hits": 0
+        },
+        "GR": {
+          "support": 4,
+          "exact_hits": 1
+        },
+        "MF": {
+          "support": 3,
+          "exact_hits": 1
+        },
+        "TL": {
+          "support": 3,
+          "exact_hits": 1
+        },
+        "CZ": {
+          "support": 7,
+          "exact_hits": 0
+        },
+        "HU": {
+          "support": 4,
+          "exact_hits": 0
+        },
+        "PT": {
+          "support": 3,
+          "exact_hits": 1
+        },
+        "BL": {
+          "support": 4,
+          "exact_hits": 1
+        },
+        "ST": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "KZ": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "SA": {
+          "support": 2,
+          "exact_hits": 0
+        },
+        "GT": {
+          "support": 4,
+          "exact_hits": 2
+        },
+        "BI": {
+          "support": 5,
+          "exact_hits": 1
+        },
+        "MD": {
+          "support": 2,
+          "exact_hits": 0
+        },
+        "SM": {
+          "support": 3,
+          "exact_hits": 2
+        },
+        "MC": {
+          "support": 5,
+          "exact_hits": 1
+        },
+        "SC": {
+          "support": 3,
+          "exact_hits": 0
+        },
+        "TF": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "AX": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "MU": {
+          "support": 4,
+          "exact_hits": 0
+        },
+        "IS": {
+          "support": 4,
+          "exact_hits": 0
+        },
+        "RU": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "BH": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "ES": {
+          "support": 2,
+          "exact_hits": 0
+        },
+        "AL": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "GG": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "TR": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "GP": {
+          "support": 5,
+          "exact_hits": 1
+        },
+        "SO": {
+          "support": 5,
+          "exact_hits": 0
+        },
+        "SV": {
+          "support": 2,
+          "exact_hits": 0
+        },
+        "IE": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "LT": {
+          "support": 4,
+          "exact_hits": 0
+        },
+        "VG": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "FK": {
+          "support": 2,
+          "exact_hits": 0
+        },
+        "LV": {
+          "support": 3,
+          "exact_hits": 2
+        },
+        "MQ": {
+          "support": 4,
+          "exact_hits": 1
+        },
+        "OM": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "QA": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "RS": {
+          "support": 3,
+          "exact_hits": 1
+        },
+        "DJ": {
+          "support": 3,
+          "exact_hits": 0
+        },
+        "LY": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "XK": {
+          "support": 2,
+          "exact_hits": 0
+        },
+        "LI": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "AE": {
+          "support": 4,
+          "exact_hits": 0
+        },
+        "WF": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "FO": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "SE": {
+          "support": 2,
+          "exact_hits": 0
+        },
+        "FR": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "HN": {
+          "support": 2,
+          "exact_hits": 0
+        },
+        "PM": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "IL": {
+          "support": 1,
+          "exact_hits": 0
+        }
+      },
+      "PHONE": {
+        "LA": {
+          "support": 5,
+          "exact_hits": 2
+        },
+        "DO": {
+          "support": 4,
+          "exact_hits": 3
+        },
+        "AT": {
+          "support": 5,
+          "exact_hits": 3
+        },
+        "BG": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "BW": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "TM": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "MN": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "TV": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "RO": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "BE": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "IT": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "KY": {
+          "support": 7,
+          "exact_hits": 6
+        },
+        "ER": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "GY": {
+          "support": 3,
+          "exact_hits": 1
+        },
+        "GU": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "JM": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "FJ": {
+          "support": 5,
+          "exact_hits": 3
+        },
+        "EH": {
+          "support": 5,
+          "exact_hits": 3
+        },
+        "CW": {
+          "support": 4,
+          "exact_hits": 3
+        },
+        "AI": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "NA": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "JE": {
+          "support": 3,
+          "exact_hits": 2
+        },
+        "UA": {
+          "support": 4,
+          "exact_hits": 3
+        },
+        "KN": {
+          "support": 6,
+          "exact_hits": 3
+        },
+        "AC": {
+          "support": 4,
+          "exact_hits": 3
+        },
+        "GA": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "RS": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "PM": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "TO": {
+          "support": 4,
+          "exact_hits": 2
+        },
+        "VE": {
+          "support": 4,
+          "exact_hits": 4
+        },
+        "GN": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "ME": {
+          "support": 3,
+          "exact_hits": 2
+        },
+        "PG": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "GF": {
+          "support": 2,
+          "exact_hits": 0
+        },
+        "SH": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "SI": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "BI": {
+          "support": 5,
+          "exact_hits": 4
+        },
+        "GD": {
+          "support": 11,
+          "exact_hits": 9
+        },
+        "PR": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "AM": {
+          "support": 6,
+          "exact_hits": 3
+        },
+        "LV": {
+          "support": 3,
+          "exact_hits": 2
+        },
+        "MQ": {
+          "support": 4,
+          "exact_hits": 2
+        },
+        "CC": {
+          "support": 4,
+          "exact_hits": 3
+        },
+        "CD": {
+          "support": 7,
+          "exact_hits": 6
+        },
+        "MU": {
+          "support": 4,
+          "exact_hits": 1
+        },
+        "BO": {
+          "support": 5,
+          "exact_hits": 2
+        },
+        "DJ": {
+          "support": 3,
+          "exact_hits": 1
+        },
+        "GI": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "WF": {
+          "support": 6,
+          "exact_hits": 2
+        },
+        "TW": {
+          "support": 4,
+          "exact_hits": 3
+        },
+        "DE": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "AD": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "KG": {
+          "support": 3,
+          "exact_hits": 2
+        },
+        "SX": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "TR": {
+          "support": 4,
+          "exact_hits": 2
+        },
+        "RE": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "DZ": {
+          "support": 5,
+          "exact_hits": 4
+        },
+        "TG": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "GH": {
+          "support": 4,
+          "exact_hits": 3
+        },
+        "IR": {
+          "support": 4,
+          "exact_hits": 4
+        },
+        "JO": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "LI": {
+          "support": 2,
+          "exact_hits": 0
+        },
+        "JP": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "NL": {
+          "support": 5,
+          "exact_hits": 4
+        },
+        "ZA": {
+          "support": 4,
+          "exact_hits": 2
+        },
+        "VC": {
+          "support": 3,
+          "exact_hits": 1
+        },
+        "FR": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "KP": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "NU": {
+          "support": 5,
+          "exact_hits": 2
+        },
+        "WS": {
+          "support": 2,
+          "exact_hits": 0
+        },
+        "CG": {
+          "support": 4,
+          "exact_hits": 1
+        },
+        "CR": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "LS": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "SE": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "FM": {
+          "support": 4,
+          "exact_hits": 2
+        },
+        "AG": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "XK": {
+          "support": 3,
+          "exact_hits": 1
+        },
+        "GE": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "AE": {
+          "support": 4,
+          "exact_hits": 3
+        },
+        "KE": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "AZ": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "PH": {
+          "support": 3,
+          "exact_hits": 1
+        },
+        "BT": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "YE": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "EC": {
+          "support": 3,
+          "exact_hits": 2
+        },
+        "TL": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "NE": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "QA": {
+          "support": 4,
+          "exact_hits": 2
+        },
+        "VU": {
+          "support": 3,
+          "exact_hits": 2
+        },
+        "BN": {
+          "support": 4,
+          "exact_hits": 4
+        },
+        "AR": {
+          "support": 5,
+          "exact_hits": 5
+        },
+        "PT": {
+          "support": 4,
+          "exact_hits": 2
+        },
+        "LU": {
+          "support": 4,
+          "exact_hits": 2
+        },
+        "PK": {
+          "support": 3,
+          "exact_hits": 2
+        },
+        "SK": {
+          "support": 4,
+          "exact_hits": 4
+        },
+        "SR": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "MD": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "CX": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "MR": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "LT": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "LR": {
+          "support": 6,
+          "exact_hits": 5
+        },
+        "LB": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "AX": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "SB": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "TN": {
+          "support": 8,
+          "exact_hits": 7
+        },
+        "IM": {
+          "support": 3,
+          "exact_hits": 0
+        },
+        "SN": {
+          "support": 3,
+          "exact_hits": 2
+        },
+        "ID": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "MK": {
+          "support": 3,
+          "exact_hits": 2
+        },
+        "BH": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "CM": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "HU": {
+          "support": 2,
+          "exact_hits": 0
+        },
+        "FK": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "SO": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "AL": {
+          "support": 4,
+          "exact_hits": 3
+        },
+        "BY": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "SA": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "RU": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "BL": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "CI": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "GP": {
+          "support": 5,
+          "exact_hits": 3
+        },
+        "PY": {
+          "support": 3,
+          "exact_hits": 0
+        },
+        "PA": {
+          "support": 3,
+          "exact_hits": 2
+        },
+        "GL": {
+          "support": 3,
+          "exact_hits": 2
+        },
+        "IS": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "VA": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "SD": {
+          "support": 4,
+          "exact_hits": 1
+        },
+        "CY": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "ET": {
+          "support": 3,
+          "exact_hits": 2
+        },
+        "CU": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "SJ": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "MP": {
+          "support": 4,
+          "exact_hits": 3
+        },
+        "DM": {
+          "support": 3,
+          "exact_hits": 2
+        },
+        "PS": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "IE": {
+          "support": 5,
+          "exact_hits": 4
+        },
+        "EE": {
+          "support": 5,
+          "exact_hits": 4
+        },
+        "MH": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "LY": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "CK": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "SY": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "IQ": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "BZ": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "TZ": {
+          "support": 5,
+          "exact_hits": 3
+        },
+        "LK": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "BF": {
+          "support": 3,
+          "exact_hits": 1
+        },
+        "MY": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "SG": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "NP": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "CA": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "GT": {
+          "support": 2,
+          "exact_hits": 0
+        },
+        "AO": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "HT": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "AF": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "KI": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "MF": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "ZW": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "BR": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "ML": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "TK": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "HK": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "KH": {
+          "support": 3,
+          "exact_hits": 2
+        },
+        "FO": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "CZ": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "UZ": {
+          "support": 3,
+          "exact_hits": 2
+        },
+        "SC": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "NO": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "TC": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "BM": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "TJ": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "GW": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "NG": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "AU": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "TT": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "BD": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "BQ": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "SZ": {
+          "support": 2,
+          "exact_hits": 0
+        },
+        "IN": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "LC": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "VG": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "CL": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "NI": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "MG": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "CV": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "UY": {
+          "support": 3,
+          "exact_hits": 2
+        },
+        "BS": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "GG": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "HR": {
+          "support": 3,
+          "exact_hits": 1
+        },
+        "US": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "VI": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "ZM": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "IL": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "MO": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "TD": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "TA": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "KM": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "MC": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "SM": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "PW": {
+          "support": 2,
+          "exact_hits": 0
+        },
+        "MM": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "GB": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "MS": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "MV": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "IO": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "YT": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "OM": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "MX": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "CH": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "NR": {
+          "support": 2,
+          "exact_hits": 0
+        },
+        "NZ": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "PE": {
+          "support": 3,
+          "exact_hits": 2
+        },
+        "KR": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "BA": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "UG": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "GM": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "GQ": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "AW": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "KW": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "CF": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "MW": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "SV": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "AS": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "BB": {
+          "support": 1,
+          "exact_hits": 1
+        },
+        "NF": {
+          "support": 1,
+          "exact_hits": 0
+        }
+      },
+      "API_KEY": {
+        "global": {
+          "support": 543,
+          "exact_hits": 336
+        }
+      },
+      "ADDRESS": {
+        "CZ": {
+          "support": 11,
+          "exact_hits": 3
+        },
+        "IN": {
+          "support": 31,
+          "exact_hits": 13
+        },
+        "SI": {
+          "support": 9,
+          "exact_hits": 2
+        },
+        "AT": {
+          "support": 9,
+          "exact_hits": 5
+        },
+        "DK": {
+          "support": 3,
+          "exact_hits": 2
+        },
+        "NZ": {
+          "support": 2,
+          "exact_hits": 0
+        },
+        "US": {
+          "support": 16,
+          "exact_hits": 8
+        },
+        "VN": {
+          "support": 13,
+          "exact_hits": 3
+        },
+        "BE": {
+          "support": 9,
+          "exact_hits": 2
+        },
+        "ES": {
+          "support": 9,
+          "exact_hits": 5
+        },
+        "AR": {
+          "support": 11,
+          "exact_hits": 2
+        },
+        "CH": {
+          "support": 14,
+          "exact_hits": 3
+        },
+        "BD": {
+          "support": 22,
+          "exact_hits": 10
+        },
+        "NL": {
+          "support": 7,
+          "exact_hits": 1
+        },
+        "SK": {
+          "support": 13,
+          "exact_hits": 4
+        },
+        "NO": {
+          "support": 9,
+          "exact_hits": 4
+        },
+        "IR": {
+          "support": 10,
+          "exact_hits": 4
+        },
+        "CN": {
+          "support": 11,
+          "exact_hits": 5
+        },
+        "PH": {
+          "support": 23,
+          "exact_hits": 12
+        },
+        "IL": {
+          "support": 12,
+          "exact_hits": 6
+        },
+        "ID": {
+          "support": 7,
+          "exact_hits": 5
+        },
+        "HR": {
+          "support": 9,
+          "exact_hits": 3
+        },
+        "AM": {
+          "support": 5,
+          "exact_hits": 1
+        },
+        "SE": {
+          "support": 12,
+          "exact_hits": 5
+        },
+        "CL": {
+          "support": 6,
+          "exact_hits": 2
+        },
+        "PT": {
+          "support": 10,
+          "exact_hits": 6
+        },
+        "IT": {
+          "support": 13,
+          "exact_hits": 7
+        },
+        "CO": {
+          "support": 9,
+          "exact_hits": 4
+        },
+        "NP": {
+          "support": 15,
+          "exact_hits": 4
+        },
+        "BR": {
+          "support": 11,
+          "exact_hits": 1
+        },
+        "GB": {
+          "support": 10,
+          "exact_hits": 0
+        },
+        "DE": {
+          "support": 9,
+          "exact_hits": 4
+        },
+        "AU": {
+          "support": 8,
+          "exact_hits": 3
+        },
+        "JP": {
+          "support": 9,
+          "exact_hits": 2
+        },
+        "ZA": {
+          "support": 8,
+          "exact_hits": 5
+        },
+        "UA": {
+          "support": 10,
+          "exact_hits": 3
+        },
+        "RO": {
+          "support": 6,
+          "exact_hits": 3
+        },
+        "RU": {
+          "support": 11,
+          "exact_hits": 4
+        },
+        "FR": {
+          "support": 5,
+          "exact_hits": 1
+        },
+        "AZ": {
+          "support": 9,
+          "exact_hits": 2
+        },
+        "GE": {
+          "support": 8,
+          "exact_hits": 3
+        },
+        "MS": {
+          "support": 9,
+          "exact_hits": 0
+        },
+        "TH": {
+          "support": 6,
+          "exact_hits": 3
+        },
+        "PL": {
+          "support": 8,
+          "exact_hits": 1
+        },
+        "CA": {
+          "support": 19,
+          "exact_hits": 3
+        },
+        "TW": {
+          "support": 7,
+          "exact_hits": 2
+        },
+        "KR": {
+          "support": 6,
+          "exact_hits": 1
+        },
+        "GR": {
+          "support": 8,
+          "exact_hits": 6
+        },
+        "HU": {
+          "support": 11,
+          "exact_hits": 3
+        },
+        "MX": {
+          "support": 8,
+          "exact_hits": 3
+        },
+        "FI": {
+          "support": 4,
+          "exact_hits": 2
+        },
+        "IE": {
+          "support": 7,
+          "exact_hits": 4
+        }
+      },
+      "IBAN": {
+        "MF": {
+          "support": 5,
+          "exact_hits": 5
+        },
+        "DJ": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "RS": {
+          "support": 4,
+          "exact_hits": 4
+        },
+        "SM": {
+          "support": 4,
+          "exact_hits": 4
+        },
+        "JO": {
+          "support": 4,
+          "exact_hits": 4
+        },
+        "VG": {
+          "support": 4,
+          "exact_hits": 2
+        },
+        "TL": {
+          "support": 7,
+          "exact_hits": 6
+        },
+        "ES": {
+          "support": 5,
+          "exact_hits": 5
+        },
+        "SD": {
+          "support": 5,
+          "exact_hits": 3
+        },
+        "AE": {
+          "support": 4,
+          "exact_hits": 4
+        },
+        "TF": {
+          "support": 11,
+          "exact_hits": 11
+        },
+        "HU": {
+          "support": 6,
+          "exact_hits": 6
+        },
+        "OM": {
+          "support": 9,
+          "exact_hits": 4
+        },
+        "BE": {
+          "support": 3,
+          "exact_hits": 2
+        },
+        "MR": {
+          "support": 9,
+          "exact_hits": 9
+        },
+        "AZ": {
+          "support": 4,
+          "exact_hits": 3
+        },
+        "SI": {
+          "support": 5,
+          "exact_hits": 4
+        },
+        "GI": {
+          "support": 8,
+          "exact_hits": 7
+        },
+        "YT": {
+          "support": 7,
+          "exact_hits": 7
+        },
+        "BY": {
+          "support": 4,
+          "exact_hits": 4
+        },
+        "CR": {
+          "support": 4,
+          "exact_hits": 4
+        },
+        "KW": {
+          "support": 5,
+          "exact_hits": 5
+        },
+        "CZ": {
+          "support": 6,
+          "exact_hits": 6
+        },
+        "GP": {
+          "support": 9,
+          "exact_hits": 6
+        },
+        "PM": {
+          "support": 10,
+          "exact_hits": 10
+        },
+        "BA": {
+          "support": 4,
+          "exact_hits": 4
+        },
+        "EG": {
+          "support": 9,
+          "exact_hits": 9
+        },
+        "RU": {
+          "support": 7,
+          "exact_hits": 7
+        },
+        "EE": {
+          "support": 6,
+          "exact_hits": 6
+        },
+        "SK": {
+          "support": 8,
+          "exact_hits": 7
+        },
+        "LY": {
+          "support": 5,
+          "exact_hits": 5
+        },
+        "WF": {
+          "support": 5,
+          "exact_hits": 5
+        },
+        "RO": {
+          "support": 6,
+          "exact_hits": 5
+        },
+        "TN": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "BR": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "IS": {
+          "support": 6,
+          "exact_hits": 6
+        },
+        "LI": {
+          "support": 9,
+          "exact_hits": 7
+        },
+        "IE": {
+          "support": 6,
+          "exact_hits": 3
+        },
+        "IL": {
+          "support": 5,
+          "exact_hits": 5
+        },
+        "KZ": {
+          "support": 6,
+          "exact_hits": 4
+        },
+        "AD": {
+          "support": 8,
+          "exact_hits": 6
+        },
+        "NC": {
+          "support": 7,
+          "exact_hits": 4
+        },
+        "BG": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "SV": {
+          "support": 6,
+          "exact_hits": 5
+        },
+        "PS": {
+          "support": 4,
+          "exact_hits": 3
+        },
+        "LU": {
+          "support": 6,
+          "exact_hits": 5
+        },
+        "SE": {
+          "support": 4,
+          "exact_hits": 4
+        },
+        "BI": {
+          "support": 5,
+          "exact_hits": 5
+        },
+        "GG": {
+          "support": 3,
+          "exact_hits": 2
+        },
+        "FO": {
+          "support": 6,
+          "exact_hits": 4
+        },
+        "GR": {
+          "support": 6,
+          "exact_hits": 6
+        },
+        "PL": {
+          "support": 4,
+          "exact_hits": 4
+        },
+        "YE": {
+          "support": 6,
+          "exact_hits": 6
+        },
+        "IQ": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "JE": {
+          "support": 5,
+          "exact_hits": 3
+        },
+        "GL": {
+          "support": 6,
+          "exact_hits": 5
+        },
+        "DK": {
+          "support": 5,
+          "exact_hits": 3
+        },
+        "DE": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "LV": {
+          "support": 7,
+          "exact_hits": 6
+        },
+        "CH": {
+          "support": 5,
+          "exact_hits": 4
+        },
+        "MC": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "QA": {
+          "support": 6,
+          "exact_hits": 6
+        },
+        "GB": {
+          "support": 9,
+          "exact_hits": 8
+        },
+        "IM": {
+          "support": 5,
+          "exact_hits": 5
+        },
+        "BL": {
+          "support": 6,
+          "exact_hits": 5
+        },
+        "LB": {
+          "support": 5,
+          "exact_hits": 4
+        },
+        "GF": {
+          "support": 6,
+          "exact_hits": 6
+        },
+        "HN": {
+          "support": 6,
+          "exact_hits": 6
+        },
+        "PT": {
+          "support": 5,
+          "exact_hits": 5
+        },
+        "TR": {
+          "support": 5,
+          "exact_hits": 3
+        },
+        "AX": {
+          "support": 7,
+          "exact_hits": 6
+        },
+        "MU": {
+          "support": 4,
+          "exact_hits": 4
+        },
+        "MK": {
+          "support": 8,
+          "exact_hits": 4
+        },
+        "FR": {
+          "support": 7,
+          "exact_hits": 7
+        },
+        "AT": {
+          "support": 4,
+          "exact_hits": 3
+        },
+        "HR": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "LC": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "MD": {
+          "support": 4,
+          "exact_hits": 4
+        },
+        "UA": {
+          "support": 3,
+          "exact_hits": 1
+        },
+        "XK": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "VA": {
+          "support": 9,
+          "exact_hits": 6
+        },
+        "GT": {
+          "support": 5,
+          "exact_hits": 5
+        },
+        "NO": {
+          "support": 3,
+          "exact_hits": 2
+        },
+        "PK": {
+          "support": 4,
+          "exact_hits": 4
+        },
+        "MT": {
+          "support": 5,
+          "exact_hits": 4
+        },
+        "ST": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "SA": {
+          "support": 5,
+          "exact_hits": 2
+        },
+        "FK": {
+          "support": 3,
+          "exact_hits": 0
+        },
+        "DO": {
+          "support": 6,
+          "exact_hits": 4
+        },
+        "RE": {
+          "support": 7,
+          "exact_hits": 7
+        },
+        "BH": {
+          "support": 3,
+          "exact_hits": 2
+        },
+        "IT": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "NL": {
+          "support": 5,
+          "exact_hits": 2
+        },
+        "PF": {
+          "support": 6,
+          "exact_hits": 6
+        },
+        "GE": {
+          "support": 5,
+          "exact_hits": 4
+        },
+        "CY": {
+          "support": 8,
+          "exact_hits": 7
+        },
+        "SC": {
+          "support": 4,
+          "exact_hits": 4
+        },
+        "NI": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "MN": {
+          "support": 4,
+          "exact_hits": 4
+        },
+        "LT": {
+          "support": 4,
+          "exact_hits": 4
+        },
+        "SO": {
+          "support": 3,
+          "exact_hits": 3
+        },
+        "ME": {
+          "support": 2,
+          "exact_hits": 2
+        },
+        "FI": {
+          "support": 1,
+          "exact_hits": 0
+        },
+        "AL": {
+          "support": 2,
+          "exact_hits": 1
+        },
+        "MQ": {
+          "support": 3,
+          "exact_hits": 3
+        }
+      },
+      "EMAIL": {
+        "global": {
+          "support": 546,
+          "exact_hits": 373
+        }
+      }
+    }
+  },
+  "saved_authored": {
+    "overall": {
+      "tp": 2,
+      "fp": 5,
+      "fn": 12,
+      "precision": 0.2857142857142857,
+      "recall": 0.14285714285714285,
+      "f1": 0.19047619047619047
+    },
+    "by_category": {
+      "PERSON": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "ADDRESS": {
+        "tp": 0,
+        "fp": 1,
+        "fn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "PHONE": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6666666666666666
+      },
+      "EMAIL": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 2,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "NATIONAL_ID": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "PASSPORT": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "BANK_ACCOUNT": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "IBAN": {
+        "tp": 1,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.6666666666666666
+      },
+      "PAYMENT_CARD": {
+        "tp": 0,
+        "fp": 1,
+        "fn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "API_KEY": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "PASSWORD": {
+        "tp": 0,
+        "fp": 2,
+        "fn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "PIN": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      }
+    },
+    "by_source": {
+      "authored": {
+        "tp": 2,
+        "fp": 5,
+        "fn": 12,
+        "precision": 0.2857142857142857,
+        "recall": 0.14285714285714285,
+        "f1": 0.19047619047619047
+      }
+    },
+    "benign_documents": 5,
+    "benign_false_alarms": 0,
+    "regional_recall_counts": {
+      "PHONE": {
+        "unspecified": {
+          "support": 2,
+          "exact_hits": 1
+        }
+      },
+      "EMAIL": {
+        "unspecified": {
+          "support": 2,
+          "exact_hits": 0
+        }
+      },
+      "ADDRESS": {
+        "unspecified": {
+          "support": 1,
+          "exact_hits": 0
+        }
+      },
+      "PERSON": {
+        "unspecified": {
+          "support": 1,
+          "exact_hits": 0
+        }
+      },
+      "NATIONAL_ID": {
+        "unspecified": {
+          "support": 1,
+          "exact_hits": 0
+        }
+      },
+      "PASSPORT": {
+        "unspecified": {
+          "support": 1,
+          "exact_hits": 0
+        }
+      },
+      "BANK_ACCOUNT": {
+        "unspecified": {
+          "support": 1,
+          "exact_hits": 0
+        }
+      },
+      "IBAN": {
+        "unspecified": {
+          "support": 1,
+          "exact_hits": 1
+        }
+      },
+      "PAYMENT_CARD": {
+        "unspecified": {
+          "support": 1,
+          "exact_hits": 0
+        }
+      },
+      "PIN": {
+        "unspecified": {
+          "support": 1,
+          "exact_hits": 0
+        }
+      },
+      "API_KEY": {
+        "unspecified": {
+          "support": 1,
+          "exact_hits": 0
+        }
+      },
+      "PASSWORD": {
+        "unspecified": {
+          "support": 1,
+          "exact_hits": 0
+        }
+      }
+    }
+  },
+  "cases": [
+    {
+      "text": "Please put the reservation under Tenzin Dorje.",
+      "spans": [
+        {
+          "label": "PERSON",
+          "start": 33,
+          "end": 45
+        }
+      ],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "Please put the reservation under Imogen Brooks.",
+      "spans": [
+        {
+          "label": "PERSON",
+          "start": 33,
+          "end": 46
+        }
+      ],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "Please put the reservation under Amina El-Sayed.",
+      "spans": [
+        {
+          "label": "PERSON",
+          "start": 33,
+          "end": 47
+        }
+      ],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "Please put the reservation under Mary-Jane O'Brien.",
+      "spans": [
+        {
+          "label": "PERSON",
+          "start": 33,
+          "end": 50
+        }
+      ],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "Please put the reservation under José Nuñez.",
+      "spans": [
+        {
+          "label": "PERSON",
+          "start": 33,
+          "end": 43
+        }
+      ],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "Ship the replacement to Flat 7, 18 Cedar Lane, Bristol BS1 4QA.",
+      "spans": [
+        {
+          "label": "ADDRESS",
+          "start": 24,
+          "end": 62
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "ADDRESS",
+          "start": 24,
+          "end": 63,
+          "score": 0.9876695351722913
+        }
+      ]
+    },
+    {
+      "text": "Ship the replacement to 42 Rue des Fleurs\n75011 Paris.",
+      "spans": [
+        {
+          "label": "ADDRESS",
+          "start": 24,
+          "end": 53
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "ADDRESS",
+          "start": 24,
+          "end": 53,
+          "score": 0.9931178668449665
+        }
+      ]
+    },
+    {
+      "text": "Ship the replacement to 1600 Example Avenue, Apt 5B, Boston MA 02108.",
+      "spans": [
+        {
+          "label": "ADDRESS",
+          "start": 24,
+          "end": 68
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "ADDRESS",
+          "start": 24,
+          "end": 68,
+          "score": 0.9884619468992407
+        }
+      ]
+    },
+    {
+      "text": "Ship the replacement to 東京都新宿区西新宿2丁目8番1号.",
+      "spans": [
+        {
+          "label": "ADDRESS",
+          "start": 24,
+          "end": 40
+        }
+      ],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "Ship the replacement to 14 River Walk, Dublin D02 XY76.",
+      "spans": [
+        {
+          "label": "ADDRESS",
+          "start": 24,
+          "end": 54
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "ADDRESS",
+          "start": 24,
+          "end": 54,
+          "score": 0.9988244930903117
+        }
+      ]
+    },
+    {
+      "text": "If the courier gets lost, ring +1 (202) 555-0198.",
+      "spans": [
+        {
+          "label": "PHONE",
+          "start": 31,
+          "end": 48
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PHONE",
+          "start": 31,
+          "end": 48,
+          "score": 0.9961478184251225
+        }
+      ]
+    },
+    {
+      "text": "If the courier gets lost, ring +92 321 4567890.",
+      "spans": [
+        {
+          "label": "PHONE",
+          "start": 31,
+          "end": 46
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PHONE",
+          "start": 31,
+          "end": 46,
+          "score": 0.9972826242446899
+        }
+      ]
+    },
+    {
+      "text": "If the courier gets lost, ring +33 6 12 34 56 78.",
+      "spans": [
+        {
+          "label": "PHONE",
+          "start": 31,
+          "end": 48
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PHONE",
+          "start": 31,
+          "end": 48,
+          "score": 0.9996175941298989
+        }
+      ]
+    },
+    {
+      "text": "If the courier gets lost, ring +81 90-1234-5678.",
+      "spans": [
+        {
+          "label": "PHONE",
+          "start": 31,
+          "end": 47
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PHONE",
+          "start": 31,
+          "end": 47,
+          "score": 0.9996672719717026
+        }
+      ]
+    },
+    {
+      "text": "If the courier gets lost, ring +61 412 345 678.",
+      "spans": [
+        {
+          "label": "PHONE",
+          "start": 31,
+          "end": 46
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PHONE",
+          "start": 31,
+          "end": 46,
+          "score": 0.9998460650444031
+        }
+      ]
+    },
+    {
+      "text": "Forward your reply to mina.chen+lab@example.test.",
+      "spans": [
+        {
+          "label": "EMAIL",
+          "start": 22,
+          "end": 48
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "EMAIL",
+          "start": 24,
+          "end": 48,
+          "score": 0.9818739394346873
+        }
+      ]
+    },
+    {
+      "text": "Forward your reply to marie-claire@example.org.",
+      "spans": [
+        {
+          "label": "EMAIL",
+          "start": 22,
+          "end": 46
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "EMAIL",
+          "start": 22,
+          "end": 46,
+          "score": 0.9990478133161863
+        }
+      ]
+    },
+    {
+      "text": "Forward your reply to qa_team@example.net.",
+      "spans": [
+        {
+          "label": "EMAIL",
+          "start": 22,
+          "end": 41
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "EMAIL",
+          "start": 22,
+          "end": 41,
+          "score": 0.9999864822939822
+        }
+      ]
+    },
+    {
+      "text": "Forward your reply to zoë@example.test.",
+      "spans": [
+        {
+          "label": "EMAIL",
+          "start": 22,
+          "end": 38
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "EMAIL",
+          "start": 22,
+          "end": 38,
+          "score": 0.999924186617136
+        }
+      ]
+    },
+    {
+      "text": "Forward your reply to 测试@example.org.",
+      "spans": [
+        {
+          "label": "EMAIL",
+          "start": 22,
+          "end": 36
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "EMAIL",
+          "start": 22,
+          "end": 36,
+          "score": 0.9998092864240918
+        }
+      ]
+    },
+    {
+      "text": "The employee's national identification number is 12345-7654321-9.",
+      "spans": [
+        {
+          "label": "NATIONAL_ID",
+          "start": 49,
+          "end": 64
+        }
+      ],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "The employee's national identification number is 000-12-3456.",
+      "spans": [
+        {
+          "label": "NATIONAL_ID",
+          "start": 49,
+          "end": 60
+        }
+      ],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "The employee's national identification number is 1234 5678 9012.",
+      "spans": [
+        {
+          "label": "NATIONAL_ID",
+          "start": 49,
+          "end": 63
+        }
+      ],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "The employee's national identification number is AB123456C.",
+      "spans": [
+        {
+          "label": "NATIONAL_ID",
+          "start": 49,
+          "end": 58
+        }
+      ],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "The employee's national identification number is 12.345.678-9.",
+      "spans": [
+        {
+          "label": "NATIONAL_ID",
+          "start": 49,
+          "end": 61
+        }
+      ],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "For the travel booking, my passport number reads XZ4625079.",
+      "spans": [
+        {
+          "label": "PASSPORT",
+          "start": 49,
+          "end": 58
+        }
+      ],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "For the travel booking, my passport number reads AB7654321.",
+      "spans": [
+        {
+          "label": "PASSPORT",
+          "start": 49,
+          "end": 58
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PASSWORD",
+          "start": 43,
+          "end": 46,
+          "score": 0.9862963755925497
+        }
+      ]
+    },
+    {
+      "text": "For the travel booking, my passport number reads 503817294.",
+      "spans": [
+        {
+          "label": "PASSPORT",
+          "start": 49,
+          "end": 58
+        }
+      ],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "For the travel booking, my passport number reads PQ8216530.",
+      "spans": [
+        {
+          "label": "PASSPORT",
+          "start": 49,
+          "end": 58
+        }
+      ],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "For the travel booking, my passport number reads 19 02 345678.",
+      "spans": [
+        {
+          "label": "PASSPORT",
+          "start": 49,
+          "end": 61
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PASSPORT",
+          "start": 49,
+          "end": 51,
+          "score": 0.9984455406665802
+        }
+      ]
+    },
+    {
+      "text": "The receiving bank account number is 07200341962.",
+      "spans": [
+        {
+          "label": "BANK_ACCOUNT",
+          "start": 37,
+          "end": 48
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "BANK_ACCOUNT",
+          "start": 37,
+          "end": 48,
+          "score": 0.9935285936702382
+        }
+      ]
+    },
+    {
+      "text": "The receiving bank account number is 000123456789.",
+      "spans": [
+        {
+          "label": "BANK_ACCOUNT",
+          "start": 37,
+          "end": 49
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "BANK_ACCOUNT",
+          "start": 37,
+          "end": 49,
+          "score": 0.9913400361935297
+        }
+      ]
+    },
+    {
+      "text": "The receiving bank account number is 12345678.",
+      "spans": [
+        {
+          "label": "BANK_ACCOUNT",
+          "start": 37,
+          "end": 45
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "BANK_ACCOUNT",
+          "start": 37,
+          "end": 45,
+          "score": 0.9994234964251518
+        }
+      ]
+    },
+    {
+      "text": "The receiving bank account number is 843502716.",
+      "spans": [
+        {
+          "label": "BANK_ACCOUNT",
+          "start": 37,
+          "end": 46
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "BANK_ACCOUNT",
+          "start": 37,
+          "end": 46,
+          "score": 0.9994087881512113
+        }
+      ]
+    },
+    {
+      "text": "The receiving bank account number is 9876543210123456.",
+      "spans": [
+        {
+          "label": "BANK_ACCOUNT",
+          "start": 37,
+          "end": 53
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "BANK_ACCOUNT",
+          "start": 37,
+          "end": 53,
+          "score": 0.9999417997896671
+        }
+      ]
+    },
+    {
+      "text": "Our international transfer should use IBAN GB82 WEST 1234 5698 7654 32.",
+      "spans": [
+        {
+          "label": "IBAN",
+          "start": 43,
+          "end": 70
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "IBAN",
+          "start": 43,
+          "end": 70,
+          "score": 0.9837964861481278
+        }
+      ]
+    },
+    {
+      "text": "Our international transfer should use IBAN DE89 3704 0044 0532 0130 00.",
+      "spans": [
+        {
+          "label": "IBAN",
+          "start": 43,
+          "end": 70
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "IBAN",
+          "start": 43,
+          "end": 70,
+          "score": 0.986713621351454
+        }
+      ]
+    },
+    {
+      "text": "Our international transfer should use IBAN FR14 2004 1010 0505 0001 3M02 606.",
+      "spans": [
+        {
+          "label": "IBAN",
+          "start": 43,
+          "end": 76
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "IBAN",
+          "start": 43,
+          "end": 76,
+          "score": 0.9860344348531781
+        }
+      ]
+    },
+    {
+      "text": "Our international transfer should use IBAN PK36SCBL0000001123456702.",
+      "spans": [
+        {
+          "label": "IBAN",
+          "start": 43,
+          "end": 67
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "IBAN",
+          "start": 43,
+          "end": 67,
+          "score": 0.9833758423725764
+        }
+      ]
+    },
+    {
+      "text": "Our international transfer should use IBAN NL91 ABNA 0417 1643 00.",
+      "spans": [
+        {
+          "label": "IBAN",
+          "start": 43,
+          "end": 65
+        }
+      ],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "The debit card number entered at checkout was 4242 4242 4242 4242.",
+      "spans": [
+        {
+          "label": "PAYMENT_CARD",
+          "start": 46,
+          "end": 65
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PAYMENT_CARD",
+          "start": 46,
+          "end": 65,
+          "score": 0.9999085319669623
+        }
+      ]
+    },
+    {
+      "text": "The debit card number entered at checkout was 5555-5555-5555-4444.",
+      "spans": [
+        {
+          "label": "PAYMENT_CARD",
+          "start": 46,
+          "end": 65
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PAYMENT_CARD",
+          "start": 46,
+          "end": 65,
+          "score": 0.9999608209258631
+        }
+      ]
+    },
+    {
+      "text": "The debit card number entered at checkout was 378282246310005.",
+      "spans": [
+        {
+          "label": "PAYMENT_CARD",
+          "start": 46,
+          "end": 61
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PAYMENT_CARD",
+          "start": 46,
+          "end": 61,
+          "score": 0.9842958450317383
+        }
+      ]
+    },
+    {
+      "text": "The debit card number entered at checkout was 6011 1111 1111 1117.",
+      "spans": [
+        {
+          "label": "PAYMENT_CARD",
+          "start": 46,
+          "end": 65
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PAYMENT_CARD",
+          "start": 46,
+          "end": 65,
+          "score": 0.9886171253103959
+        }
+      ]
+    },
+    {
+      "text": "The debit card number entered at checkout was 3530111333300000.",
+      "spans": [
+        {
+          "label": "PAYMENT_CARD",
+          "start": 46,
+          "end": 62
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PAYMENT_CARD",
+          "start": 46,
+          "end": 62,
+          "score": 0.9942768327891827
+        }
+      ]
+    },
+    {
+      "text": "The service authenticates with API credential ghp_SyntheticExampleForTesting0123456789AB.",
+      "spans": [
+        {
+          "label": "API_KEY",
+          "start": 46,
+          "end": 88
+        }
+      ],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "The service authenticates with API credential sk-syntheticOnlyForLocalTesting1234567890.",
+      "spans": [
+        {
+          "label": "API_KEY",
+          "start": 46,
+          "end": 87
+        }
+      ],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "The service authenticates with API credential AKIAIOSFODNN7EXAMPLE.",
+      "spans": [
+        {
+          "label": "API_KEY",
+          "start": 46,
+          "end": 66
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "API_KEY",
+          "start": 46,
+          "end": 66,
+          "score": 0.9975221782922745
+        }
+      ]
+    },
+    {
+      "text": "The service authenticates with API credential key_ExampleOpaqueCredential7843.",
+      "spans": [
+        {
+          "label": "API_KEY",
+          "start": 46,
+          "end": 77
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "API_KEY",
+          "start": 46,
+          "end": 65,
+          "score": 0.9838316315098813
+        }
+      ]
+    },
+    {
+      "text": "The service authenticates with API credential a813b950f0146e21cc4299053d724ba8.",
+      "spans": [
+        {
+          "label": "API_KEY",
+          "start": 46,
+          "end": 78
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "API_KEY",
+          "start": 46,
+          "end": 78,
+          "score": 0.9905200004577637
+        }
+      ]
+    },
+    {
+      "text": "I sign in using the password VelvetSparrow.",
+      "spans": [
+        {
+          "label": "PASSWORD",
+          "start": 29,
+          "end": 42
+        }
+      ],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "I sign in using the password paper cranes at midnight.",
+      "spans": [
+        {
+          "label": "PASSWORD",
+          "start": 29,
+          "end": 53
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PASSWORD",
+          "start": 28,
+          "end": 41,
+          "score": 0.9928487906089196
+        }
+      ]
+    },
+    {
+      "text": "I sign in using the password Demo_DB-71!cat.",
+      "spans": [
+        {
+          "label": "PASSWORD",
+          "start": 29,
+          "end": 43
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PASSWORD",
+          "start": 29,
+          "end": 43,
+          "score": 0.9868138347353254
+        }
+      ]
+    },
+    {
+      "text": "I sign in using the password Canopy-Delta-591.",
+      "spans": [
+        {
+          "label": "PASSWORD",
+          "start": 29,
+          "end": 45
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PASSWORD",
+          "start": 29,
+          "end": 45,
+          "score": 0.9924762882292271
+        }
+      ]
+    },
+    {
+      "text": "I sign in using the password Sparrow!713.",
+      "spans": [
+        {
+          "label": "PASSWORD",
+          "start": 29,
+          "end": 40
+        }
+      ],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "To withdraw cash at the ATM I type PIN 7319.",
+      "spans": [
+        {
+          "label": "PIN",
+          "start": 39,
+          "end": 43
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PIN",
+          "start": 39,
+          "end": 43,
+          "score": 0.9800641387701035
+        }
+      ]
+    },
+    {
+      "text": "To withdraw cash at the ATM I type PIN 0082.",
+      "spans": [
+        {
+          "label": "PIN",
+          "start": 39,
+          "end": 43
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PIN",
+          "start": 39,
+          "end": 43,
+          "score": 0.9800136685371399
+        }
+      ]
+    },
+    {
+      "text": "To withdraw cash at the ATM I type PIN 582016.",
+      "spans": [
+        {
+          "label": "PIN",
+          "start": 39,
+          "end": 45
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PIN",
+          "start": 39,
+          "end": 45,
+          "score": 0.9918284813563029
+        }
+      ]
+    },
+    {
+      "text": "To withdraw cash at the ATM I type PIN ٤٢١٨.",
+      "spans": [
+        {
+          "label": "PIN",
+          "start": 39,
+          "end": 43
+        }
+      ],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "To withdraw cash at the ATM I type PIN ۰۹۳۱.",
+      "spans": [
+        {
+          "label": "PIN",
+          "start": 39,
+          "end": 43
+        }
+      ],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "Please summarize this record.\nperson → Tenzin Dorje",
+      "spans": [
+        {
+          "label": "PERSON",
+          "start": 39,
+          "end": 51
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PERSON",
+          "start": 39,
+          "end": 51,
+          "score": 0.9982295036315918
+        }
+      ]
+    },
+    {
+      "text": "Please summarize this record.\naddress → Flat 7, 18 Cedar Lane, Bristol BS1 4QA",
+      "spans": [
+        {
+          "label": "ADDRESS",
+          "start": 40,
+          "end": 78
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "ADDRESS",
+          "start": 40,
+          "end": 78,
+          "score": 0.9998207751073336
+        }
+      ]
+    },
+    {
+      "text": "Please summarize this record.\nphone → +1 (202) 555-0198",
+      "spans": [
+        {
+          "label": "PHONE",
+          "start": 38,
+          "end": 55
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PHONE",
+          "start": 38,
+          "end": 55,
+          "score": 0.999991683398976
+        }
+      ]
+    },
+    {
+      "text": "Please summarize this record.\nemail → mina.chen+lab@example.test",
+      "spans": [
+        {
+          "label": "EMAIL",
+          "start": 38,
+          "end": 64
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "EMAIL",
+          "start": 38,
+          "end": 64,
+          "score": 0.9999249967244955
+        }
+      ]
+    },
+    {
+      "text": "Please summarize this record.\nnational id → 12345-7654321-9",
+      "spans": [
+        {
+          "label": "NATIONAL_ID",
+          "start": 44,
+          "end": 59
+        }
+      ],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "Please summarize this record.\npassport → XZ4625079",
+      "spans": [
+        {
+          "label": "PASSPORT",
+          "start": 41,
+          "end": 50
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PASSPORT",
+          "start": 41,
+          "end": 50,
+          "score": 0.9999995099173652
+        }
+      ]
+    },
+    {
+      "text": "Please summarize this record.\nbank account → 07200341962",
+      "spans": [
+        {
+          "label": "BANK_ACCOUNT",
+          "start": 45,
+          "end": 56
+        }
+      ],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "Please summarize this record.\niban → GB82 WEST 1234 5698 7654 32",
+      "spans": [
+        {
+          "label": "IBAN",
+          "start": 37,
+          "end": 64
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "IBAN",
+          "start": 37,
+          "end": 64,
+          "score": 0.9999871253967285
+        }
+      ]
+    },
+    {
+      "text": "Please summarize this record.\npayment card → 4242 4242 4242 4242",
+      "spans": [
+        {
+          "label": "PAYMENT_CARD",
+          "start": 45,
+          "end": 64
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PAYMENT_CARD",
+          "start": 45,
+          "end": 64,
+          "score": 0.9989126261911894
+        }
+      ]
+    },
+    {
+      "text": "Please summarize this record.\napi key → ghp_SyntheticExampleForTesting0123456789AB",
+      "spans": [
+        {
+          "label": "API_KEY",
+          "start": 40,
+          "end": 82
+        }
+      ],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "Please summarize this record.\npassword → VelvetSparrow",
+      "spans": [
+        {
+          "label": "PASSWORD",
+          "start": 41,
+          "end": 54
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PASSWORD",
+          "start": 41,
+          "end": 54,
+          "score": 0.9999941128950852
+        }
+      ]
+    },
+    {
+      "text": "Please summarize this record.\npin → 7319",
+      "spans": [
+        {
+          "label": "PIN",
+          "start": 36,
+          "end": 40
+        }
+      ],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "Explain how passwords should be stored.",
+      "spans": [],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "My PIN field is empty.",
+      "spans": [],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "Email address: [redacted]",
+      "spans": [],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "The parcel weighs 4 kilograms.",
+      "spans": [],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "Memory address 0x7FFE1234 was freed.",
+      "spans": [],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "Order reference 07200341962 needs review.",
+      "spans": [],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "Product SKU 4242-4242 is out of stock.",
+      "spans": [],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "I read 7319 words today.",
+      "spans": [],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "Page 2025550198 was missing.",
+      "spans": [],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "The JSON key is account_number and its value is null.",
+      "spans": [],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "What is an IBAN?",
+      "spans": [],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "Please remove my personal information.",
+      "spans": [],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PASSWORD",
+          "start": 29,
+          "end": 37,
+          "score": 0.9850457087159157
+        }
+      ]
+    },
+    {
+      "text": "CNIC and passport are types of identification.",
+      "spans": [],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "The invoice total is 1234.56.",
+      "spans": [],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "Version 12.34.567 is installed.",
+      "spans": [],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "The bank branch opens at 09:00.",
+      "spans": [],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "کارڈ نمبر درج نہیں ہے۔",
+      "spans": [],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "Le champ mot de passe est vide.",
+      "spans": [],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "電話番号は空欄です。",
+      "spans": [],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "The example was marked [REDACTED].",
+      "spans": [],
+      "source": "authored",
+      "predicted": []
+    },
+    {
+      "text": "Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. email = marie-claire@example.org\nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. ",
+      "spans": [
+        {
+          "label": "EMAIL",
+          "start": 1178,
+          "end": 1202
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "EMAIL",
+          "start": 1178,
+          "end": 1202,
+          "score": 0.9990458885828654
+        }
+      ]
+    },
+    {
+      "text": "Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. phone = +92 321 4567890\nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. ",
+      "spans": [
+        {
+          "label": "PHONE",
+          "start": 1178,
+          "end": 1193
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PHONE",
+          "start": 1178,
+          "end": 1193,
+          "score": 0.9999945322672527
+        }
+      ]
+    },
+    {
+      "text": "Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. password = paper cranes at midnight\nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. ",
+      "spans": [
+        {
+          "label": "PASSWORD",
+          "start": 1181,
+          "end": 1205
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PASSWORD",
+          "start": 1192,
+          "end": 1193,
+          "score": 0.9974272847175598
+        },
+        {
+          "label": "PASSWORD",
+          "start": 1204,
+          "end": 1205,
+          "score": 0.9996905326843262
+        }
+      ]
+    },
+    {
+      "text": "Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. Ordinary background text. payment card = 5555-5555-5555-4444\nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. \nMore ordinary discussion. ",
+      "spans": [
+        {
+          "label": "PAYMENT_CARD",
+          "start": 1185,
+          "end": 1204
+        }
+      ],
+      "source": "authored",
+      "predicted": [
+        {
+          "label": "PAYMENT_CARD",
+          "start": 1185,
+          "end": 1204,
+          "score": 0.9995566386925546
+        }
+      ]
+    }
+  ]
+}

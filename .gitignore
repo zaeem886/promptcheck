@@ -6,3 +6,5 @@ __pycache__/
 ml/checkpoint/
 ml/export/
 .venv-ml/
+.venv-ml-eval/
+artifacts/ml-evaluation/model-assets/

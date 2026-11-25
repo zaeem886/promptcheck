@@ -1,424 +1,741 @@
-# %% Configuration and imports
-"""Kaggle training/export pipeline. Run after the notebook's dependency cell.
-
-Uses an uploaded train/validation/test JSONL dataset when DATA_DIR is set.
-Otherwise creates a clearly labelled synthetic demonstration dataset.
-This does not modify or integrate the browser extension.
-"""
-import os
-os.environ.update(USE_TF="0", USE_FLAX="0", HF_HUB_DISABLE_TELEMETRY="1", TOKENIZERS_PARALLELISM="false")
-import json
-import random
-import hashlib
-import shutil
+# %% Install the training dependencies
+# Kaggle already supplies PyTorch and CUDA. Only the first cell needs Internet.
 import subprocess
 import sys
+
+if "ipykernel" in sys.modules:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "-q",
+                           "Faker==39.1.0", "phonenumbers==9.0.44",
+                           "schwifty==2026.11.4", "onnx>=1.16,<2", "onnxruntime>=1.20,<2"])
+
+# %% Choose the corpus size, GPU and output folder
+import hashlib
+import importlib.metadata as metadata
+import json
+import os
+import random
+import statistics
+import string
 import time
+import unicodedata
+import zipfile
+from collections import Counter, defaultdict
+from functools import lru_cache
 from pathlib import Path
-from contextlib import nullcontext
+
 import numpy as np
-import torch
-from packaging.version import Version
-from torch.utils.data import DataLoader
-from transformers import AutoTokenizer, AutoModelForTokenClassification, DataCollatorForTokenClassification, get_linear_schedule_with_warmup
-from seqeval.metrics import precision_score, recall_score, f1_score, classification_report
-from seqeval.scheme import IOB2
-
-assert Version(torch.__version__.split('+')[0]) >= Version("2.6"), "Use a Kaggle image with PyTorch >=2.6; do not replace its CUDA stack blindly."
-BASE_MODEL = "prajjwal1/bert-tiny"
-DATA_DIR = None  # e.g. "/kaggle/input/my-labelled-data"; None runs synthetic demo.
-OUTPUT = Path("/kaggle/working/promptprivacy-ml")
-SEED, EPOCHS, BATCH_SIZE, MAX_TOKENS = 42, 20, 32, 256
-LEARNING_RATE, MAX_QUANTIZED_VALIDATION_F1_DROP = 3e-4, 0.02  # BERT-Tiny needs a higher LR than base-size BERT
-LABELS = ["O", "B-PERSON", "I-PERSON", "B-ADDRESS", "I-ADDRESS", "B-SECRET", "I-SECRET"]
-LABEL2ID = {name: index for index, name in enumerate(LABELS)}
-ID2LABEL = dict(enumerate(LABELS))
-OUTPUT.mkdir(parents=True, exist_ok=True)
-random.seed(SEED); np.random.seed(SEED); torch.manual_seed(SEED)
-if torch.cuda.is_available(): torch.cuda.manual_seed_all(SEED)
-DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-print("Device:", DEVICE, "| PyTorch:", torch.__version__)
-
-# %% Prepare synthetic data, or load your labelled JSONL files
-def compose(parts, group):
-    tokens, labels = [], []
-    for text, entity in parts:
-        words = text.split()
-        tokens.extend(words)
-        labels.extend([("B-" if index == 0 else "I-") + entity if entity else "O" for index in range(len(words))])
-    return {"tokens": tokens, "labels": labels, "group_id": group}
-
-def demo_split(split, count):
-    """Synthetic demo data. Every split has its own identity/value pools AND its own sentence templates,
-    so test scores measure generalisation to unseen names, places and wording. Labels are authored."""
-    import re
-    pools = {  # first names, last names, street words, areas, cities, password words - disjoint across splits
-        "train": (
-            ["Ayesha", "Hamza", "Fatima", "Hassan", "Sana", "Bilal", "Mariam", "Ali", "Zainab", "Omar", "Hina", "Kamran", "Rabia", "Imran", "Amna", "Tariq", "Sadia", "Waqas", "Nadia", "Asad",
-             "Emily", "James", "Olivia", "Daniel", "Sophia", "Michael", "Grace", "Lucas", "Chloe", "Ethan", "Laila", "Junaid", "Saima", "Farhan", "Uzma", "Shahid", "Iqra", "Adeel", "Mahnoor", "Rizwan",
-             "Aliya", "Arslan", "Bushra", "Danyal", "Erum", "Fawad", "Ghazala", "Haris", "Ibrahim", "Javeria", "Kinza", "Luqman", "Momina", "Nabeel", "Osama", "Parveen", "Qasim", "Rukhsana", "Shoaib", "Tehmina",
-             "Umair", "Wajiha", "Yasir", "Zubair", "Anaya", "Babar", "Fiza", "Hadia", "Irfan", "Jahanzeb", "Komal", "Mohsin", "Nimra", "Rehan", "Shazia", "Tabish", "Warda", "Yusra", "Zeeshan", "Aiman",
-             "Amelia", "Benjamin", "Charlotte", "David", "Emma", "George", "Hannah", "Isaac", "Jack", "Katie", "Liam", "Mia", "Nathan", "Oscar", "Poppy", "Robert", "Sarah", "Thomas", "Victoria", "William"],
-            ["Rahman", "Iqbal", "Khan", "Malik", "Shah", "Ahmed", "Butt", "Chaudhry", "Mirza", "Hussain", "Javed", "Sheikh", "Baig", "Anwar", "Latif",
-             "Smith", "Johnson", "Brown", "Taylor", "Wilson", "Clark", "Lewis", "Walker", "Hall", "Young", "Farooq", "Saleem", "Haider", "Rana", "Bhatti",
-             "Awan", "Bajwa", "Cheema", "Dar", "Gondal", "Hashmi", "Jamil", "Khattak", "Lodhi", "Memon", "Niazi", "Paracha", "Rizvi", "Soomro", "Tiwana",
-             "Warraich", "Yousaf", "Zafar", "Afridi", "Bukhari", "Gilani", "Hayat", "Kiani", "Mughal", "Naqvi", "Qadri", "Sethi", "Tahir", "Usmani", "Wattoo",
-             "Adams", "Baker", "Campbell", "Davies", "Evans", "Fisher", "Green", "Harris", "Jenkins", "King", "Morgan", "Nelson", "Roberts", "Scott", "Ward"],
-            ["Maple", "Cedar", "Willow", "Example", "Garden", "Canal", "Mall", "Park", "Lake", "River", "Hill", "Station", "Church", "Mill", "Bridge", "Forest", "Spring", "Rose", "Oak", "Ferozepur"],
-            ["Gulberg", "Clifton", "Johar Town", "Bahria Town", "Model Town", "Garden Town", "Wapda Town", "Iqbal Town", "Defence", "North Nazimabad", "Gulshan", "Shadman"],
-            ["Lahore", "Karachi", "Islamabad", "Multan", "Faisalabad", "Peshawar", "London", "Manchester", "Rawalpindi", "Bahawalpur", "Sargodha", "Abbottabad", "Birmingham", "Glasgow"],
-            ["blue", "amber", "tiger", "cloud", "orange", "falcon", "pepper", "silver", "rocket", "mango", "copper", "eagle", "winter", "coffee", "pixel", "garnet"]),
-        "validation": (
-            ["Noor", "Faraz", "Hira", "Danish", "Sobia", "Kashif", "Ella", "Ryan", "Maira", "Owais", "Zara", "Henry"],
-            ["Siddiqui", "Akhtar", "Raza", "Zaman", "Turner", "Parker", "Gill", "Durrani"],
-            ["Orchard", "Pine", "Elm", "Sunset"], ["Saddar", "Cantt"], ["Quetta", "Sialkot", "Leeds"], ["violet", "comet", "panda"]),
-        "test": (
-            ["Zoya", "Usman", "Mehak", "Saad", "Areeba", "Fahad", "Lily", "Adam", "Ramsha", "Talha", "Ruby", "Noah"],
-            ["Qureshi", "Abbasi", "Aslam", "Nawaz", "Cooper", "Bennett", "Jatoi", "Kazmi"],
-            ["Meadow", "Birch", "Harbor", "Valley"], ["Township", "Satellite Town"], ["Hyderabad", "Gujranwala", "Bristol"], ["lemon", "storm", "otter"]),
-    }
-    templates = {
-        "train": {
-            "PERSON": ["My full name is {PERSON} .", "Our customer is {PERSON} and she needs help .", "The employee is called {PERSON} .", "Please contact {PERSON} about the invoice .",
-                       "{PERSON} submitted the form yesterday .", "Write a reference letter for {PERSON} .", "Hi , I am {PERSON} from the accounts team .", "Forward this to {PERSON} before Friday .",
-                       "The account holder {PERSON} asked for a refund .", "Schedule a meeting with {PERSON} next week ."],
-            "ADDRESS": ["My home address is {ADDRESS} .", "Deliver the parcel to {ADDRESS} .", "The customer lives at {ADDRESS} .", "Send the letter to {ADDRESS} please .",
-                        "{ADDRESS} is where the office moved .", "Ship it to {ADDRESS} by Monday .", "Our new flat is at {ADDRESS} .", "Update my address to {ADDRESS} ."],
-            "SECRET": ["My password is {SECRET} .", "The login password is {SECRET}", "Use this secret passphrase : {SECRET}", "My account password reads {SECRET} .",
-                       "{SECRET} is the wifi password .", "Log in with password {SECRET} and check the report .", "pwd = {SECRET}", "Can you check if {SECRET} is a strong password ?"],
-            "MIXED": ["My name is {PERSON} and I live at {ADDRESS} .", "{PERSON} uses the password {SECRET} for the portal .", "Send the documents to {PERSON} at {ADDRESS} .", "Login for {PERSON} : password {SECRET}"],
-            "O": ["Explain password hashing and its purpose .", "Describe how to store addresses safely .", "Summarize the class notes about libraries .", "The name and password fields are empty .",
-                  "What makes a strong password ?", "How do I change my home address in the app ?", "Write a story about a dragon that lives near a river .", "List three tips for writing a cover letter .",
-                  "The meeting is in Room 12 on Monday .", "Translate this sentence into Urdu please ."]},
-        "validation": {
-            "PERSON": ["The applicant introduced herself as {PERSON} .", "This patient's name is {PERSON} .", "Kindly email {PERSON} the final draft ."],
-            "ADDRESS": ["The residence is located at {ADDRESS} .", "Record this delivery location : {ADDRESS}", "We moved to {ADDRESS} last month ."],
-            "SECRET": ["I sign in with the password {SECRET} .", "The password I use is {SECRET}", "Is {SECRET} safe to use as a password ?"],
-            "MIXED": ["{PERSON} lives at {ADDRESS} with her family .", "Reset the password {SECRET} for {PERSON} ."],
-            "O": ["Discuss the difference between privacy and security .", "Please explain why passwords should be unique .", "Give me a recipe for vegetable soup .", "Where should I type my address on this form ?"]},
-        "test": {
-            "PERSON": ["Our tenant goes by the name {PERSON} .", "The registered guardian is {PERSON} .", "Book a taxi for {PERSON} tomorrow ."],
-            "ADDRESS": ["The billing address on the form is {ADDRESS} .", "I currently reside at {ADDRESS} .", "Pick me up from {ADDRESS} at noon ."],
-            "SECRET": ["For authentication my passphrase is {SECRET} .", "The credential I type as my password is {SECRET}", "Remember that the admin password is {SECRET} ."],
-            "MIXED": ["{PERSON} , {ADDRESS} , is the shipping contact .", "The portal user {PERSON} has password {SECRET} ."],
-            "O": ["Tell me how a password manager works .", "Give instructions for updating an address without including one .", "Summarize the history of the printing press .", "Name three famous rivers in Asia ."]},
-    }
-    first, last, streets, areas, cities, words = pools[split]
-    rng = random.Random(SEED + {"train": 1, "validation": 2, "test": 3}[split])
-    alphabet = "abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789"
-    def person(): return rng.choice(first) + " " + rng.choice(last)
-    def address():
-        n, letter = rng.randint(1, 900), rng.choice("ABCDEFGHJK")
-        return rng.choice([f"House {n} {rng.choice(streets)} Street , {rng.choice(cities)}", f"Flat {n} , Block {letter} , {rng.choice(areas)} , {rng.choice(cities)}",
-                           f"{n} {rng.choice(streets)} Road , {rng.choice(areas)}", f"Street {n} , Sector {letter}-{rng.randint(1, 20)} , {rng.choice(cities)}"])
-    def secret():  # always one whitespace-free token containing a digit, in several realistic shapes
-        kind = rng.randrange(3)
-        if kind == 0: return f"{rng.choice(words)}-{rng.choice(words)}-{rng.randint(10, 9999)}"
-        if kind == 1:
-            text = [rng.choice(alphabet) for _ in range(rng.randint(10, 16))]
-            text[rng.randrange(len(text))] = rng.choice("23456789")  # bare letters would look like an unseen name to an uncased model
-            return "".join(text)
-        return f"{rng.choice(words).capitalize()}{rng.randint(1, 9999)}{rng.choice('!@#$%&*')}"
-    makers = {"PERSON": person, "ADDRESS": address, "SECRET": secret}
-    if split == "train":
-        # Compositional training templates: many (lead-in, entity, continuation) combinations, entities at the
-        # start/middle/end, so the model learns where an entity stops instead of memorising whole sentences.
-        # Validation/test keep their own fixed, unseen templates, so their scores stay honest.
-        lead = {
-            "PERSON": ["My full name is", "Our customer is", "The employee is called", "Please contact", "Write a reference letter for", "Hi , I am", "Forward this to",
-                       "The account holder is", "Schedule a meeting with", "The form was signed by", "Call", "My manager is", "Add a note for", "The student enrolled is", "I spoke with"],
-            "ADDRESS": ["My home address is", "Deliver the parcel to", "The customer lives at", "Send the letter to", "Ship it to", "Our new flat is at", "Update my address to",
-                        "The office is at", "Courier the box to", "Her permanent address is", "Drop the keys at", "The shop moved to", "Visit us at", "Address :"],
-            "SECRET": ["My password is", "The login password is", "Use this secret passphrase :", "My account password reads", "Log in with password", "pwd =", "password :",
-                       "The wifi key is", "My PIN and password combo is", "Set the database password to", "The vault passphrase is", "Temporary password :", "Use the password"],
-        }
-        tail = ["", "", "", "please", "and check the report", "before Friday", "by Monday", "for the new account", "and call me back", "if possible", "as soon as you can",
-                "for my records", "thanks", "and confirm by email", "next week", "today"]
-        first_phrase = {"PERSON": ["submitted the form yesterday", "asked for a refund", "joined the team last year", "will attend the meeting"],
-                        "ADDRESS": ["is where the office moved", "is our billing location", "is listed on the invoice"],
-                        "SECRET": ["is the wifi password", "is my email password", "works for the staff portal"]}
-        mixed = ["My name is {PERSON} and I live at {ADDRESS} .", "{PERSON} uses the password {SECRET} for the portal .", "Send the documents to {PERSON} at {ADDRESS} .",
-                 "Login for {PERSON} : password {SECRET}", "Name : {PERSON} , Address : {ADDRESS}",
-                 "Ask {PERSON} to reset {SECRET} today .", "{PERSON} moved to {ADDRESS} and changed the password to {SECRET} .", "Customer {PERSON} at {ADDRESS} needs a callback .",
-                 "{PERSON} shared the password {SECRET} by mistake ."]
-        negatives = templates["train"]["O"] + ["The manager reset the router yesterday .", "Our team uses strong passphrases for every account .",
-                     "Call the help desk if the login fails .", "The parcel arrived at the warehouse on time .", "Please book a room for the workshop .", "Order 4521 was shipped on Tuesday .",
-                     "The user forgot which password field to fill .", "Write an email asking for a new address form .", "The library closes at six on weekdays .",
-                     "Read chapter 7 and answer question 3 .", "Explain how a firewall filters traffic ."]
-        def train_template(kind):
-            if kind == "MIXED": index = rng.randrange(len(mixed)); return mixed[index], f"m{index}"
-            if kind == "O": index = rng.randrange(len(negatives)); return negatives[index], f"o{index}"
-            if rng.random() < 0.2:
-                index = rng.randrange(len(first_phrase[kind])); return "{%s} %s ." % (kind, first_phrase[kind][index]), f"f{index}"
-            a, b = rng.randrange(len(lead[kind])), rng.randrange(len(tail))
-            return f"{lead[kind][a]} {{{kind}}} {tail[b]} .", f"l{a}-{b}"
-    rows, seen = [], set()
-    while len(rows) < count:
-        kind = ["PERSON", "ADDRESS", "SECRET", "MIXED", "O"][len(rows) % 5]
-        if split == "train": template, template_index = train_template(kind)
-        else:
-            template_index = rng.randrange(len(templates[split][kind]))
-            template = templates[split][kind][template_index]
-        parts = []
-        for piece in re.split(r"(\{(?:PERSON|ADDRESS|SECRET)\})", template):
-            if piece.startswith("{"): parts.append((makers[piece[1:-1]](), piece[1:-1]))
-            elif piece.strip(): parts.append((piece, None))
-        # A random record id on some rows varies the context without reusing private values across splits.
-        if rng.random() < 0.5: parts.append((f"Record {rng.randrange(1000, 99999)} .", None))
-        row = compose(parts, f"{split}/{kind}/{template_index}")
-        key = tuple(row["tokens"])
-        if key not in seen: rows.append(row); seen.add(key)
-    rng.shuffle(rows)
-    return rows
-
-def validate_splits(splits):
-    fingerprints, groups = {}, {}
-    for split, rows in splits.items():
-        assert rows, f"Empty {split} split"
-        fingerprints[split], groups[split] = set(), set()
-        for index, row in enumerate(rows):
-            words, labels = row.get("tokens"), row.get("labels")
-            assert isinstance(words, list) and words and all(isinstance(x, str) and x.strip() for x in words), f"Invalid tokens at {split} row {index}"
-            assert isinstance(labels, list) and len(words) == len(labels), f"Token/label mismatch at {split} row {index}"
-            previous = "O"
-            for label in labels:
-                assert label in LABEL2ID, f"Unknown label at {split} row {index}"
-                if label.startswith("I-"):
-                    assert previous in ["B-" + label[2:], "I-" + label[2:]], f"Invalid BIO continuation at {split} row {index}"
-                previous = label
-            fingerprint = hashlib.sha256(" ".join(words).lower().encode()).hexdigest()
-            fingerprints[split].add(fingerprint)
-            if row.get("group_id"): groups[split].add(row["group_id"])
-    names = list(splits)
-    for index, a in enumerate(names):
-        for b in names[index + 1:]:
-            assert not fingerprints[a] & fingerprints[b], f"Duplicate text between {a} and {b}"
-            assert not groups[a] & groups[b], f"Template/entity group leakage between {a} and {b}"
-    for split, rows in splits.items():
-        present = {label for row in rows for label in row["labels"]}
-        assert {"B-PERSON", "B-ADDRESS", "B-SECRET"} <= present, f"{split} data must cover all three entity classes"
-
-if DATA_DIR:
-    splits = {}
-    for split in ["train", "validation", "test"]:
-        with (Path(DATA_DIR) / f"{split}.jsonl").open(encoding="utf-8") as file:
-            splits[split] = [json.loads(line) for line in file if line.strip()]
-    data_mode = "uploaded_labelled_data"
-else:
-    splits = {split: demo_split(split, count) for split, count in [("train", 4000), ("validation", 600), ("test", 600)]}
-    data_mode = "synthetic_demo_only"
-validate_splits(splits)
-data_folder = OUTPUT / "data"; data_folder.mkdir(exist_ok=True)
-for split, rows in splits.items():
-    (data_folder / f"{split}.jsonl").write_text("\n".join(json.dumps(row) for row in rows), encoding="utf-8")
-print("Data mode:", data_mode, "| Rows:", {name: len(rows) for name, rows in splits.items()})
-print("Synthetic demo scores do not estimate real-world privacy accuracy.")
-
-# %% Tokenize and align BIO labels to WordPiece tokens
-tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL, use_fast=True)
-assert tokenizer.is_fast, "A fast tokenizer is required for word/offset alignment"
-tokenizer.model_max_length = MAX_TOKENS
-def encode(row):
-    encoded = tokenizer(row["tokens"], is_split_into_words=True, truncation=False)
-    assert len(encoded["input_ids"]) <= MAX_TOKENS, "Split long labelled examples before training; no silent truncation is allowed"
-    labels, first_positions, previous = [], [], None
-    for position, word_index in enumerate(encoded.word_ids()):
-        if word_index is None: labels.append(-100)
-        else:
-            label = row["labels"][word_index]
-            if word_index != previous: first_positions.append(position)
-            elif label.startswith("B-"): label = "I-" + label[2:]
-            labels.append(LABEL2ID[label])
-        previous = word_index
-    encoded["labels"] = labels
-    return {**encoded, "first_positions": first_positions}
-encoded_splits = {name: [encode(row) for row in rows] for name, rows in splits.items()}
-padding = DataCollatorForTokenClassification(tokenizer, pad_to_multiple_of=8)
-def collate(rows):
-    positions = [row["first_positions"] for row in rows]
-    batch = padding([{key: value for key, value in row.items() if key != "first_positions"} for row in rows])
-    return batch, positions
-loaders = {name: DataLoader(rows, batch_size=BATCH_SIZE, shuffle=name == "train", collate_fn=collate, num_workers=0) for name, rows in encoded_splits.items()}
-
-# %% Train; select checkpoints using validation F1, never test F1
-model = AutoModelForTokenClassification.from_pretrained(BASE_MODEL, num_labels=len(LABELS), id2label=ID2LABEL, label2id=LABEL2ID, attn_implementation="eager").to(DEVICE)
-base_revision = getattr(model.config, "_commit_hash", None)
-parameter_count = sum(parameter.numel() for parameter in model.parameters())
-print("Parameters:", f"{parameter_count:,}")
-def scores(references, predictions):
-    options = dict(mode="strict", scheme=IOB2, zero_division=0)
-    return {
-        "precision": float(precision_score(references, predictions, **options)),
-        "recall": float(recall_score(references, predictions, **options)),
-        "f1": float(f1_score(references, predictions, **options)),
-        "per_class": classification_report(references, predictions, output_dict=True, **options),
-    }
-def evaluate_torch(loader):
-    model.eval(); references, predictions = [], []
-    with torch.inference_mode():
-        for batch, positions in loader:
-            inputs = {key: value.to(DEVICE) for key, value in batch.items() if key != "labels"}
-            guessed = model(**inputs).logits.argmax(-1).cpu().numpy()
-            for index, firsts in enumerate(positions):
-                references.append([ID2LABEL[int(batch["labels"][index, pos])] for pos in firsts])
-                predictions.append([ID2LABEL[int(guessed[index, pos])] for pos in firsts])
-    return scores(references, predictions)
-optimizer = torch.optim.AdamW(model.parameters(), lr=LEARNING_RATE, weight_decay=0.01)
-steps = EPOCHS * len(loaders["train"])
-scheduler = get_linear_schedule_with_warmup(optimizer, int(steps * 0.1), steps)
-use_amp = DEVICE.type == "cuda"
-scaler = torch.amp.GradScaler("cuda", enabled=use_amp)
-checkpoint = OUTPUT / "checkpoint"
-best_f1, history = -1.0, []
-for epoch in range(EPOCHS):
-    model.train(); total_loss = 0.0; started = time.perf_counter()
-    for batch, _ in loaders["train"]:
-        optimizer.zero_grad(set_to_none=True)
-        context = torch.autocast("cuda", dtype=torch.float16) if use_amp else nullcontext()
-        with context: loss = model(**{key: value.to(DEVICE) for key, value in batch.items()}).loss
-        scaler.scale(loss).backward(); scaler.unscale_(optimizer)
-        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
-        old_scale = scaler.get_scale(); scaler.step(optimizer); scaler.update()
-        if scaler.get_scale() >= old_scale: scheduler.step()
-        total_loss += loss.item()
-    validation = evaluate_torch(loaders["validation"])
-    history.append({"epoch": epoch + 1, "loss": total_loss / len(loaders["train"]), "validation": validation, "seconds": time.perf_counter() - started})
-    print(f"Epoch {epoch+1}/{EPOCHS}: loss={history[-1]['loss']:.4f} validation F1={validation['f1']:.4f}")
-    if validation["f1"] > best_f1:
-        best_f1 = validation["f1"]
-        model.save_pretrained(checkpoint, safe_serialization=True); tokenizer.save_pretrained(checkpoint)
-model = AutoModelForTokenClassification.from_pretrained(checkpoint, attn_implementation="eager").to(DEVICE).eval()
-torch_test = evaluate_torch(loaders["test"])
-print("Held-out PyTorch test scores:", {key: value for key, value in torch_test.items() if key != "per_class"})
-
-# %% Export FP32 ONNX and verify dynamic input lengths against PyTorch
 import onnx
 import onnxruntime as ort
-from onnxruntime.quantization import quantize_dynamic, QuantType
-export_dir = OUTPUT / "export"; export_dir.mkdir(exist_ok=True)
-fp32_path, int8_path = export_dir / "model.fp32.onnx", export_dir / "model.int8.onnx"
-model = model.cpu().float().eval(); DEVICE = torch.device("cpu")
-class ExportWrapper(torch.nn.Module):
-    def __init__(self, base): super().__init__(); self.base = base
-    def forward(self, input_ids, attention_mask, token_type_ids):
-        return self.base(input_ids=input_ids, attention_mask=attention_mask, token_type_ids=token_type_ids, return_dict=False)[0]
-INPUT_NAMES = ["input_ids", "attention_mask", "token_type_ids"]
-# Padded batch of 2 so tracing sees padding and a non-trivial attention mask.
-dummy = tokenizer(["Synthetic export example", "My name is Ayesha Rahman and I live at House 14 Example Street"], padding=True, return_tensors="pt")
-PARITY_TEXTS = [["Example"], ["A synthetic name is Ayesha Rahman", "A longer ordinary sentence about a university library and its books"],
-                ["Synthetic export example", "My name is Ayesha Rahman and I live at House 14 Example Street"]]
-session_options = ort.SessionOptions(); session_options.intra_op_num_threads = 1
-def export_onnx(use_dynamo):
-    fp32_path.unlink(missing_ok=True)
-    # Export under no_grad, NOT inference_mode: tracing inference tensors can bake wrong constants into the graph.
-    with torch.no_grad():
-        # A new wrapper module starts in training mode; the exporter restores that mode afterwards,
-        # which would switch the inner BERT back to training (dropout on). Keep everything in eval mode.
-        torch.onnx.export(ExportWrapper(model).eval(), tuple(dummy[key] for key in INPUT_NAMES), str(fp32_path),
-            input_names=INPUT_NAMES, output_names=["logits"], opset_version=18 if use_dynamo else 17, dynamo=use_dynamo, external_data=False,
-            dynamic_axes={name: {0: "batch", 1: "sequence"} for name in INPUT_NAMES + ["logits"]})
-    onnx.checker.check_model(str(fp32_path))
-    return ort.InferenceSession(str(fp32_path), sess_options=session_options, providers=["CPUExecutionProvider"])
-def parity_max_diff(session):
-    model.eval()  # reference outputs must come from eval mode (no dropout)
-    worst = 0.0
-    for texts in PARITY_TEXTS:
-        sample = tokenizer(texts, padding=True, return_tensors="pt")
-        with torch.no_grad(): expected = model(**sample).logits.numpy()
-        actual = session.run(None, {item.name: sample[item.name].numpy().astype(np.int64) for item in session.get_inputs()})[0]
-        mask = sample["attention_mask"].numpy().astype(bool)  # padded positions are never read
-        diff = float(np.max(np.abs(actual[mask] - expected[mask])))
-        print(f"  batch={len(texts)} seq={sample['input_ids'].shape[1]} max |diff|={diff:.2e}")
-        worst = max(worst, diff)
-    return worst
-fp32_session, export_method = None, None
-for use_dynamo in (False, True):
-    label = "dynamo" if use_dynamo else "legacy TorchScript"
-    print(f"Trying {label} ONNX export...")
-    try:
-        candidate = export_onnx(use_dynamo)
-    except Exception as error:
-        print(f"  {label} export failed: {type(error).__name__}: {str(error)[:300]}")
-        continue
-    worst = parity_max_diff(candidate)
-    if worst <= 1e-3:
-        fp32_session, export_method = candidate, label
-        break
-    print(f"  {label} export does not match PyTorch (max diff {worst:.3f}); trying next exporter.")
-if fp32_session is None:
-    raise RuntimeError("No ONNX export matched PyTorch outputs. Copy the printed diffs and package versions when reporting this.")
-print(f"FP32 ONNX/PyTorch parity passed with the {export_method} exporter for different batch sizes and sequence lengths.")
+import phonenumbers as pn
+import pycountry
+import torch
+from faker import Faker
+from faker.config import AVAILABLE_LOCALES
+from schwifty import IBAN, registry
+from schwifty.exceptions import InvalidCountryCode
+from torch import nn
+from torch.utils.data import DataLoader
 
-# %% Quantize, evaluate both exports, and choose using validation only
-def evaluate_onnx(session, loader):
-    references, predictions = [], []
-    for batch, positions in loader:
-        feed = {item.name: batch[item.name].numpy().astype(np.int64) for item in session.get_inputs()}
-        guessed = session.run(None, feed)[0].argmax(-1)
-        for index, firsts in enumerate(positions):
-            references.append([ID2LABEL[int(batch["labels"][index, pos])] for pos in firsts])
-            predictions.append([ID2LABEL[int(guessed[index, pos])] for pos in firsts])
-    return scores(references, predictions)
-fp32_validation = evaluate_onnx(fp32_session, loaders["validation"])
-fp32_test = evaluate_onnx(fp32_session, loaders["test"])
-selected_path, selected_session, quantization = fp32_path, fp32_session, {"status": "not completed"}
-try:
-    quantize_dynamic(str(fp32_path), str(int8_path), weight_type=QuantType.QInt8, op_types_to_quantize=["MatMul", "Gemm"])
-    int8_session = ort.InferenceSession(str(int8_path), sess_options=session_options, providers=["CPUExecutionProvider"])
-    int8_validation = evaluate_onnx(int8_session, loaders["validation"])
-    if int8_validation["f1"] >= fp32_validation["f1"] - MAX_QUANTIZED_VALIDATION_F1_DROP:
-        selected_path, selected_session = int8_path, int8_session
-    quantization = {"status": "completed", "validation": int8_validation, "test": evaluate_onnx(int8_session, loaders["test"])}
-except Exception as error:
-    quantization = {"status": "failed; FP32 retained", "error_type": type(error).__name__}
-selected_test = evaluate_onnx(selected_session, loaders["test"])
-sample = tokenizer("Synthetic example " * 30, truncation=True, max_length=128, return_tensors="np")
-feed = {item.name: sample[item.name].astype(np.int64) for item in selected_session.get_inputs()}
-for _ in range(5): selected_session.run(None, feed)
-timings = []
-for _ in range(30):
-    start = time.perf_counter(); selected_session.run(None, feed); timings.append((time.perf_counter() - start) * 1000)
-report = {
-    "data_mode": data_mode, "seed": SEED, "base_model": BASE_MODEL, "base_revision": base_revision,
-    "parameter_count": parameter_count, "split_sizes": {name: len(rows) for name, rows in splits.items()},
-    "metric_method": "Strict IOB2 entity precision/recall/F1 at original word boundaries; test split never used for checkpoint or quantization selection.",
-    "history": history, "pytorch_test": torch_test, "onnx_fp32_validation": fp32_validation, "onnx_fp32_test": fp32_test,
-    "quantization": quantization, "onnx_export_method": export_method, "selected_export": selected_path.name, "selected_test": selected_test,
-    "file_bytes": {path.name: path.stat().st_size for path in [fp32_path, int8_path] if path.exists()},
-    "python_cpu_ort_timing": {"tokens": int(sample["input_ids"].shape[1]), "median_ms": float(np.median(timings)), "p95_ms": float(np.percentile(timings, 95)), "threads": 1, "runs": 30},
-    "limitations": ["Synthetic demo data is not representative of deployment", "CPU ONNX timing is not browser/WASM timing", "Browser memory, startup and operator compatibility not measured", "Privacy intent and non-English support not established", "Scores are not calibrated privacy probabilities"],
+SMOKE = os.getenv("PP_SMOKE") == "1"  # Set True for a quick pipeline check.
+SEED = 3801
+SIZES = dict(zip(("train", "validation", "test"), (240, 80, 80) if SMOKE else (100_000, 5_000, 5_000)))
+EPOCHS, BATCH_SIZE = (1, 32) if SMOKE else (12, 96)
+MODEL_WIDTH = 64
+LEARNING_RATE = .0007
+PATIENCE = 4
+EXTRA_DATA = None  # Optional Path("/kaggle/input/YOUR-DATASET") with three JSONL files.
+OUTPUT = Path(os.getenv("PP_OUTPUT", "/kaggle/working/promptprivacy-global"))
+OUTPUT.mkdir(parents=True, exist_ok=True)
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+torch.manual_seed(SEED)
+torch.set_num_threads(min(4, torch.get_num_threads()))
+Faker.seed(SEED)
+KINDS = ("PERSON", "ADDRESS", "PHONE", "EMAIL", "NATIONAL_ID", "PASSPORT",
+         "BANK_ACCOUNT", "IBAN", "PAYMENT_CARD", "API_KEY", "PASSWORD", "PIN")
+TAGS = ["O"] + [f"{prefix}-{kind}" for kind in KINDS for prefix in ("B", "I")]
+BEGIN = {kind: TAGS.index("B-" + kind) for kind in KINDS}
+print("Training device:", DEVICE, "documents:", SIZES, "smoke run:", SMOKE)
+
+# %% Define international formats and multilingual field names
+# Localized Faker methods are used only when the installed locale defines the
+# relevant provider. This avoids counting a US fallback as another country.
+LOCALES = sorted(loc for loc in AVAILABLE_LOCALES if len(loc.split("_")) == 2
+                 and (loc.split("_")[1] == "XK" or pycountry.countries.get(alpha_2=loc.split("_")[1])))
+PHONE_REGIONS = sorted(pn.SUPPORTED_REGIONS)
+def iban_regions():
+    regions = []
+    for a in string.ascii_uppercase:
+        for b in string.ascii_uppercase:
+            try:
+                spec = registry.get_iban_spec(a + b)
+            except InvalidCountryCode:
+                continue
+            if not spec.aspirational:
+                regions.append(a + b)
+    return regions
+
+IBAN_REGIONS = iban_regions()
+ACCOUNT_REGIONS = [r for r in IBAN_REGIONS if "account_code" in registry.get_iban_spec(r).positions]
+DOMESTIC = {"AU": (6, 9), "CA": (7, 12), "GB": (8, 8), "IN": (9, 18),
+            "JP": (7, 7), "NZ": (15, 16), "US": (8, 17), "PK": (10, 16)}
+# Domestic numbers are length/shape examples. Bank-specific routing and
+# checksum rules aren't modeled. Payment card networks are international.
+CAPTIONS = {
+    "en": ("name","home address","phone","email","national ID","passport","account number","IBAN","debit card","API key","password","PIN"),
+    "es": ("nombre","domicilio","teléfono","correo","identificación","pasaporte","número de cuenta","IBAN","tarjeta","clave API","contraseña","PIN"),
+    "fr": ("nom","adresse","téléphone","courriel","identifiant national","passeport","compte bancaire","IBAN","carte bancaire","clé API","mot de passe","code PIN"),
+    "de": ("Name","Anschrift","Telefon","E-Mail","Steuer-ID","Reisepass","Kontonummer","IBAN","Kartennummer","API-Schlüssel","Passwort","PIN"),
+    "pt": ("nome","endereço","telefone","e-mail","identificação","passaporte","conta bancária","IBAN","cartão","chave de API","senha","PIN"),
+    "ar": ("الاسم","العنوان","الهاتف","البريد الإلكتروني","رقم الهوية","جواز السفر","رقم الحساب","آيبان","رقم البطاقة","مفتاح API","كلمة المرور","الرقم السري"),
+    "ur": ("نام","پتہ","فون نمبر","ای میل","شناختی نمبر","پاسپورٹ","اکاؤنٹ نمبر","آئی بین","کارڈ نمبر","اے پی آئی کلید","پاس ورڈ","پن"),
+    "hi": ("नाम","पता","फ़ोन","ईमेल","पहचान संख्या","पासपोर्ट","खाता संख्या","आईबीएएन","कार्ड नंबर","एपीआई कुंजी","पासवर्ड","पिन"),
+    "zh": ("姓名","住址","电话号码","电子邮箱","身份证号","护照号","银行账号","国际银行账号","银行卡号","API密钥","密码","银行卡密码"),
+    "ja": ("氏名","住所","電話番号","メール","個人番号","旅券番号","口座番号","IBAN","カード番号","APIキー","パスワード","暗証番号"),
 }
-def json_default(value):
-    # seqeval's per-class report contains numpy numbers (e.g. int64 support counts).
-    if isinstance(value, np.integer): return int(value)
-    if isinstance(value, np.floating): return float(value)
-    if isinstance(value, np.ndarray): return value.tolist()
-    raise TypeError(f"Object of type {type(value).__name__} is not JSON serializable")
-(OUTPUT / "training-report.json").write_text(json.dumps(report, indent=2, default=json_default), encoding="utf-8")
-print("Selected:", selected_path.name, "| Test:", {key: value for key, value in selected_test.items() if key != "per_class"})
-print("Export sizes (MiB):", {key: round(value / 2**20, 2) for key, value in report["file_bytes"].items()})
-print("Timing is Python CPU ONNX Runtime, NOT browser performance:", report["python_cpu_ort_timing"])
+PREFIXES = {
+    "train": ("", "Please check this entry.\n", "Details for the update: ", "Copy below → ", "注記：", "براہ کرم دیکھیں۔ "),
+    "validation": ("Here is my correction.\n", "Valeur transmise : ", "入力内容："),
+    "test": ("From the support transcript:\n", "Dato recibido → ", "اپ ڈیٹ: "),
+}
+# A distinct set of outer templates per split, with varied formatting inside.
+WRAPPERS = {
+    "train": ("{k}: {v}", "{k} = '{v}'", "«{v}» ({k})", '"{k}":"{v}"', "{k} → {v}"),
+    "validation": ("{k} | {v}", "{v} [{k}]", "• {k}\n{v}"),
+    "test": ("{k} was entered as {v}", "〔{k}〕{v}", "{v}  // {k}"),
+}
+BENIGN = {
+    "train": ("The parcel weighs {} grams.", "Product SKU {} is on sale.", "Page {} lists the account policies.", "Build {} passed all tests."),
+    "validation": ("Stock remaining: {} units.", "Refer to document revision {}.", "Library shelf {} is closed."),
+    "test": ("Move {} boxes to aisle four.", "Invoice reference {} needs review.", "Issue {} discusses password length."),
+}
+NO_VALUE = {
+    "train": ("Please remove the password field.", "Email is optional.", "カード番号は未入力です。"),
+    "validation": ("I left my PIN blank.", "Aucun numéro de compte fourni."),
+    "test": ("Can I reset my password?", "El formulario solicita un teléfono.", "شناختی نمبر درج نہیں ہے۔"),
+}
+PHRASES = {
+    "train": ("My {k} is {v}", "Please update my {k} to {v}", "Use {v} for my {k}"),
+    "validation": ("I wrote {v} under {k}", "Their recorded {k} reads {v}"),
+    "test": ("For the {k} field I gave them {v}", "That {k} should read {v}"),
+}
+# Natural requests carry clues even when the literal field name is absent.
+CONTEXT = {
+    "PHONE": ("Llámame al {v} después de las cinco.", "للتواصل معي اتصل على {v}.", "A callback would reach me at {v}."),
+    "EMAIL": ("Écrivez-moi à {v} demain.", "返信は{v}までお願いします。", "Would you forward the notes to {v}?"),
+    "IBAN": ("Bitte an {v} überweisen.", "Envoyez le virement à {v}.", "La transferencia debe llegar a {v}."),
+    "BANK_ACCOUNT": ("Please deposit it into {v}.", "اس اکاؤنٹ میں بھیجیں: {v}۔", "振込先の口座は{v}です。"),
+    "PAYMENT_CARD": ("Cobren la compra a la tarjeta {v}.", "I paid with debit card {v}.", "Le numéro sur ma carte est {v}."),
+    "NATIONAL_ID": ("Mi identificación dice {v}.", "میرا شناختی نمبر {v} ہے۔", "They copied {v} from my identity card."),
+    "PASSPORT": ("Mi documento de viaje lleva el número {v}.", "Le numéro de mon passeport est {v}.", "My travel document is numbered {v}."),
+    "API_KEY": ("Set the API credential to {v} before starting.", "انسخ مفتاح الخدمة {v}.", "Pour authentifier la requête, utilisez {v}."),
+    "PASSWORD": ("Me conecto con la frase {v}.", "ログイン用のパスワードは{v}です。", "The words I use to sign in are {v}."),
+    "PIN": ("At the ATM I enter {v}.", "Le code du distributeur est {v}.", "کارڈ کا خفیہ پن {v} ہے۔"),
+    "PERSON": ("La réservation est au nom de {v}.", "Please address the letter to {v}.", "میرا نام {v} ہے۔"),
+    "ADDRESS": ("Please deliver the parcel to {v}.", "Envía la carta a {v}.", "郵送先は{v}です。"),
+}
+LONG_FILLER = ("Please keep the same order when editing these notes. ",
+               "Les paragraphes suivants décrivent le fonctionnement du service. ",
+               "Die Reihenfolge der Abschnitte soll erhalten bleiben. ",
+               "次の文章を読み、自然な文に書き直してください。")
 
-# %% Package only browser artifacts, tokenizer parity fixtures and reports
-bundle = OUTPUT / "browser-bundle"; bundle.mkdir(exist_ok=True)
-shutil.copy2(selected_path, bundle / "model.onnx")
-tokenizer.save_pretrained(bundle); model.config.save_pretrained(bundle)
-parity_texts = ["My name is Ayesha Rahman.", "House 14 Example Street", "password: demo-blue-47", "Two\nlines", "Unicode café and emoji 😀", "Literal <script> and [a-z]+"]
+@lru_cache(maxsize=None)
+def phone_shapes(region):
+    shapes = set()
+    for kind in (pn.PhoneNumberType.MOBILE, pn.PhoneNumberType.FIXED_LINE):
+        number = pn.example_number_for_type(region, kind)
+        if number:
+            for style in (pn.PhoneNumberFormat.E164, pn.PhoneNumberFormat.NATIONAL, pn.PhoneNumberFormat.INTERNATIONAL):
+                shapes.add(pn.format_number(number, style))
+    return sorted(shapes)
+
+PHONE_REGIONS = [region for region in PHONE_REGIONS if phone_shapes(region)]
+
+def local_provider(fake, provider, locale):
+    module = f"faker.providers.{provider}.{locale}"
+    return any(type(item).__module__ == module for item in fake.get_providers())
+
+def localized_pools(seed):
+    pools = defaultdict(list)
+    for idx, locale in enumerate(LOCALES):
+        fake = Faker(locale)
+        fake.seed_instance(seed + idx)
+        for kind, provider in (("PERSON","person"), ("ADDRESS","address"), ("NATIONAL_ID","ssn"), ("PASSPORT","passport")):
+            if local_provider(fake, provider, locale):
+                pools[kind].append((locale.split("_")[1], fake))
+    return pools
+
+def random_chars(rng, alphabet, n):
+    return "".join(rng.choices(alphabet, k=n))
+
+def digits(rng, n):
+    return random_chars(rng, string.digits, n)
+
+def value_for(kind, rng, pools, card_faker):
+    if kind == "PHONE":
+        region = rng.choice(PHONE_REGIONS)
+        shape = rng.choice(phone_shapes(region))
+        # Vary subscriber digits, preserving the provider's separators/prefix.
+        chars = list(shape)
+        positions = [i for i, ch in enumerate(chars) if ch.isdecimal()]
+        for i in positions[-min(5, len(positions) - 3):]:
+            chars[i] = rng.choice(string.digits)
+        return "".join(chars), region
+    if kind == "IBAN":
+        region = rng.choice(IBAN_REGIONS)
+        account = IBAN.random(country_code=region, use_registry=False, random=rng)
+        return (account.formatted if rng.getrandbits(1) else str(account)), region
+    if kind == "BANK_ACCOUNT":
+        if rng.random() < .55:
+            region = rng.choice(ACCOUNT_REGIONS)
+            return IBAN.random(country_code=region, use_registry=False, random=rng).account_code, region
+        region = rng.choice(sorted(DOMESTIC))
+        return digits(rng, rng.randint(*DOMESTIC[region])), region
+    if kind == "NATIONAL_ID" and rng.randrange(8) == 0:
+        return f"{digits(rng,5)}-{digits(rng,7)}-{digits(rng,1)}", "PK"
+    if kind == "PASSPORT" and rng.random() < .5:
+        shape = rng.choice(("A#######", "AA#######", "#########", "## ## ######", "A########", "AA######"))
+        value = "".join(rng.choice(string.ascii_uppercase) if c == "A" else rng.choice(string.digits) if c == "#" else c for c in shape)
+        return value, "generic"
+    if kind in ("PERSON", "ADDRESS", "NATIONAL_ID", "PASSPORT"):
+        region, fake = rng.choice(pools[kind])
+        method = {"PERSON":"name", "ADDRESS":"address", "NATIONAL_ID":"ssn", "PASSPORT":"passport_number"}[kind]
+        return str(getattr(fake, method)()).strip(), region
+    if kind == "PAYMENT_CARD":
+        number = card_faker.credit_card_number(card_type=rng.choice(("visa", "mastercard", "amex", "discover", "jcb")))
+        separator = rng.choice(("", " ", "-"))
+        groups = [number[:4], number[4:10], number[10:]] if len(number) == 15 else [number[i:i+4] for i in range(0, len(number), 4)]
+        return separator.join(groups), "global"
+    if kind == "EMAIL":
+        stem = rng.choice(("sam", "mira", "éloïse", "测试", "javed", "سارا", "olga", "info"))
+        suffix = random_chars(rng, string.ascii_lowercase, rng.randint(3, 9))
+        domain = rng.choice(("example.com", "example.net", "example.org", "mail.example", "例子.test", "service.test"))
+        return f"{stem}{rng.choice(('.', '+', '_', ''))}{suffix}@{domain}", "global"
+    if kind == "API_KEY":
+        prefix, alphabet, length = rng.choice([
+            ("sk-", string.ascii_letters + string.digits, 40), ("ghp_", string.ascii_letters + string.digits, 36),
+            ("AKIA", string.ascii_uppercase + string.digits, 16), ("", string.hexdigits.lower()[:16], 32),
+            ("key_", string.ascii_letters + string.digits + "_-", 32),
+        ])
+        return prefix + random_chars(rng, alphabet, length), "global"
+    if kind == "PASSWORD":
+        words = ("acorn", "beacon", "cactus", "drift", "elm", "fable", "garnet", "harbor",
+                 "iris", "juniper", "kiwi", "lantern", "meadow", "nectar", "otter", "pebble",
+                 "quartz", "raven", "spruce", "thistle", "umbra", "violet", "willow", "zephyr",
+                 "星", "آم", "pluie", "lune", "casa", "azul", "morgen", "blume")
+        style = rng.randrange(5)
+        if style < 4:
+            chosen = rng.choices(words, k=rng.randint(2, 5))
+            if style == 0:
+                chosen = [w.title() for w in chosen]
+            value = rng.choice((" ", "-", "", "!", "_")).join(chosen)
+            if style == 2:
+                value += rng.choice(("!", "#", ".")) + digits(rng, rng.randint(1, 4))
+            return value, "global"
+        return random_chars(rng, string.ascii_letters + string.digits + "!@-_.", rng.randint(7, 23)), "global"
+    if kind == "PIN":
+        return digits(rng, rng.choice((4, 5, 6))), "global"
+    raise ValueError(kind)
+
+# %% Build distinct document splits and validate exact character spans
+def normalized(value):
+    return " ".join(unicodedata.normalize("NFKC", value).casefold().split())
+
+def identity(kind, value):
+    key = normalized(value)
+    if kind in ("PHONE", "PAYMENT_CARD", "IBAN", "NATIONAL_ID", "BANK_ACCOUNT"):
+        key = "".join(ch for ch in key if ch.isalnum())
+        key = "".join(str(unicodedata.decimal(ch)) if ch.isdecimal() else ch for ch in key)
+    return kind, key
+
+def validate(row):
+    text = row["text"]
+    if not isinstance(text, str) or not text.strip() or not isinstance(row["spans"], list):
+        raise ValueError("Expected nonempty text and a spans array")
+    end = 0
+    for span in row["spans"]:
+        a, b = span["start"], span["end"]
+        if (type(a) is not int or type(b) is not int or not end <= a < b <= len(text)
+                or span["label"] not in BEGIN or not text[a:b].strip()):
+            raise ValueError("Invalid or overlapping span. Use sorted Unicode code point offsets.")
+        end = b
+
+def benign_fragment(rng, split):
+    number = rng.choice((digits(rng, 12), digits(rng, 4), f"{digits(rng,3)}-{digits(rng,4)}",
+                         f"v{rng.randrange(10)}.{rng.randrange(80)}.{rng.randrange(1000)}",
+                         "0x" + random_chars(rng, "ABCDEF0123456789", 8)))
+    confusable = {
+        "train": ("Tracking reference {} belongs to a parcel.", "The product code is {}.",
+                  "The password field accepts {} characters.", "The stack pointer is {}."),
+        "validation": ("Shipment ticket {} has been closed.", "There are {} entries in this list."),
+        "test": ("Inventory item {} needs restocking.", "The report contains {} rows."),
+    }
+    return rng.choice((*BENIGN[split], *confusable[split])).format(number)
+
+FOCUSED_CONTEXT = {
+    "PASSWORD": {
+        "train": ('The login password is "{v}".', "To sign in, enter {v} in the password box.",
+                  "I changed my passphrase to {v} yesterday.", 'password: "{v}"',
+                  "Agent: Which password did you set?\nCustomer: {v}", "| login password | {v} |"),
+        "validation": ("My chosen password reads '{v}' in the setup notes.", "The passphrase saved for login was {v}."),
+        "test": ("I supplied '{v}' as the password during enrollment.", "For authentication my password would be {v}."),
+    },
+    "PASSPORT": {
+        "train": ("The passport number on my travel document is {v}.", 'passport_number: "{v}"',
+                  "Travel agent: Your passport number?\nPassenger: {v}", "| passport number | {v} |"),
+        "validation": ("The border form shows passport '{v}'.", "My travel document number is recorded as {v}."),
+        "test": ("The airline requested my passport number, which is {v}.", "I registered passport '{v}' for this trip."),
+    },
+}
+
+def build_generated(split, count, seed, earlier_values, seen_text):
+    rng = random.Random(seed)
+    pools = localized_pools(seed)
+    card_faker = Faker("en_US")
+    card_faker.seed_instance(seed)
+    # Round-robin the primary positive class to avoid rare format starvation.
+    schedule = [*KINDS, "PASSWORD", "PASSWORD", "PASSPORT", "PASSPORT"]
+    rng.shuffle(schedule)
+    next_kind = 0
+    rows, current_values = [], set()
+    while len(rows) < count:
+        parts, spans = [], []
+        prefix = rng.choice(PREFIXES[split])
+        if rng.random() < .025:
+            prefix += "".join(rng.choices(LONG_FILLER, k=rng.randint(6, 15))) + "\n"
+        if rng.random() < .25:
+            parts.append(prefix + benign_fragment(rng, split))
+            if rng.random() < .45:
+                lang = rng.choice(list(CAPTIONS))
+                parts.append(" " + rng.choice(WRAPPERS[split]).format(k=rng.choice(CAPTIONS[lang]),
+                             v=rng.choice(("[redacted]", "—", "N/A", "••••", "[omitted]"))))
+            if rng.random() < .50:
+                parts.append(" " + rng.choice(NO_VALUE[split]))
+        else:
+            primary = schedule[next_kind % len(schedule)]
+            kinds = [primary]
+            if rng.random() < .48:
+                kinds += rng.sample([k for k in KINDS if k != primary], rng.randint(1, 3))
+            lang = rng.choice(list(CAPTIONS))
+            parts.append(prefix)
+            if rng.random() < .25:
+                parts.append(benign_fragment(rng, split) + "\n")
+            for j, kind in enumerate(kinds):
+                if j:
+                    parts.append(rng.choice(("; ", "\n", " | ", ", ")))
+                for attempt in range(100):
+                    value, region = value_for(kind, rng, pools, card_faker)
+                    if value and identity(kind, value) not in earlier_values:
+                        break
+                else:
+                    raise ValueError(f"No new example for {kind}")
+                if lang in ("ar", "ur", "hi") and kind in ("PHONE", "BANK_ACCOUNT", "PIN") and rng.random() < .4:
+                    glyphs = {"ar":"٠١٢٣٤٥٦٧٨٩", "ur":"۰۱۲۳۴۵۶۷۸۹", "hi":"०१२३४५६७८९"}
+                    value = value.translate(str.maketrans(string.digits, glyphs[lang]))
+                caption = CAPTIONS[lang][KINDS.index(kind)]
+                wrapper = rng.choice(WRAPPERS[split])
+                if lang == "en" and rng.random() < .5:
+                    wrapper = rng.choice(PHRASES[split])
+                if rng.random() < .20:
+                    wrapper = CONTEXT[kind][("train","validation","test").index(split)]
+                if kind in FOCUSED_CONTEXT and rng.random() < .70:
+                    wrapper = rng.choice(FOCUSED_CONTEXT[kind][split])
+                # Some values have no field hint, as in pasted lists and prose.
+                if kind in ("EMAIL", "PHONE", "PAYMENT_CARD", "IBAN", "PERSON", "ADDRESS") and rng.random() < .22:
+                    wrapper = "{v}"
+                left, right = wrapper.split("{v}")
+                parts.append(left.format(k=caption))
+                start = sum(map(len, parts))
+                parts.extend((value, right.format(k=caption)))
+                spans.append(dict(start=start, end=start + len(value), label=kind, region=region))
+                assert "".join(parts)[start:start+len(value)] == value
+            if rng.random() < .28:
+                parts.append("\n" + benign_fragment(rng, split))
+        doc = "".join(parts)
+        key = normalized(doc)
+        if key in seen_text:
+            continue
+        seen_text.add(key)
+        for s in spans:
+            current_values.add(identity(s["label"], doc[s["start"]:s["end"]]))
+        if spans:
+            next_kind += 1
+        rows.append(dict(text=doc, spans=spans, source="generator"))
+    earlier_values.update(current_values)
+    return rows
+
+def load_splits():
+    earlier_values, seen_text, group_split, result = set(), set(), {}, {}
+    for i, (split, size) in enumerate(SIZES.items()):
+        rows = build_generated(split, size, SEED + 1001*i, earlier_values, seen_text)
+        if EXTRA_DATA is not None:
+            with (Path(EXTRA_DATA) / f"{split}.jsonl").open(encoding="utf-8") as stream:
+                for line_no, line in enumerate(stream, 1):
+                    if not line.strip():
+                        continue
+                    row = json.loads(line)
+                    validate(row)
+                    group = row.get("group_id")
+                    if not isinstance(group, str) or not group or group_split.setdefault(group, split) != split:
+                        raise ValueError(f"Missing or overlapping group at {split}:{line_no}")
+                    key = normalized(row["text"])
+                    if key in seen_text:
+                        raise ValueError(f"Duplicate document at {split}:{line_no}")
+                    seen_text.add(key)
+                    row["source"] = "attached"
+                    rows.append(row)
+        for row in rows:
+            validate(row)
+        result[split] = rows
+    return result
+
+def coverage(rows):
+    kinds = {kind: Counter() for kind in KINDS}
+    for row in rows:
+        for s in row["spans"]:
+            kinds[s["label"]][s.get("region", "unspecified")] += 1
+    return {"documents":len(rows), "benign":sum(not r["spans"] for r in rows),
+            "sources":dict(Counter(r["source"] for r in rows)), "spans_by_region":kinds}
+
+splits = load_splits()
+data_report = {name: coverage(rows) for name, rows in splits.items()}
+for name, info in data_report.items():
+    print(name, info["documents"], "documents /", info["benign"], "benign")
+    print({kind: (sum(by_region.values()), len(by_region)) for kind, by_region in info["spans_by_region"].items()})
+
+# %% Encode Unicode text and window long documents without losing entities
+BUCKETS = 4096
+CORE, HALO = 256, 64
+DILATIONS = (1, 2, 4, 8, 16)
+assert HALO >= 2 * sum(DILATIONS)  # kernel 5 gives two positions of context per dilation
+
+def encode(text):
+    return np.fromiter(map(char_id, text), dtype=np.int16, count=len(text))
+
+CHAR_GROUPS = ("Nd", "Lu", "Ll", "L", "M", "P", "Z")
+
+def shape_group(ch):
+    category = unicodedata.category(ch)
+    for i, prefix in enumerate(CHAR_GROUPS):
+        if category.startswith(prefix):
+            return i
+    return len(CHAR_GROUPS)
+
+@lru_cache(maxsize=32768)
+def char_id(ch):
+    n = ord(ch)
+    if n < 128:
+        return n + 1
+    group_size = BUCKETS // (len(CHAR_GROUPS) + 1)
+    return 129 + group_size * shape_group(ch) + n % group_size
+
+def windows(length):
+    for start in range(0, length, CORE):
+        stop = min(length, start + CORE)
+        yield max(0, start - HALO), min(length, stop + HALO), start, stop
+
+def encode_split(rows):
+    pieces = []
+    for doc_id, row in enumerate(rows):
+        x = encode(row["text"])
+        y = np.zeros(len(x), dtype=np.int8)
+        for s in row["spans"]:
+            a, b = s["start"], s["end"]
+            y[a] = BEGIN[s["label"]]
+            y[a+1:b] = y[a] + 1
+        for left, right, start, stop in windows(len(x)):
+            target = np.full(right-left, -100, dtype=np.int8)
+            target[start-left:stop-left] = y[start:stop]
+            pieces.append((x[left:right], target, doc_id, left, start, stop))
+    return pieces
+
+def collate(batch):
+    width = max(len(item[0]) for item in batch)
+    x = np.zeros((len(batch), width), dtype=np.int32)
+    y = np.full_like(x, -100)
+    for i, (ids, targets, *_) in enumerate(batch):
+        x[i, :len(ids)] = ids
+        y[i, :len(ids)] = targets
+    return torch.from_numpy(x), torch.from_numpy(y), [item[2:] for item in batch]
+
+pieces = {name: encode_split(rows) for name, rows in splits.items()}
+print("Windows by split:", {k: len(v) for k,v in pieces.items()})
+
+# %% Define the compact character model and exact-span scoring
+class SpanCNN(nn.Module):
+    def __init__(self, width=MODEL_WIDTH):
+        super().__init__()
+        self.embedding = nn.Embedding(129 + BUCKETS, width, padding_idx=0)
+        # Start digits and characters of similar shape close together. Every
+        # character embedding remains trainable, including punctuation.
+        group_size = BUCKETS // (len(CHAR_GROUPS) + 1)
+        groups = [shape_group(chr(i)) for i in range(128)] + [i // group_size for i in range(BUCKETS)]
+        with torch.no_grad():
+            prototypes = torch.randn(len(CHAR_GROUPS) + 1, width)
+            self.embedding.weight[1:].mul_(.25).add_(prototypes[groups])
+        self.layers = nn.ModuleList(nn.Conv1d(width, width, 5, padding=2*d, dilation=d) for d in DILATIONS)
+        # Predict entity category and start/continuation separately so every
+        # category supplies training signal for the same boundary decision.
+        self.head = nn.Conv1d(width, len(KINDS) + 2, 1)
+        self.dropout = nn.Dropout(.10)
+
+    def forward(self, ids):
+        mask = (ids != 0).unsqueeze(1)
+        h = self.embedding(ids).transpose(1, 2)
+        for layer in self.layers:
+            h = (h + self.dropout(torch.relu(layer(h)))) * mask
+        features = self.head(h).transpose(1, 2)
+        categories, onset = features[:, :, 1:-1], features[:, :, -1:]
+        begin = categories - nn.functional.softplus(-onset)
+        inside = categories - nn.functional.softplus(onset)
+        return torch.cat((features[:, :, :1], torch.stack((begin, inside), dim=-1).flatten(2)), dim=-1)
+
+def decode(ids):
+    spans, active, start = set(), None, 0
+    for i, tag in enumerate([*ids, 0]):
+        kind = KINDS[(tag-1)//2] if tag else None
+        if tag and tag % 2 == 0 and active == kind:
+            continue
+        if active is not None:
+            spans.add((active, start, i))
+        # An isolated continuation starts a candidate at the current character.
+        # Exact-span scoring still penalizes a late start or an early end.
+        active, start = kind, i
+    return spans
+
+def metrics(tp, fp, fn):
+    return {"tp":tp, "fp":fp, "fn":fn, "precision":tp/max(1,tp+fp), "recall":tp/max(1,tp+fn),
+            "f1":2*tp/max(1,2*tp+fp+fn)}
+
+def score(rows, cut, predict):
+    streams = [np.empty(len(row["text"]), dtype=np.int16) for row in rows]
+    for x, _, offsets in DataLoader(cut, batch_size=BATCH_SIZE, collate_fn=collate):
+        tags = predict(x)
+        for seq, (doc_id, left, a, b) in zip(tags, offsets):
+            streams[doc_id][a:b] = seq[a-left:b-left]
+    return score_spans(rows, (decode(ids.tolist()) for ids in streams))
+
+def score_spans(rows, predictions):
+    counts = {kind:[0,0,0] for kind in KINDS}
+    by_source = defaultdict(lambda: [0,0,0])
+    by_region = defaultdict(lambda: defaultdict(lambda: {"support":0, "exact_hits":0}))
+    false_alarms = benign = 0
+    for row, found in zip(rows, predictions, strict=True):
+        truth = {(s["label"], s["start"], s["end"]) for s in row["spans"]}
+        for s in row["spans"]:
+            cell = by_region[s["label"]][s.get("region", "unspecified")]
+            cell["support"] += 1
+            cell["exact_hits"] += (s["label"], s["start"], s["end"]) in found
+        benign += not truth
+        false_alarms += int(not truth and bool(found))
+        for index, items in enumerate((truth & found, found - truth, truth - found)):
+            by_source[row["source"]][index] += len(items)
+            for kind, _, _ in items:
+                counts[kind][index] += 1
+    return {"overall":metrics(*map(sum, zip(*counts.values()))), "by_category":{k:metrics(*v) for k,v in counts.items()},
+            "by_source":{k:metrics(*v) for k,v in by_source.items()}, "benign_documents":benign,
+            "benign_false_alarms":false_alarms, "regional_recall_counts":by_region}
+
+# %% Train on Kaggle and choose a checkpoint using validation F1
+model = SpanCNN().to(DEVICE)
+optimizer = torch.optim.AdamW(model.parameters(), lr=LEARNING_RATE)
+scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode="max", patience=1, factor=.5)
+tag_counts = np.bincount(np.concatenate([y[y >= 0] for _, y, *_ in pieces["train"]]), minlength=len(TAGS))
+weights = np.clip((max(tag_counts)/np.maximum(1,tag_counts))**.35, 1, 6).astype(np.float32)
+loss_fn = nn.CrossEntropyLoss(weight=torch.from_numpy(weights).to(DEVICE), ignore_index=-100)
+train_loader = DataLoader(pieces["train"], batch_size=BATCH_SIZE, shuffle=True, collate_fn=collate,
+                          generator=torch.Generator().manual_seed(SEED))
+train_sample = splits["train"][:min(1000, len(splits["train"]))]
+train_sample_pieces = encode_split(train_sample)
+best_f1, best_epoch, history = -1, 0, []
+for epoch in range(1, EPOCHS + 1):
+    model.train()
+    loss_sum, batches = 0., 0
+    for x, y, _ in train_loader:
+        optimizer.zero_grad(set_to_none=True)
+        logits = model(x.to(DEVICE))
+        loss = loss_fn(logits.transpose(1, 2), y.to(DEVICE, dtype=torch.long))
+        loss.backward()
+        nn.utils.clip_grad_norm_(model.parameters(), 3.)
+        optimizer.step()
+        loss_sum += loss.item()
+        batches += 1
+    model.eval()
+    with torch.inference_mode():
+        result = score(splits["validation"], pieces["validation"],
+                       lambda x: model(x.to(DEVICE)).argmax(-1).cpu().numpy())
+        training_result = score(train_sample, train_sample_pieces,
+                               lambda x: model(x.to(DEVICE)).argmax(-1).cpu().numpy())
+    f1 = result["overall"]["f1"]
+    history.append({"epoch":epoch, "loss":loss_sum/max(1,batches),
+                    "learning_rate":optimizer.param_groups[0]["lr"],
+                    "train_sample":training_result, "validation":result})
+    print(f"Epoch {epoch}: loss {loss_sum/max(1,batches):.4f}, train sample F1 "
+          f"{training_result['overall']['f1']:.4f}, validation F1 {f1:.4f}", flush=True)
+    print("Validation by category:", {k:round(v["f1"],3) for k,v in result["by_category"].items()}, flush=True)
+    scheduler.step(f1)
+    if f1 > best_f1:
+        best_f1, best_epoch = f1, epoch
+        best_weights = {k:v.detach().cpu().clone() for k,v in model.state_dict().items()}
+    if epoch - best_epoch >= PATIENCE:
+        break
+model.cpu().load_state_dict(best_weights)
+model.eval()
+torch.save(best_weights, OUTPUT / "best-weights.pt")
+
+# %% Export and check one small ONNX model against PyTorch
+model_file = OUTPUT / "model.onnx"
+with torch.no_grad():
+    torch.onnx.export(model, (torch.ones(2, 31, dtype=torch.int32),), str(model_file),
+                      input_names=["ids"], output_names=["logits"], opset_version=17,
+                      dynamo=False, external_data=False,
+                      dynamic_axes={"ids":{0:"batch", 1:"length"}, "logits":{0:"batch", 1:"length"}})
+onnx.checker.check_model(str(model_file))
+if model_file.stat().st_size > 2 * 1024**2:
+    raise ValueError("Export exceeds the 2 MiB model-weight budget")
+options = ort.SessionOptions()
+options.intra_op_num_threads = options.inter_op_num_threads = 1
+start_time = time.perf_counter()
+session = ort.InferenceSession(str(model_file), sess_options=options, providers=["CPUExecutionProvider"])
+load_ms = 1000 * (time.perf_counter() - start_time)
+
+def infer(ids):
+    return session.run(["logits"], {"ids":np.asarray(ids, dtype=np.int32)})[0]
+
+for shape in ((1, 1), (3, 87), (1, CORE + 2*HALO)):
+    dummy = torch.randint(1, 129+BUCKETS, shape, dtype=torch.int32)
+    dummy[-1, shape[1]//2:] = 0
+    with torch.inference_mode():
+        np.testing.assert_allclose(infer(dummy.numpy()), model(dummy).numpy(), rtol=2e-4, atol=5e-5)
+
+def predict_text(text):
+    ids = encode(text)
+    tags, confidence = [], []
+    for left, right, a, b in windows(len(ids)):
+        logits = infer(ids[None, left:right])[0, a-left:b-left]
+        tags.extend(logits.argmax(-1).tolist())
+        # Only the winning softmax probability is needed at each position.
+        confidence.extend((1 / np.exp(logits-logits.max(axis=-1, keepdims=True)).sum(axis=-1)).tolist())
+    return tags, {s:statistics.fmean(confidence[s[1]:s[2]]) for s in decode(tags)}
+
+# An entity crosses a core boundary. Stitch the raw tags before decoding BIO.
+parity_texts = ["", "🙂Zoë\n☎ +92 300 1234567", "کلید: आठ １２３ ❤️", "姓名：李红\n📬 a+b@example.net",
+                " " * (CORE - 4) + "test.person@example.org" + " x" * CORE]
 parity = []
-for text in parity_texts:
-    item = tokenizer(text, return_offsets_mapping=True)
-    parity.append({"text": text, "input_ids": item["input_ids"], "attention_mask": item["attention_mask"], "token_type_ids": item["token_type_ids"], "offset_mapping": item["offset_mapping"]})
-(bundle / "tokenizer-parity.json").write_text(json.dumps({"python_offset_units": "Unicode code points; convert to JS UTF-16 for extension locations", "cases": parity}, indent=2), encoding="utf-8")
-(bundle / "manifest.json").write_text(json.dumps({
-    "base_model": BASE_MODEL, "base_model_license": "MIT; retain the upstream model notices", "labels": LABELS,
-    "task": "token-classification", "max_sequence_length": MAX_TOKENS, "suggested_chunk_overlap": 32,
-    "selected_export": selected_path.name, "data_mode": data_mode, "requires_browser_validation": True,
-    "confidence_threshold": None, "note": "Select thresholds on independent validation data. PERSON/ADDRESS are entity hypotheses, not confirmed confidentiality.",
-}, indent=2), encoding="utf-8")
-shutil.copy2(OUTPUT / "training-report.json", bundle / "training-report.json")
-freeze = subprocess.check_output([sys.executable, "-m", "pip", "freeze"], text=True)
-(bundle / "requirements-freeze.txt").write_text(freeze, encoding="utf-8")
-zip_path = shutil.make_archive("/kaggle/working/promptprivacy-ml-browser", "zip", bundle)
-print("Download:", zip_path)
-print("PyTorch checkpoint for future fine-tuning:", checkpoint)
-print("This is a provisional model export, not an installed extension feature.")
+for sample in parity_texts:
+    ids = encode(sample)
+    tags, _ = predict_text(sample)
+    if sample:
+        full = infer(ids[None, :])[0].argmax(-1).tolist()
+        assert tags == full, "Window stitching diverges from full inference"
+    parity.append({"text":sample, "ids":ids.tolist(), "tags":tags})
+print("ONNX export verified:", model_file.stat().st_size, "bytes")
+
+# %% Measure independent exact spans, false alarms and CPU latency
+# A small separately authored check of natural requests, confusable numbers,
+# Unicode, multiline text and entities that cross inference windows.
+def annotated(*parts):
+    text, spans = "", []
+    for part in parts:
+        if isinstance(part, tuple):
+            kind, value = part
+            spans.append({"label":kind, "start":len(text), "end":len(text)+len(value)})
+            part = value
+        text += part
+    return {"text":text, "spans":spans, "source":"authored"}
+
+challenge = [
+    annotated("Send the callback to ", ("PHONE", "+44 (0)20 7946 0123"), " after lunch."),
+    annotated("رابطہ کریں ", ("PHONE", "۰۳۰۰ ۱۲۳۴۵۶۷"), "۔"),
+    annotated("返信先は", ("EMAIL", "テスト+二@example.org"), "です。"),
+    annotated("The apartment is at ", ("ADDRESS", "42 Rue du Ciel\n75011 Paris"), "."),
+    annotated("The passenger's full name is ", ("PERSON", "María-Luz O’Shea"), "."),
+    annotated("CNIC on the form → ", ("NATIONAL_ID", "00000-1234567-0")),
+    annotated("Travel desk copied passport ", ("PASSPORT", "XZ4625079"), " today."),
+    annotated("Please transfer to account ", ("BANK_ACCOUNT", "07200341962"), "."),
+    annotated("Überweisen an ", ("IBAN", "DE89 3704 0044 0532 0130 00"), "."),
+    annotated("ATM card ", ("PAYMENT_CARD", "4242 4242 4242 4242"), " / PIN ", ("PIN", "7319")),
+    annotated('In my local config, "api_key" = "', ("API_KEY", "key_SyntheticOnly234Sample321"), '".'),
+    annotated("Our temporary passphrase is ", ("PASSWORD", "violet kites after dusk"), "."),
+    annotated("🗂️ " + "ordinary words " * 33, ("EMAIL", "fin+qa@example.net"), "\nfin."),
+    annotated("The ticket reference is 07200341962. Track the shipment tomorrow."),
+    annotated("The book has 7319 entries. The password field is empty."),
+    annotated("Order 4242 contains 20 items and costs 100.00 EUR."),
+    annotated("RAM dump starts at 0x7FFE1234. We opened issue 650-1234."),
+    annotated("Use the word passport in a sentence. Explain how an IBAN works."),
+]
+for case in challenge:
+    validate(case)
+# Select one cutoff on validation only. F0.5 gives precision extra weight.
+# Always report unfiltered results too, so the recall cost stays visible.
+def above(candidates, cutoff):
+    return {span for span, value in candidates.items() if value >= cutoff}
+
+validation_candidates = [predict_text(row["text"])[1] for row in splits["validation"]]
+thresholds = []
+for cutoff in (0., .35, .50, .60, .70, .80, .85, .90, .95, .98):
+    scores = score_spans(splits["validation"], (above(c, cutoff) for c in validation_candidates))["overall"]
+    p, r = scores["precision"], scores["recall"]
+    thresholds.append(dict(cutoff=cutoff, f05=1.25*p*r / max(1.e-12, .25*p + r), **scores))
+cutoff = max(thresholds, key=lambda row: (row["f05"], row["recall"]))["cutoff"]
+
+def evaluate_export(rows):
+    candidates = [predict_text(row["text"])[1] for row in rows]
+    raw = score_spans(rows, (set(c) for c in candidates))
+    selected = score_spans(rows, (above(c, cutoff) for c in candidates))
+    return raw, selected
+
+raw_test, test_score = evaluate_export(splits["test"])
+raw_challenge, challenge_score = evaluate_export(challenge)
+for fixture in parity:
+    fixture["spans"] = sorted(above(predict_text(fixture["text"])[1], cutoff))
+timing = {}
+for length in (128, 1024, 4096):
+    sample = ("🙂 Report sample. " * (length//16 + 1))[:length]
+    def timed_scan():
+        return above(predict_text(sample)[1], cutoff)
+    for _ in range(3):
+        timed_scan()
+    measurements = []
+    for _ in range(30):
+        tick = time.perf_counter()
+        timed_scan()
+        measurements.append((time.perf_counter()-tick)*1000)
+    timing[length] = {"median_ms":statistics.median(measurements), "p95_ms":float(np.percentile(measurements, 95))}
+print("Validation-selected cutoff:", cutoff, "\nHeld-out unfiltered:", raw_test["overall"],
+      "\nHeld-out at cutoff:", test_score["overall"], "\nAuthored examples:", challenge_score["overall"])
+for kind, counts in test_score["by_category"].items():
+    print(kind, {k:round(v, 3) for k,v in counts.items()})
+print("Python CPU / single thread / end-to-end milliseconds:", timing)
+
+# %% Save the model bundle and download the training report
+manifest = {
+    "format":"promptprivacy-char-cnn-v1", "tags":TAGS, "buckets":BUCKETS, "core":CORE, "halo":HALO,
+    "model_width":MODEL_WIDTH,
+    "input":"ids (int32, batch x Unicode code points)", "padding":0,
+    "shape_groups":[*CHAR_GROUPS, "other"],
+    "encoding":"ASCII n+1. Otherwise first matching Unicode category prefix g, id=129+512*g+n%512. No normalization.",
+    "decoding":"Stitch central argmax tags in document order. An orphan I starts a span. Spans are [start,end).",
+    "min_span_score":cutoff, "span_score":"Mean winning softmax probability across the span.",
+    "weights":"FP32", "model_sha256":hashlib.sha256(model_file.read_bytes()).hexdigest(),
+    "smoke_run":SMOKE, "parameters":sum(p.numel() for p in model.parameters()),
+}
+report = {
+    "run":"pipeline smoke" if SMOKE else "training", "seed":SEED, "best_epoch":best_epoch,
+    "model_bytes":model_file.stat().st_size, "packages":{name:metadata.version(name) for name in
+        ("Faker","phonenumbers","schwifty","torch","numpy","onnx","onnxruntime")},
+    "data":data_report, "caption_languages":list(CAPTIONS), "history":history,
+    "validation_cutoffs":thresholds, "heldout_exact_span":test_score, "authored_exact_span":challenge_score,
+    "unfiltered_heldout":raw_test, "unfiltered_authored":raw_challenge,
+    "authored_cases":len(challenge), "python_cpu_load_ms":load_ms, "python_cpu_latency":timing,
+}
+def write_json(name, value):
+    (OUTPUT / name).write_text(json.dumps(value, ensure_ascii=False, indent=2), encoding="utf-8")
+
+write_json("manifest.json", manifest)
+write_json("parity.json", parity)
+write_json("training-report.json", report)
+bundle = OUTPUT / ("promptprivacy-global-smoke.zip" if SMOKE else "promptprivacy-global.zip")
+with zipfile.ZipFile(bundle, "w", zipfile.ZIP_DEFLATED) as archive:
+    for name in ("model.onnx", "manifest.json", "parity.json", "training-report.json"):
+        archive.write(OUTPUT / name, name)
+print("Download from Kaggle's Output panel:", bundle, f"({bundle.stat().st_size/2**20:.2f} MiB)")

@@ -31,10 +31,10 @@ try {
   await input.fill('Contact demo@example.test and call +92 300 1234567');
   let result = '';
   for (let i = 0; i < 40; i++) {
-    result = await warning(); if (result.includes('Pakistani phone: 1')) break;
+    result = await warning(); if (result.includes('Phone number: 1')) break;
     await page.waitForTimeout(100);
   }
-  assert.match(result, /Email: 1/); assert.match(result, /Pakistani phone: 1/);
+  assert.match(result, /Email: 1/); assert.match(result, /Phone number: 1/);
   assert.match(result, /Gemini can access/); assert.ok(!result.includes('demo@example.test'));
   assert.match(result,/Line 1, column 9 · Top/);assert.match(result,/Line 1, column 36 · Bottom/);
   const layout = await input.evaluate(element => {

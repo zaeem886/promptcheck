@@ -49,18 +49,23 @@ The ready-to-extract distributable is [artifacts/PromptPrivacy-unpacked.zip](art
 
 ## Detection coverage
 
-| Category | Exact supported coverage |
+| Category | Supported coverage |
 | --- | --- |
-| Email | ASCII email-like addresses with a dotted domain. No deliverability check, obfuscated addresses, or internationalized email support. |
-| Pakistani phone | Mobile only: `03xx1234567`, `03xx-1234567`, `03xx 1234567`, `+923xx1234567`, `+92 3xx 1234567`, `+92-3xx-1234567`, equivalent `0092` forms. One optional ASCII space/hyphen per break. No parentheses or landlines. A directly preceding order/invoice/reference/tracking label suppresses the candidate. |
-| CNIC-like | `DDDDD-DDDDDDD-D`, first digit 1–7. Compact 13 digits require a directly preceding `CNIC` or `national id` label, optionally followed by `: # = -`. No spaced forms, checksum, or identity validation. |
-| API-key formats | `sk-` + 20–100 ASCII alphanumerics; `sk-proj-` + 20–200 ASCII alphanumerics/underscore/hyphen; `ghp_` + exactly 36 ASCII alphanumerics; `github_pat_` + 22–255 ASCII alphanumerics/underscore; `AKIA` + exactly 16 uppercase ASCII alphanumerics; `AIza` + exactly 35 ASCII alphanumerics/underscore/hyphen. These are selected format heuristics, not complete provider validators. AWS `ASIA` and other unlisted formats are not covered. |
-| Private key | Exact uppercase PEM begin markers for PRIVATE KEY, RSA, EC, DSA, OPENSSH, or ENCRYPTED PRIVATE KEY. Counts markers, not whole key bodies. Public-key markers do not match. |
-| Keywords | Case-insensitive literal substrings, including punctuation; one per line, trimmed/deduplicated, maximum 100 preferences of 100 UTF-16 code units each. Regex metacharacters are escaped. No fuzzy/semantic matching. |
+| Email | ASCII and Unicode email-like addresses with dotted domains. |
+| International phone | Explicit +country-code and 00-country-code numbers checked against bundled libphonenumber country metadata. Spaces, parentheses, hyphens, extensions and localized BMP decimal digits are supported. National numbers with a phone/mobile/tel/fax label are identified by shape and length. Existing Pakistani mobile formats remain supported without a label. |
+| Financial | Major payment-card issuer shapes with Luhn checks, IBAN country layouts with checksums, labeled bank accounts, routing/sort codes, IFSC and SWIFT/BIC. |
+| Identity | Existing CNIC formats, US SSN shapes with excluded impossible groups, labeled national/tax IDs, passports and driving licences. Local identity formats are broad labeled heuristics. |
+| Credentials | OpenAI, Anthropic, GitHub, GitLab, Google, AWS, Stripe, Slack, npm and SendGrid token shapes; JWT and Bearer/Basic authentication; PEM private-key markers and SSH key material. Labeled API/client secrets, passwords, passphrases, session cookies/tokens, PINs, CVV/CVC, OTPs and recovery codes; passwords in connection URLs. |
+| Personal fields | Labeled names, postal addresses, dates of birth, medical/insurance identifiers and diagnoses, GPS coordinates, IP addresses and cryptocurrency wallets. |
+| Keywords | Case-insensitive literal substrings, one per line, up to 100 saved phrases of 100 UTF-16 code units each. |
 
-Format boundaries reject adjacent Unicode letters, numbers, or underscores. Overlap priority is private marker, API key, email, CNIC, phone, keyword. Within a priority, longest then earliest wins. Accepted matches never overlap. Repeated separate occurrences count individually. Overlapping occurrences of the same keyword are consumed left to right without overlap. Counts describe occurrences, not unique people or credentials.
+Field rules support English labels and selected translated labels, quoted JSON values, environment assignments, and colon/equal/is/arrow separators. Plain values end at a newline, semicolon, pipe or recognized next field. Quoted values can span lines. A label can identify a shape even when its format or identity cannot be verified. Explicit order, invoice, reference, tracking, SKU and ticket labels suppress unlabelled phone/card candidates.
 
-The shared engine returns `category`, `start`, `end` (UTF-16, end exclusive), and `preview`. Both workflows use identical category counts and up to three unique masked previews. Email previews reveal one initial and mask the domain; phone/CNIC reveal only the last two digits. API/private-key previews are always `[credential hidden]`; keywords are always `[keyword hidden]`. Raw matched values are never returned by the detector. The original document remains unmodified.
+Ambiguous national phone numbers need a field label because their country cannot be reliably inferred from digits alone. Regional metadata and checksums verify supported structure. Actual ownership, deliverability, account status and confidentiality require context. Free-form names, addresses, medical prose, obfuscation, images and every country's identity format remain outside comprehensive rule coverage. No detector can guarantee identification of every private statement.
+
+Findings retain their original UTF-16 start/end offsets and line/column/region locations. Labeled fields outrank generic shapes, except specific location fields outrank the generic address label. Within a priority, longest then earliest wins. Accepted matches never overlap. Keywords use the original text after other categories.
+
+Passwords, credentials, session tokens and security codes are fully hidden. Names, addresses, birth dates, medical details, coordinates and wallets use a fully hidden preview. Email previews show one initial. Financial and identity previews show only the final two alphanumeric characters. The detector returns masked previews and source locations. All runtime dependencies and country metadata are bundled locally.
 
 ## Document coverage and limits
 
@@ -83,12 +88,12 @@ Blank and image-only PDF pages both lack text, conservatively making mixed PDFs 
 
 | Workflow | TP | FP | FN | Precision | Recall |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Prompts | 78 | 2 | 2 | 97.5% | 97.5% |
+| Prompts | 79 | 2 | 1 | 97.5% | 98.8% |
 | Documents, end to end | 14 | 0 | 5 | 100% | 73.7% |
 
 All 24 document status expectations pass. Five unavailable findings in partial/unsupported cases count as false negatives. These are small, synthetic-corpus measurements, not deployment accuracy claims. Actual timings, RSS/heap samples, environment, method, and per-case results are in [evaluation.md](artifacts/evaluation.md) and [evaluation.json](artifacts/evaluation.json). Chrome timings and coarse memory snapshots are in [browser-results.json](artifacts/browser-results.json). Browser worker/process peak memory and isolated extension overhead are unavailable.
 
-Node tests cover every detector, masks, literal keywords, overlaps, common false positives, UTF-16 offsets, document status/extraction, preflight limits, exact-origin selection, lookalike hosts, and production assets/permissions. Browser tests exercise all three sites' drafts, paste events, editor replacement, keywords, diagnostics, and real file workers. Layout regressions reproduce an editable grid and textarea flex row, asserting that the advisory sits outside/below the full composer at desktop and mobile widths. Lifecycle tests cover × dismissal, no stale reappearance, send-button/form/keyboard cleanup (including attachment-only sends), Shift+Enter, IME, and Enter-as-newline. They also cover textarea fallbacks, history/artifact/clipboard exclusion, ambiguous Claude editors, cancellation, limits, and hung workers. Fixtures block unexpected HTTP(S) requests without contacting live services. Results, per-site latency, and memory snapshots are in [browser-results.md](artifacts/browser-results.md) and [Brave results](artifacts/brave-results.md).
+International detector tests check mobile examples in both E.164 and formatted form for all 245 bundled regions, plus financial checksums, localized digits, contextual fields and exact masking. Node tests cover every detector, masks, literal keywords, overlaps, common false positives, UTF-16 offsets, document status/extraction, preflight limits, exact-origin selection, lookalike hosts, and production assets/permissions. Browser tests exercise all three sites' drafts, paste events, editor replacement, keywords, diagnostics, and real file workers. Layout regressions reproduce an editable grid and textarea flex row, asserting that the advisory sits outside/below the full composer at desktop and mobile widths. Lifecycle tests cover × dismissal, no stale reappearance, send-button/form/keyboard cleanup (including attachment-only sends), Shift+Enter, IME, and Enter-as-newline. They also cover textarea fallbacks, history/artifact/clipboard exclusion, ambiguous Claude editors, cancellation, limits, and hung workers. Fixtures block unexpected HTTP(S) requests without contacting live services. Results, per-site latency, and memory snapshots are in [browser-results.md](artifacts/browser-results.md) and [Brave results](artifacts/brave-results.md).
 
 The separate, optional `npm run probe:sites` checks public Claude/Gemini editor metadata without typing. `npm run test:live` loads the build on public Gemini in a fresh signed-out browser, types synthetic email/phone data, checks masked findings, then clears the draft without clicking Send. These development commands need internet access; the sites can read the synthetic draft. They do not run as part of the offline fixture suite or ship in the extension. Actual observations are in [site-probe.json](artifacts/site-probe.json) and [live-sites.json](artifacts/live-sites.json), with a [Gemini advisory screenshot](artifacts/gemini-live-advisory.png). Claude's browser-verification page was left untouched, so no live Claude composer is claimed as tested.
 
@@ -97,6 +102,8 @@ Browser tests require a current Chrome supporting `Extensions.loadUnpacked`; set
 **Still manual:** signed-in live sessions and navigation on all three services, actual Claude composer variants, native clipboard paste, toolbar UI activation, keyboard sending/IME, screen-reader announcements, and minimum-version Chrome. See [manual checks](docs/MANUAL-CHECKS.md). Fixture success and a signed-out smoke check do not establish every signed-in layout's compatibility.
 
 ## Architecture and submission
+
+The [international ML training notebook and instructions](ml/README.md) cover dataset generation, Kaggle training, exact-span evaluation and browser timing. The shipped extension currently uses its local rule-based scanner.
 
 ```text
 src/content/      Shared live scanner and exact-origin entrypoint

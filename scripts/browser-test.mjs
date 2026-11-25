@@ -47,6 +47,15 @@ try {
     documentRuns.push({name:doc.name,status:doc.status,durationMs:performance.now()-start});
   }
   passed(`Real browser worker extraction/status/masking for ${documentRuns.length} documents`);
+  await page.locator('#file').setInputFiles({
+    name: 'international-fields.txt', mimeType: 'text/plain',
+    buffer: Buffer.from('Phone: +33 6 12 34 56 78\nPassword: "document test passphrase"\nPassport: XZ4625079\nCard: 4242 4242 4242 4242')
+  });
+  await page.waitForFunction(() => document.querySelector('#result').textContent.includes('Passport'));
+  const internationalDocument = await page.locator('#result').innerText();
+  for (const label of ['Phone number', 'Password or passphrase', 'Payment card']) assert.ok(internationalDocument.includes(label), label);
+  for (const value of ['document test passphrase', 'XZ4625079', '4242 4242']) assert.ok(!internationalDocument.includes(value));
+  passed('Document worker uses expanded categories with masked credentials and identity previews');
   await page.locator('#file').setInputFiles(resolve('fixtures/manual/location-test.txt'));
   await page.waitForFunction(()=>document.querySelector('#result').dataset.status==='Findings detected');
   for (const expected of ['Line 2, column 8 · Top','Line 5, column 8 · Middle','Line 8, column 7 · Bottom']) assert.ok((await page.locator('#result').innerText()).includes(expected),expected);
@@ -164,6 +173,17 @@ try {
     assert.equal(layout.inside,false);assert.ok(layout.top>=layout.rootBottom+4,JSON.stringify(layout));
     assert.ok(layout.height<230,JSON.stringify(layout));assert.ok(layout.width>250);assert.equal(layout.alignment,'left');
   }
+  async function assertInternationalFields(input) {
+    const sample = 'Phone: +44 20 7946 0958\nPassword: "testing local passphrase"\nCard: 4242 4242 4242 4242\nIBAN: DE89 3704 0044 0532 0130 00\nPassport: XZ4625079';
+    await input.fill(sample);
+    const originalDraft = await input.innerText();
+    const advisory = await waitWarning(/Passport: 1/);
+    for (const expected of ['Phone number: 1', 'Password or passphrase: 1', 'Payment card: 1', 'IBAN: 1']) {
+      assert.ok(advisory.includes(expected), expected);
+    }
+    for (const secret of ['testing local passphrase', '4242 4242', 'XZ4625079']) assert.ok(!advisory.includes(secret));
+    assert.equal(await input.innerText(), originalDraft);
+  }
   let promptStarted=performance.now();
   await editor.locator('#prompt-textarea').fill('Explain binary search.');
   await waitWarning(/No supported patterns found/); promptRuns.push({case:'clear',durationMs:performance.now()-promptStarted}); passed('Live adapter reads draft only, excludes conversation history');
@@ -175,11 +195,13 @@ try {
   await editor.locator('#prompt-textarea').fill(''); await editor.waitForTimeout(30); assert.equal((await warning()).trim(),''); passed('Empty draft clears stale findings immediately');
   // Simulate paste delivery (input event path); clipboard permission is not needed.
   await editor.locator('#prompt-textarea').evaluate(el=>{el.textContent='Call +92 300 1234567';el.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'insertFromPaste',data:'Call +92 300 1234567'}));});
-  await waitWarning(/Pakistani phone: 1/); passed('Pasted text follows the same input scan path');
+  await waitWarning(/Phone number: 1/); passed('Pasted text follows the same input scan path');
   await editor.locator('#replace').click(); await editor.locator('#prompt-textarea').fill('PROJECT MARIGOLD');
   text=await waitWarning(/Sensitive keyword: 1/); assert.ok(!text.includes('PROJECT MARIGOLD')); passed('Editor replacement and stored literal keywords');
   await editor.locator('#prompt-textarea').fill('sk-'+'A'.repeat(24));
   text=await waitWarning(/API key format: 1/); assert.ok(text.includes('[credential hidden]')); assert.ok(!text.includes('AAA')); passed('Live credentials are fully masked');
+  await assertInternationalFields(editor.locator('#prompt-textarea'));
+  passed('ChatGPT international phone, financial, password and passport findings are masked');
   await editor.locator('#prompt-textarea').fill('Ordinary notes'); await waitWarning(/No supported patterns found/);
   await editor.locator('#send').click(); assert.equal(await editor.locator('#sent').innerText(),'Sent: 2');
   const pasteAllowed=await editor.locator('#prompt-textarea').evaluate(el=>{
@@ -191,13 +213,13 @@ try {
   // Regression for the actual Work-mode DOM supplied by the user: no prompt-textarea id.
   await editor.goto('https://chatgpt.com/work-fixture');
   const workEditor = editor.locator('[data-composer-markdown]');
-  text = await waitWarning(/Pakistani phone: 1/);
+  text = await waitWarning(/Phone number: 1/);
   assert.match(text,/Email: 1/); assert.ok(!text.includes('demo@example.test'));
   assert.equal(await workEditor.getAttribute('id'),null);
   passed('Work composer without an id scans existing nested paragraph/span draft only');
   // The unrelated textbox must never become a scan source even when focused.
   await editor.getByRole('textbox',{name:'Unrelated notes',exact:true}).focus();
-  text = await waitWarning(/Pakistani phone: 1/); assert.match(text,/Email: 1/);
+  text = await waitWarning(/Phone number: 1/); assert.match(text,/Email: 1/);
   await workEditor.fill(''); await editor.waitForTimeout(30); assert.equal((await warning()).trim(),'');
   await workEditor.pressSequentially('Contact demo@example.test',{delay:1});
   await waitWarning(/Email: 1/);
@@ -205,7 +227,7 @@ try {
   passed('Work editor typing, clearing, unrelated-editor exclusion, and normal sending');
   await editor.locator('#replace').click();
   await workEditor.evaluate(el=>{ const p=document.createElement('p'); const span=document.createElement('span'); span.setAttribute('data-prompt-literal-paste',''); span.textContent='Call +92 300 1234567'; p.append(span); el.replaceChildren(p); el.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'insertFromPaste'})); });
-  await waitWarning(/Pakistani phone: 1/);
+  await waitWarning(/Phone number: 1/);
   const workStatus=await background.evaluate(tabId=>chrome.tabs.sendMessage(tabId,{type:'promptprivacy:status'}),connectedId);
   assert.deepEqual(workStatus,{status:'editor-found',site:'chatgpt'});
   passed('Work editor replacement, nested paste input, and connected diagnostic');
@@ -217,7 +239,7 @@ try {
   }
   await pasteInto(workEditor,await readFile('fixtures/manual/large-prompt.txt','utf8'));
   text=await waitWarning(/Pasted text snapshot/);
-  for(const expected of ['Email: 2','Pakistani phone: 1','CNIC-like number: 1','API key format: 1','Private key marker: 1']) assert.ok(text.includes(expected),expected);
+  for(const expected of ['Email: 2','Phone number: 1','CNIC-like number: 1','API key format: 1','Private key marker: 1']) assert.ok(text.includes(expected),expected);
   assert.equal((await workEditor.innerText()).trim(),'');
   assert.equal(await editor.locator('#pasted-chip').innerText(),'Pasted text attachment');
   assert.ok(!text.includes('beginning@example.test'));assert.ok(!text.includes('AAAA'));
@@ -249,15 +271,17 @@ try {
     let input = editor.locator(provider.selector);
     await input.fill('Explain binary search.');
     await waitWarning(/No supported patterns found/);
+    await assertInternationalFields(input);
+    passed(provider.label + ': international fields use the shared detector and masked advisory');
     const before = performance.now();
     await input.fill('Contact demo@example.test and call +92 300 1234567');
-    text = await waitWarning(/Pakistani phone: 1/);
+    text = await waitWarning(/Phone number: 1/);
     siteRuns.push({site:provider.id,warningMs:performance.now()-before,verification:'local composer fixture'});
     assert.match(text,/Email: 1/);assert.ok(!text.includes('demo@example.test'));
     assert.ok(text.includes(`${provider.label} can access your draft`));assert.ok(!text.includes('ChatGPT can access your draft'));
     assert.ok(!(await input.innerText()).includes('PromptPrivacy'));
     await editor.locator('[data-promptprivacy="advisory"]').evaluate(el=>el.remove());
-    await waitWarning(/Pakistani phone: 1/);
+    await waitWarning(/Phone number: 1/);
     assert.equal(await editor.locator('[data-promptprivacy="advisory"]').count(),1);
     await editor.locator('#send').click();assert.equal(await editor.locator('#sent').innerText(),'Sent: 1');
     await input.fill('');await editor.waitForTimeout(30);assert.equal((await warning()).trim(),'');
@@ -275,7 +299,7 @@ try {
     },{once:true}));
     await pasteInto(input,await readFile('fixtures/manual/large-prompt.txt','utf8'));
     text = await waitWarning(/Pasted text snapshot/);
-    for(const expected of ['Email: 2','Pakistani phone: 1','CNIC-like number: 1','API key format: 1','Private key marker: 1']) assert.ok(text.includes(expected),expected);
+    for(const expected of ['Email: 2','Phone number: 1','CNIC-like number: 1','API key format: 1','Private key marker: 1']) assert.ok(text.includes(expected),expected);
     assert.equal((await input.innerText()).trim(),'');
     await pasteInto(editor.getByRole('textbox',{name:'Unrelated notes',exact:true}),'unrelated-only@example.test');
     assert.match(await warning(),/Email: 2/);
@@ -292,7 +316,7 @@ try {
       if(id==='claude')textarea.dataset.testid='chat-input';el.replaceWith(textarea);
     },provider.id);
     input = editor.locator('[data-composer-root] textarea');
-    await input.fill('Call 03001234567');await waitWarning(/Pakistani phone: 1/);
+    await input.fill('Call 03001234567');await waitWarning(/Phone number: 1/);
     const allowed = await input.evaluate(el=>{
       const data=new DataTransfer();data.setData('text/plain','Ordinary notes');
       return el.dispatchEvent(new ClipboardEvent('paste',{bubbles:true,cancelable:true,clipboardData:data}));
