@@ -1,8 +1,10 @@
 // Run the exported model with one WASM thread in a fresh local browser.
 import { readFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
+import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import JSZip from 'jszip';
+import { build } from 'esbuild';
 
 if (!process.argv[2]) throw new Error('Pass the path to the Kaggle model ZIP.');
 const zip = await JSZip.loadAsync(await readFile(process.argv[2]));
@@ -14,9 +16,9 @@ const runtimeNames = ['ort.wasm.min.mjs', 'ort-wasm-simd-threaded.mjs', 'ort-was
 for (const name of runtimeNames) {
   assets.set('/' + name, await readFile(new URL('node_modules/onnxruntime-web/dist/' + name, import.meta.url)));
 }
-for (const name of ['detector.js', 'locations.js']) {
-  assets.set('/' + name, await readFile(new URL('../src/shared/' + name, import.meta.url)));
-}
+const ruleBundle = await build({ entryPoints: [fileURLToPath(new URL('../src/shared/detector.js', import.meta.url))],
+  bundle: true, format: 'esm', write: false });
+assets.set('/detector.js', ruleBundle.outputFiles[0].contents);
 const server = createServer((req, res) => {
   if (req.url === '/') {
     res.writeHead(200, { 'Content-Type': 'text/html' }).end('<!doctype html><title>Local ML benchmark</title>');

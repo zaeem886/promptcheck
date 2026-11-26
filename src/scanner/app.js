@@ -1,5 +1,6 @@
 import { normalizeKeywords } from '../shared/detector.js';
-import { DEFAULT_LIMITS, preflight, notScanned } from '../shared/scan.js';
+import { DEFAULT_LIMITS, preflight, incompleteModelScan, notScanned } from '../shared/scan.js';
+import { requestModel } from '../ml/client.js';
 import { siteById } from '../shared/sites.js';
 import { appendFindingList } from '../ui/finding-list.js';
 const $ = id => document.getElementById(id);
@@ -7,7 +8,7 @@ const params = new URLSearchParams(location.search);
 const site = siteById(params.get('site'));
 const label = site?.label || 'AI chat';
 const connectionMessages = {
-  'editor-found': `Connected: the live scanner found the ${label} prompt editor in the tab where you clicked the toolbar icon. Typed text stays unchanged; masked previews appear in a separate advisory near the editor.`,
+  'editor-found': `Connected: the live scanner found the ${label} prompt editor in the tab where you clicked the toolbar icon. Finding details appear in a separate advisory near the editor.`,
   'editor-not-found': `The ${label} live scanner loaded, but could not find a supported prompt editor. Open a new chat and click the toolbar icon again. If this persists, the ${label} editor adapter needs updating.`,
   'not-connected': 'The live scanner is not connected to that tab. Open chatgpt.com, claude.ai, or gemini.google.com, allow PromptPrivacy access to that site in your browser extension settings, and refresh the chat tab after loading or reloading the extension. Then click the toolbar icon from that tab again.'
 };
@@ -17,16 +18,27 @@ if (Object.hasOwn(connectionMessages, connection)) {
   $('live-title').textContent = `${label} live scanner`;
   $('live-message').textContent = connectionMessages[connection];
 }
-let worker = null, generation = 0, deadline = null, keywords = [];
-function stop() { generation++; clearTimeout(deadline); worker?.terminate(); worker = null; $('cancel').disabled = true; }
-function render(result, duration) {
-  const box = $('result'); box.replaceChildren(); box.dataset.status = result.status;
-  const title = document.createElement('h3'); title.textContent = result.status; box.append(title);
+let worker = null, generation = 0, deadline = null, modelRequest = null, keywords = [];
+function stop() {
+  generation++;
+  clearTimeout(deadline);
+  modelRequest?.abort(); modelRequest = null;
+  worker?.terminate(); worker = null;
+  $('cancel').disabled = true;
+}
+function render(result, { duration, checkingModel = false, extractedText } = {}) {
+  const box = $('result'); box.replaceChildren(); box.dataset.status = checkingModel ? 'Scanning' : result.status;
+  const title = document.createElement('h3');
+  title.textContent = checkingModel && !result.findings.length && !result.partial ? 'Checking with ML…' : result.status;
+  box.append(title);
+  if (checkingModel && title.textContent !== 'Checking with ML…') {
+    const pending = document.createElement('p'); pending.textContent = 'Checking with ML…'; box.append(pending);
+  }
   if (result.reason) { const p = document.createElement('p'); p.textContent = result.reason; box.append(p); }
-  if (result.partial && result.findings.length) { const p = document.createElement('p'); p.textContent = `${result.findings.length} possible findings in the extracted portion.`; box.append(p); }
+  if (result.partial && result.findings.length) { const p = document.createElement('p'); p.textContent = `${result.findings.length} possible findings so far.`; box.append(p); }
   for (const group of result.groups) {
     const row = document.createElement('div'); row.className = 'finding'; row.textContent = `${group.label} · ${group.count}`;
-    appendFindingList(row, group.occurrences, group.label); box.append(row);
+    appendFindingList(row, group.occurrences, group.label, { text: extractedText }); box.append(row);
   }
   if (result.findings.length) {
     const note = document.createElement('p'); note.className = 'footnote';
@@ -47,13 +59,36 @@ async function scan(file) {
   if (!config) return render(notScanned('Choose a size limit from 1–25 MiB and time limit from 1–60 seconds.'));
   const reason = preflight(file, config); if (reason) return render(notScanned(reason));
   $('result').dataset.status = 'Scanning'; $('result').textContent = 'Scanning locally…'; $('cancel').disabled = false;
-  // Deadline includes file read, worker initialization, extraction, and detection.
-  deadline = setTimeout(() => { if (id === generation) { stop(); render(notScanned('Processing time limit exceeded. The worker was terminated.')); } }, config.timeoutMs);
+  let ruleResult = null, extractedText;
+  // The deadline includes file read, extraction, rules, and model inference.
+  deadline = setTimeout(() => {
+    if (id !== generation) return;
+    stop();
+    render(ruleResult ? incompleteModelScan(ruleResult, 'The ML check reached the time limit. Rule results are shown.')
+      : notScanned('Processing time limit exceeded. The worker was terminated.'), { extractedText });
+  }, config.timeoutMs);
   try {
     const buffer = await file.arrayBuffer(); if (id !== generation) return;
     worker = new Worker(new URL('worker.js', import.meta.url), { type: 'module' });
-    worker.onmessage = ({ data }) => { if (id !== generation || data.id !== id) return; stop(); render(data.result, data.durationMs); };
-    worker.onerror = event => { event.preventDefault(); if (id === generation) { stop(); render(notScanned('Document processing failed. No scan result is available.')); } };
+    worker.onmessage = ({ data }) => {
+      if (id !== generation || data.id !== id) return;
+      if (data.modelText === undefined) { stop(); render(data.result, { duration: data.durationMs, extractedText }); return; }
+      ruleResult = data.result;
+      extractedText = data.modelText;
+      modelRequest = new AbortController();
+      const pending = requestModel(extractedText, modelRequest.signal);
+      render(ruleResult, { checkingModel: true, extractedText });
+      pending.then(findings => {
+        if (id === generation) worker.postMessage({ id, findings });
+      });
+    };
+    worker.onerror = event => {
+      event.preventDefault();
+      if (id !== generation) return;
+      stop();
+      render(ruleResult ? incompleteModelScan(ruleResult, 'The ML check could not finish. Rule results are shown.')
+        : notScanned('Document processing failed. No scan result is available.'), { extractedText });
+    };
     worker.postMessage({ id, buffer, name: file.name, limits: config, keywords }, [buffer]);
   } catch { if (id === generation) { stop(); render(notScanned('The selected file could not be read.')); } }
 }

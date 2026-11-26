@@ -1,15 +1,17 @@
 {
   "browserProduct": "Brave",
-  "browser": "158.0.8127.42",
+  "browser": "158.0.8127.92",
   "checks": [
     "Production MV3 extension loads in Brave",
     "Literal keyword preferences save in local storage",
-    "Real browser worker extraction/status/masking for 21 documents",
-    "Document worker uses expanded categories with masked credentials and identity previews",
+    "Real browser worker extraction, status and full values for 21 documents",
+    "Document findings preserve original formatting and render markup as plain text",
+    "Document rules and ML merge into full findings with original locations",
     "Document locations include every repeated occurrence, logical lines, regions, PDF pages, and batched reveal",
     "Replacing a scan prevents stale results",
     "Cancel terminates active processing",
     "Deadline terminates a simulated hung worker",
+    "Document rules are visible during ML and survive its deadline",
     "Configured size limit preflight",
     "Privacy-preserving live-scanner connection diagnostic",
     "Actual toolbar action reports connected, missing-editor, and disconnected states",
@@ -21,15 +23,20 @@
     "Editor replacement and stored literal keywords",
     "Live credentials are fully masked",
     "ChatGPT international phone, financial, password and passport findings are masked",
+    "ChatGPT adds a masked ML-only address and counts the shared phone once",
     "Clipboard review does not cancel normal paste behavior",
     "Work composer without an id scans existing nested paragraph/span draft only",
     "Work editor typing, clearing, unrelated-editor exclusion, and normal sending",
     "Work editor replacement, nested paste input, and connected diagnostic",
+    "Clipboard snapshots merge model findings after the paste becomes an attachment",
+    "Full ML-only paste values jump to the exact multiline source and are hidden on collapse",
     "Large clipboard paste is scanned before conversion to an attachment, even with an empty draft",
     "ChatGPT clears paste snapshot on Send",
+    "Duplicate and CRLF paste locations use the clicked offset, survive ML updates, and clear when replaced",
     "Paste reviews survive conversion/editor replacement, allow sending, ignore unrelated inputs, and replace older snapshots",
     "Clipboard scan character limit is explicitly reported as partial",
     "Dismiss removes the masked clipboard snapshot",
+    "Send and Dismiss discard an in-flight model response",
     "Claude: international fields use the shared detector and masked advisory",
     "Claude: draft scanning, masking, clearing, advisory remounting, and normal sending",
     "Claude: shared keywords, typing, editor replacement, and toolbar diagnostic",
@@ -48,165 +55,209 @@
     "chatgpt: Send clears the snapshot without blocking submission or re-opening stale findings",
     "chatgpt: Enter-send and attachment-only send clear reviews; newline and IME do not",
     "chatgpt: per-occurrence line/column/region updates, independent paste locations, and all repeated findings available",
+    "chatgpt: findings scroll both ways and reach the last row when the chat scrolls to the bottom",
+    "chatgpt: clicking a repeated finding opens the correct paste line",
     "claude: compact advisory is outside and below the full composer; dismiss remains closed until draft changes",
     "claude: Send clears the snapshot without blocking submission or re-opening stale findings",
     "claude: Enter-send and attachment-only send clear reviews; newline and IME do not",
     "claude: per-occurrence line/column/region updates, independent paste locations, and all repeated findings available",
+    "claude: findings scroll both ways and reach the last row when the chat scrolls to the bottom",
+    "claude: clicking a repeated finding opens the correct paste line",
     "gemini: compact advisory is outside and below the full composer; dismiss remains closed until draft changes",
     "gemini: Send clears the snapshot without blocking submission or re-opening stale findings",
     "gemini: Enter-send and attachment-only send clear reviews; newline and IME do not",
     "gemini: per-occurrence line/column/region updates, independent paste locations, and all repeated findings available",
+    "gemini: findings scroll both ways and reach the last row when the chat scrolls to the bottom",
+    "gemini: clicking a repeated finding opens the correct paste line",
     "Native form submit clears a paste snapshot",
     "Unrelated sites and lookalike domains receive no content script",
     "Only configured keyword preferences persisted",
+    "Packaged model matches Kaggle span references and is scored on the fixed 96-prompt challenge",
     "No attempted runtime HTTP(S) requests or page errors in fixtures"
   ],
   "documentRuns": [
     {
       "name": "txt-findings.txt",
       "status": "Findings detected",
-      "durationMs": 507.1748
+      "durationMs": 821.9377999999997
     },
     {
       "name": "txt-clear.txt",
       "status": "No supported patterns found",
-      "durationMs": 197.6592999999998
+      "durationMs": 231.45460000000003
     },
     {
       "name": "txt-mixed.txt",
       "status": "Findings detected",
-      "durationMs": 197.94509999999968
+      "durationMs": 261.7311000000004
     },
     {
       "name": "csv-findings.csv",
       "status": "Findings detected",
-      "durationMs": 183.74219999999968
+      "durationMs": 218.20389999999952
     },
     {
       "name": "csv-clear.csv",
       "status": "No supported patterns found",
-      "durationMs": 183.08329999999978
+      "durationMs": 232.15459999999985
     },
     {
       "name": "csv-mixed.csv",
       "status": "Findings detected",
-      "durationMs": 166.23909999999978
+      "durationMs": 234.3838999999998
     },
     {
       "name": "pdf-findings.pdf",
       "status": "Findings detected",
-      "durationMs": 340.17530000000033
+      "durationMs": 417.86069999999927
     },
     {
       "name": "pdf-clear.pdf",
       "status": "No supported patterns found",
-      "durationMs": 460.89400000000023
+      "durationMs": 495.34940000000006
     },
     {
       "name": "pdf-mixed.pdf",
       "status": "Findings detected",
-      "durationMs": 219.14390000000003
+      "durationMs": 239.20400000000063
     },
     {
       "name": "docx-findings.docx",
       "status": "Findings detected",
-      "durationMs": 197.29989999999998
+      "durationMs": 248.70160000000033
     },
     {
       "name": "docx-clear.docx",
       "status": "No supported patterns found",
-      "durationMs": 199.65920000000006
+      "durationMs": 231.91240000000016
     },
     {
       "name": "docx-mixed.docx",
       "status": "Findings detected",
-      "durationMs": 181.98059999999987
+      "durationMs": 248.73019999999997
     },
     {
       "name": "partial.pdf",
       "status": "Partially scanned",
-      "durationMs": 201.27510000000075
+      "durationMs": 264.6391000000003
     },
     {
       "name": "image-only.pdf",
       "status": "Not scanned",
-      "durationMs": 198.78060000000005
+      "durationMs": 201.69880000000012
     },
     {
       "name": "broken.pdf",
       "status": "Not scanned",
-      "durationMs": 218.51230000000032
+      "durationMs": 198.73970000000008
     },
     {
       "name": "broken.docx",
       "status": "Not scanned",
-      "durationMs": 165.66600000000017
+      "durationMs": 167.34609999999975
     },
     {
       "name": "encrypted.pdf",
       "status": "Not scanned",
-      "durationMs": 201.92819999999938
+      "durationMs": 218.90760000000046
     },
     {
       "name": "unsupported.rtf",
       "status": "Not scanned",
-      "durationMs": 15.922199999999975
+      "durationMs": 26.904900000000453
     },
     {
       "name": "empty.txt",
       "status": "Not scanned",
-      "durationMs": 12.757200000000012
+      "durationMs": 23.136600000000726
     },
     {
       "name": "invalid-utf8.txt",
       "status": "Not scanned",
-      "durationMs": 151.2528000000002
+      "durationMs": 184.9382999999998
     },
     {
       "name": "keyword.txt",
       "status": "Findings detected",
-      "durationMs": 168.5556999999999
+      "durationMs": 235.15850000000046
     }
   ],
   "promptRuns": [
     {
       "case": "clear",
-      "durationMs": 341.89530000000013
+      "durationMs": 407.4459999999999
     },
     {
       "case": "email",
-      "durationMs": 687.5265999999992
+      "durationMs": 684.3727999999992
     }
   ],
   "siteRuns": [
     {
       "site": "claude",
-      "warningMs": 317.1412,
+      "warningMs": 328.7541000000019,
       "verification": "local composer fixture",
       "rendererHeapSnapshot": {
-        "usedJSHeapSize": 6554604,
-        "totalJSHeapSize": 8701556
+        "usedJSHeapSize": 6915597,
+        "totalJSHeapSize": 9765101
       }
     },
     {
       "site": "gemini",
-      "warningMs": 317.48709999999846,
+      "warningMs": 329.96610000000146,
       "verification": "local composer fixture",
       "rendererHeapSnapshot": {
-        "usedJSHeapSize": 6550798,
-        "totalJSHeapSize": 8439378
+        "usedJSHeapSize": 6840974,
+        "totalJSHeapSize": 9240666
       }
     }
   ],
+  "hybridEvaluation": {
+    "modelSha256": "d50fc514f24876438c882c84382390055b9ee09a4166cf34588860b9b0d4cd8b",
+    "cutoff": 0.98,
+    "cases": 96,
+    "parityCases": 5,
+    "scores": {
+      "rules": {
+        "tp": 48,
+        "fp": 0,
+        "fn": 28,
+        "precision": 1,
+        "recall": 0.631578947368421,
+        "f1": 0.7741935483870968
+      },
+      "model": {
+        "tp": 44,
+        "fp": 9,
+        "fn": 32,
+        "precision": 0.8301886792452831,
+        "recall": 0.5789473684210527,
+        "f1": 0.6821705426356589
+      },
+      "hybrid": {
+        "tp": 58,
+        "fp": 6,
+        "fn": 18,
+        "precision": 0.90625,
+        "recall": 0.7631578947368421,
+        "f1": 0.8285714285714286
+      }
+    },
+    "modelRoundTripMs": {
+      "median": 1.599999999627471,
+      "p95": 3.800000000745058,
+      "max": 25.199999999254942
+    }
+  },
   "timingMethod": "performance.now around Playwright file selection or editor input through observed result; includes automation, 50ms polling (prompt), debounce, file reads and worker initialization (document). Not isolated CPU time.",
   "memory": {
     "scanner": {
-      "usedJSHeapSize": 2864528,
-      "totalJSHeapSize": 3894444
+      "usedJSHeapSize": 3965432,
+      "totalJSHeapSize": 6522092
     },
     "editor": {
-      "usedJSHeapSize": 19462227,
-      "totalJSHeapSize": 23467963
+      "usedJSHeapSize": 20583176,
+      "totalJSHeapSize": 24290068
     },
     "method": "Chrome performance.memory after workload; coarse renderer snapshots, may share isolate/process and exclude document workers, browser, and peak memory. Not attributable extension overhead."
   },

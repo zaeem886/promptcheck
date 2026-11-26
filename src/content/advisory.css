@@ -32,10 +32,45 @@ strong { display: block; font-size: 11px; margin-bottom: 3px; }
 .finding { font-size: 11px; overflow-wrap: anywhere; }
 .occurrences { padding-left: 19px; margin: 4px 0 8px; }
 .occurrence { padding: 3px 0; font-size: 11px; }
-.occurrence-preview { overflow-wrap: anywhere; font-family: ui-monospace, monospace; }
-.occurrence-location { display: block; color: light-dark(#627268, #a0b7aa); font-size: 10px; }
+.occurrence-preview { overflow-wrap: anywhere; white-space: pre-wrap; font-family: ui-monospace, monospace; }
+button.occurrence-preview {
+  display: block;
+  max-width: 100%;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: light-dark(#245d50, #a6d5c1);
+  cursor: pointer;
+  font-size: inherit;
+  text-align: start;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.source-view { margin-top: 7px; border: 1px solid light-dark(#d4dfd9, #3c5049); border-radius: 7px; }
+.source-heading { display: flex; justify-content: space-between; align-items: center; padding: 2px 4px 2px 8px; font-weight: 600; }
+.source-excerpt {
+  max-block-size: min(112px, 22dvh);
+  overflow: auto;
+  margin: 0;
+  padding: 4px 8px 8px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: 11px/1.6 ui-monospace, monospace;
+  unicode-bidi: plaintext;
+}
+.source-excerpt mark { color: #302611; background: #f4d98a; }
+.occurrence-meta { display: flex; flex-wrap: wrap; column-gap: 9px; color: light-dark(#627268, #a0b7aa); font-size: 10px; }
 .more-findings { font: inherit; color: inherit; background: transparent; border: 1px solid light-dark(#d4dfd9, #3c5049); border-radius: 6px; padding: 4px 7px; cursor: pointer; }
-details[open] { max-height: 320px; overflow: auto; scrollbar-gutter: stable; padding-right: 4px; }
+.findings-scroll {
+  position: relative;
+  max-block-size: min(320px, 40dvh);
+  overflow: hidden auto;
+  overscroll-behavior-y: auto;
+  scrollbar-gutter: stable;
+  scrollbar-color: light-dark(#8b9e90, #829b89) transparent;
+  padding: 0 4px 2px 2px;
+}
+.findings-scroll:focus-visible, .source-view:focus-visible, .source-excerpt:focus-visible { outline: 2px solid #b99a5a; outline-offset: -2px; }
 p { margin: 5px 0 0; font-size: 11px; color: light-dark(#627268, #a0b7aa); }
 .privacy { font-size: 10px; margin-top: 6px; }
 button:focus-visible, summary:focus-visible { outline: 2px solid #b99a5a; outline-offset: 2px; }

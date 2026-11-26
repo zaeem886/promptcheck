@@ -1,4 +1,26 @@
 import { siteById } from './shared/sites.js';
+import { isModelClient, MODEL_PAGE, PREPARE_MODEL } from './ml/protocol.js';
+
+let preparingModelPage;
+async function prepareModelPage() {
+  const contexts = await chrome.runtime.getContexts({
+    contextTypes: ['OFFSCREEN_DOCUMENT'],
+    documentUrls: [chrome.runtime.getURL(MODEL_PAGE)]
+  });
+  if (!contexts.length) await chrome.offscreen.createDocument({
+    url: MODEL_PAGE,
+    reasons: ['WORKERS'],
+    justification: 'Run and reuse the local privacy model in a worker for draft, paste, and document checks.'
+  });
+}
+
+chrome.runtime.onMessage.addListener((message, sender, respond) => {
+  if (message?.type !== PREPARE_MODEL || !isModelClient(sender)) return;
+  preparingModelPage ??= prepareModelPage().finally(() => { preparingModelPage = null; });
+  preparingModelPage.then(() => respond({ ready: true }), () => respond({ ready: false }));
+  return true;
+});
+
 chrome.action.onClicked.addListener(async tab => {
   let status = 'not-connected';
   let site = null;

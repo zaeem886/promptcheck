@@ -2,7 +2,7 @@
 
 The current notebook uses a width-64 CNN, a starting learning rate of 0.0007, a learning-rate scheduler and four-epoch early-stopping patience. Password and passport examples receive extra sampling, including quoted fields, support dialogue, tables and varied complete values. Benign documents make up approximately 25% of generated examples. Each epoch reports training-sample and validation scores, loss, learning rate and per-category validation F1.
 
-Train this revision from the beginning. The uploaded model and earlier measurements describe the preceding width-48 revision. Accuracy and browser timing for a full training run of this revision are pending. The existing authored examples serve as a development diagnostic after their errors have been inspected. Use a separately reserved final test dataset for final evaluation.
+Train this revision from the beginning. The full width-64 run is available as `promptprivacy-global (1).zip` and is the model bundled with PromptPrivacy 1.3.0. See [the trained model evaluation](../artifacts/ml-evaluation-v2/README.md) and [the combined evaluation](../README.md#verification-and-measured-results). The existing authored examples serve as a development diagnostic after their errors have been inspected. Use a separately reserved final test dataset for final evaluation.
 
 1. In Kaggle, create a notebook and import [kaggle-train-promptprivacy.ipynb](kaggle-train-promptprivacy.ipynb). All ten code cells are self-contained. The default run needs no attached dataset or API token.
 2. Enable **Internet** for the dependency install, select a **GPU** accelerator, and run the cells in order. Kaggle supplies PyTorch. To check the pipeline quickly, set `SMOKE = True` in cell 2 before running it.
@@ -70,7 +70,7 @@ The pilot's 261,326 parameters exported to **1,051,695 bytes**. In a fresh Brave
 | 1,024 | 11.4 ms | 13.9 ms |
 | 4,096 | 44.6 ms | 47.6 ms |
 
-The extension currently ships its rule scanner. For deployment, run trained weights in a local worker, reuse the session between edits, and convert code point offsets to UTF-16 before passing spans to the existing location and masking logic.
+The extension runs this export in a shared local worker. It stitches predictions through the overlapping windows and converts code point offsets to UTF-16 before merging with the rules. See [architecture and data flow](../docs/ARCHITECTURE.md).
 
 ## Source
 

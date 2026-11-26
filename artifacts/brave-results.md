@@ -1,15 +1,17 @@
 # Brave integration measurements
 
-Brave (Chromium 158.0.8127.42), Windows, production unpacked package. Local fixtures for ChatGPT, Claude, and Gemini; not signed-in live sessions.
+Brave (Chromium 158.0.8127.92), Windows, production unpacked package. Local fixtures for ChatGPT, Claude, and Gemini; not signed-in live sessions.
 
 - PASS: Production MV3 extension loads in Brave
 - PASS: Literal keyword preferences save in local storage
-- PASS: Real browser worker extraction/status/masking for 21 documents
-- PASS: Document worker uses expanded categories with masked credentials and identity previews
+- PASS: Real browser worker extraction, status and full values for 21 documents
+- PASS: Document findings preserve original formatting and render markup as plain text
+- PASS: Document rules and ML merge into full findings with original locations
 - PASS: Document locations include every repeated occurrence, logical lines, regions, PDF pages, and batched reveal
 - PASS: Replacing a scan prevents stale results
 - PASS: Cancel terminates active processing
 - PASS: Deadline terminates a simulated hung worker
+- PASS: Document rules are visible during ML and survive its deadline
 - PASS: Configured size limit preflight
 - PASS: Privacy-preserving live-scanner connection diagnostic
 - PASS: Actual toolbar action reports connected, missing-editor, and disconnected states
@@ -21,15 +23,20 @@ Brave (Chromium 158.0.8127.42), Windows, production unpacked package. Local fixt
 - PASS: Editor replacement and stored literal keywords
 - PASS: Live credentials are fully masked
 - PASS: ChatGPT international phone, financial, password and passport findings are masked
+- PASS: ChatGPT adds a masked ML-only address and counts the shared phone once
 - PASS: Clipboard review does not cancel normal paste behavior
 - PASS: Work composer without an id scans existing nested paragraph/span draft only
 - PASS: Work editor typing, clearing, unrelated-editor exclusion, and normal sending
 - PASS: Work editor replacement, nested paste input, and connected diagnostic
+- PASS: Clipboard snapshots merge model findings after the paste becomes an attachment
+- PASS: Full ML-only paste values jump to the exact multiline source and are hidden on collapse
 - PASS: Large clipboard paste is scanned before conversion to an attachment, even with an empty draft
 - PASS: ChatGPT clears paste snapshot on Send
+- PASS: Duplicate and CRLF paste locations use the clicked offset, survive ML updates, and clear when replaced
 - PASS: Paste reviews survive conversion/editor replacement, allow sending, ignore unrelated inputs, and replace older snapshots
 - PASS: Clipboard scan character limit is explicitly reported as partial
 - PASS: Dismiss removes the masked clipboard snapshot
+- PASS: Send and Dismiss discard an in-flight model response
 - PASS: Claude: international fields use the shared detector and masked advisory
 - PASS: Claude: draft scanning, masking, clearing, advisory remounting, and normal sending
 - PASS: Claude: shared keywords, typing, editor replacement, and toolbar diagnostic
@@ -48,26 +55,33 @@ Brave (Chromium 158.0.8127.42), Windows, production unpacked package. Local fixt
 - PASS: chatgpt: Send clears the snapshot without blocking submission or re-opening stale findings
 - PASS: chatgpt: Enter-send and attachment-only send clear reviews; newline and IME do not
 - PASS: chatgpt: per-occurrence line/column/region updates, independent paste locations, and all repeated findings available
+- PASS: chatgpt: findings scroll both ways and reach the last row when the chat scrolls to the bottom
+- PASS: chatgpt: clicking a repeated finding opens the correct paste line
 - PASS: claude: compact advisory is outside and below the full composer; dismiss remains closed until draft changes
 - PASS: claude: Send clears the snapshot without blocking submission or re-opening stale findings
 - PASS: claude: Enter-send and attachment-only send clear reviews; newline and IME do not
 - PASS: claude: per-occurrence line/column/region updates, independent paste locations, and all repeated findings available
+- PASS: claude: findings scroll both ways and reach the last row when the chat scrolls to the bottom
+- PASS: claude: clicking a repeated finding opens the correct paste line
 - PASS: gemini: compact advisory is outside and below the full composer; dismiss remains closed until draft changes
 - PASS: gemini: Send clears the snapshot without blocking submission or re-opening stale findings
 - PASS: gemini: Enter-send and attachment-only send clear reviews; newline and IME do not
 - PASS: gemini: per-occurrence line/column/region updates, independent paste locations, and all repeated findings available
+- PASS: gemini: findings scroll both ways and reach the last row when the chat scrolls to the bottom
+- PASS: gemini: clicking a repeated finding opens the correct paste line
 - PASS: Native form submit clears a paste snapshot
 - PASS: Unrelated sites and lookalike domains receive no content script
 - PASS: Only configured keyword preferences persisted
+- PASS: Packaged model matches Kaggle span references and is scored on the fixed 96-prompt challenge
 - PASS: No attempted runtime HTTP(S) requests or page errors in fixtures
 
-21 real-worker/preflight document cases: median 197.66 ms, min 12.76 ms, max 507.17 ms. ChatGPT warning observations: clear: 341.90 ms; email: 687.53 ms.
+21 real-worker/preflight document cases: median 232.15 ms, min 23.14 ms, max 821.94 ms. ChatGPT warning observations: clear: 407.45 ms; email: 684.37 ms.
 
 | Additional site fixture | Warning latency ms | Renderer heap snapshot MiB |
 |---|---:|---:|
-| claude | 317.14 | 6.25 |
-| gemini | 317.49 | 6.25 |
+| claude | 328.75 | 6.60 |
+| gemini | 329.97 | 6.52 |
 
-Timings include automation, typing, polling, debounce, reads, and worker startup; not isolated CPU time. Renderer JS heap snapshots: scanner 2.73 MiB, ChatGPT 18.56 MiB. Chrome performance.memory after workload; coarse renderer snapshots, may share isolate/process and exclude document workers, browser, and peak memory. Not attributable extension overhead. Worker/browser-process peak memory is unavailable.
+Timings include automation, typing, polling, debounce, reads, and worker startup; not isolated CPU time. Renderer JS heap snapshots: scanner 3.78 MiB, ChatGPT 19.63 MiB. Chrome performance.memory after workload; coarse renderer snapshots, may share isolate/process and exclude document workers, browser, and peak memory. Not attributable extension overhead. Worker/browser-process peak memory is unavailable.
 
 No attempted HTTP(S) requests and no page errors observed in these scenarios. Signed-in live sites, OS clipboard paste, keyboard/IME, and screen-reader checks remain manual. Paste checks dispatch synthetic input and ClipboardEvent/DataTransfer events. Toolbar activation is automated through the browser debugging API. The optional public-page smoke check is reported separately in live-sites.json.

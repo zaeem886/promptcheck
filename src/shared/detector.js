@@ -75,8 +75,8 @@ export function summarize(findings) {
     const group = findings.filter(f => f.category === category);
     return {
       category, label, count: group.length, previews: [...new Set(group.map(f => f.preview))].slice(0, 3),
-      // Repeated masked values retain their separate locations.
-      occurrences: group.map(({ preview, location }) => ({ preview, location }))
+      // Keep original offsets even when repeated values have the same preview.
+      occurrences: group.map(({ start, end, preview, location, source = 'rules' }) => ({ start, end, preview, location, source }))
     };
   }).filter(x => x.count);
 }

@@ -13,12 +13,12 @@ function visibleEditor(element, doc) {
   const style = doc.defaultView.getComputedStyle(element);
   return style.visibility !== 'hidden' && style.visibility !== 'collapse' && style.display !== 'none';
 }
-export function findEditor(doc, adapter) {
+export function findEditor(doc, adapter, focus = doc.activeElement) {
   // Ordered selector tiers prefer explicit composer markers over legacy fallbacks.
   for (const selector of adapter.selectors) {
     const candidates = [...doc.querySelectorAll(selector)].filter(element =>
       visibleEditor(element, doc) && !element.closest(adapter.excludeSelector));
-    const focused = candidates.find(element => element === doc.activeElement || element.contains(doc.activeElement));
+    const focused = candidates.find(element => element === focus || element.contains(focus));
     if (focused) return focused;
     if (candidates.length === 1) return candidates[0];
     // Ambiguous editors are left unread until a supported candidate is focused.

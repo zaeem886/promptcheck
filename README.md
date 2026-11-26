@@ -23,11 +23,11 @@ Use `npm` instead of `npm.cmd` outside Windows PowerShell. `npm run check` runs 
 2. Choose **Load unpacked** and select this repository's **build** folder containing `manifest.json`.
 3. Pin PromptPrivacy in Chrome's toolbar. Click it to open the document scanner and keyword settings.
 4. Open/reload `https://chatgpt.com/`, `https://claude.ai/new`, or `https://gemini.google.com/app`. Type synthetic data in the draft editor; warnings appear after a 300 ms pause. Sending remains available.
-5. Select a document in the scanner, review masked findings, and manually attach the original file to your chosen AI chat only if you choose.
+5. Select a document in the scanner and review the full values and their locations. You can then attach the original file to your chosen AI chat manually.
 
 If no live advisory appears, reload PromptPrivacy in `chrome://extensions` (or `brave://extensions`), then refresh the AI chat tab. Click the toolbar icon **from that chat tab**. The scanner page names the connected service and shows whether it found an editor, could not find an editor, or is not connected. Diagnostics include only a fixed site id and connection state, with no prompt text or findings. A disconnected status includes site-access and reload instructions. Typed text is never replaced with a mask; previews appear separately.
 
-Version **1.1.1** displays a compact advisory **below the full composer**, including its send controls, on ChatGPT, Claude, and Gemini. Category counts stay visible; **Masked details** expands the previews. The accessible **×** dismisses the whole advisory until the draft changes or another paste occurs. Send-button clicks and form submissions clear the paste snapshot and current warning. Keyboard sends clear it when a draft clears or a new Stop control appears; Shift+Enter, IME composition, and Enter configured as a newline preserve it. Cleanup observes local UI actions; it does not confirm transmission or send success.
+The compact advisory sits **below the full composer**, including its send controls, on ChatGPT, Claude, and Gemini. Category counts stay visible. Open **Finding details** to see the full values. The **×** dismisses the whole advisory until the draft changes or another paste occurs. Send-button clicks and form submissions clear the paste snapshot and current warning. A cleared draft or a new Stop control also clears it after a keyboard send. Shift+Enter, IME composition, and Enter configured as a newline preserve it. Cleanup observes local UI actions and cannot confirm transmission or send success.
 
 Site access is restricted to these three exact HTTPS origins. On an existing installation, reload the extension, allow access to the added sites if your browser requests it, and refresh their open tabs. Version 1.1.0 introduced the separate site adapters and shared live scanner.
 
@@ -41,11 +41,25 @@ Hidden, disabled, read-only, known history/artifact/dialog editors are excluded.
 
 Version 1.0.2 adds the ChatGPT Work composer identified by `data-composer-markdown`, which does not have the older `prompt-textarea` id. The browser regression fixture reproduces its nested paragraph/paste span and verifies draft detection, masking, typing, clearing, replacement, paste events, and sending while excluding an unrelated textbox. Refresh ChatGPT after reloading the updated extension.
 
-Large text pastes are scanned through the editor's paste event. A site may turn the paste into an attachment and empty the editor. A separate **Pasted text snapshot** preserves masked results from that event; it does not read uploaded attachments or track attachment edits/removal. It clears on observed send actions, dismissal, another paste, keyword changes, or page reload/close. Draft and paste counts are separate views, not an additive total. Only masked paste groups are retained; clipboard text is not persisted. At most 2,000,000 pasted characters are scanned, with larger pastes marked partial. Clipboard access happens only through the paste event, with no clipboard permission or polling. The warning cannot stop the website from receiving pasted data.
+Large text pastes are scanned through the editor's paste event. A site may turn the paste into an attachment and empty the editor. The **Pasted text snapshot** keeps the scanned text and its findings in memory. It clears on observed send actions, dismissal, another paste, keyword changes, or page reload/close. Draft and paste counts describe separate sources. At most 2,000,000 pasted characters are scanned, with larger pastes marked partial. Clipboard access happens only through the paste event. The warning cannot stop the website from receiving pasted data.
 
 Brave fixture integration is also exercised using the installed Brave executable; see [Brave results](artifacts/brave-results.md). Run it with `$env:CHROME_PATH = 'C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe'; npm.cmd run test:browser` in PowerShell. This verifies local fixtures, not your signed-in tabs.
 
 The ready-to-extract distributable is [artifacts/PromptPrivacy-unpacked.zip](artifacts/PromptPrivacy-unpacked.zip). Extract and load its folder, not the ZIP. `build/` includes all runtime bundles, PDF.js worker, CMaps, standard fonts, Mammoth, versions, and licenses; `node_modules` is unnecessary at runtime. See [scanner screenshot](artifacts/scanner.png).
+
+## Rules and machine learning
+
+The extension scans drafts, paste snapshots, and extracted document text with both rules and the trained character model. Rules appear first. The model reads the same original text in a background worker and adds findings that fall outside the rules' spans. If both engines agree on the category and exact span, the advisory counts one finding. Expand **Finding details** to see **Rules**, **ML**, or **Rules + ML** beside each location.
+
+Try typing the synthetic sentence below. The phone should appear once with **Rules + ML**, and the address should appear with **ML**.
+
+> If the courier gets lost, ring +1 (202) 555-0198. Ship the replacement to 14 River Walk, Dublin D02 XY76.
+
+The build uses the width-64 model from `ml/promptprivacy-global (1).zip` with its saved 0.98 confidence cutoff. ONNX Runtime and the model ship in the extension ZIP. The worker starts on the first model scan and reuses its loaded session. Live drafts and pastes check up to 2,000,000 characters with a five-second ML deadline. The document deadline covers reading, extraction, and both checks. If the model cannot finish, users see the rule findings and a partial status.
+
+In version **1.4.0**, click a value in **Finding details** to open a highlighted excerpt at its exact position in the draft or last paste. This also works when the chatbot has turned the paste into an attachment. Each repeated value opens its own location. Document scans show full values alongside extraction locations and PDF page numbers where available.
+
+Scroll inside the findings list or press **Tab** to focus it and use the arrow keys, **Home**, or **End**. Scrolling the chat to its bottom moves the open list to the last displayed finding. Model updates preserve the reading position and the rows already revealed with **Show more**.
 
 ## Detection coverage
 
@@ -65,7 +79,7 @@ Ambiguous national phone numbers need a field label because their country cannot
 
 Findings retain their original UTF-16 start/end offsets and line/column/region locations. Labeled fields outrank generic shapes, except specific location fields outrank the generic address label. Within a priority, longest then earliest wins. Accepted matches never overlap. Keywords use the original text after other categories.
 
-Passwords, credentials, session tokens and security codes are fully hidden. Names, addresses, birth dates, medical details, coordinates and wallets use a fully hidden preview. Email previews show one initial. Financial and identity previews show only the final two alphanumeric characters. The detector returns masked previews and source locations. All runtime dependencies and country metadata are bundled locally.
+The detector returns masked previews and source locations. The interfaces use the original spans to display full values in the expanded chat findings and document scan results. All runtime dependencies and country metadata are bundled locally.
 
 ## Document coverage and limits
 
@@ -77,14 +91,14 @@ Defaults: **10 MiB**, **15 seconds** total deadline, **200 PDF pages**, **2,000,
 | --- | --- |
 | Findings detected | Supported extraction completed with possible patterns. |
 | No supported patterns found | Supported extraction completed without matching patterns; no safety guarantee. |
-| Partially scanned | Some text was scanned but page/text limits, no-text pages, or extraction warnings limited coverage. Findings from scanned text remain visible. |
+| Partially scanned | Extraction had limited coverage or the ML check could not finish. Available findings remain visible. |
 | Not scanned | Unsupported, empty, oversized, encrypted, unreadable, cancelled, timed out, or no extractable text; a static reason is shown. |
 
 Blank and image-only PDF pages both lack text, conservatively making mixed PDFs partial. A PDF with no text is Not scanned. Successful DOCX extraction is complete only within body-text scope. A page with both text and an image may appear complete within text scope; the prototype cannot reliably identify missing image content.
 
 ## Verification and measured results
 
-**104 independently labelled synthetic prompts and 24 documents** are committed. Inputs and ground truth are separate: `fixtures/prompts.json`, `fixtures/prompt-labels.json`, `fixtures/documents/`, and `fixtures/document-labels.json`. Fixture generation never imports the detector. Some unavailable document labels are explicitly conceptual content outside a text layer.
+The rule detector benchmark uses **104 independently labelled synthetic prompts and 24 documents**. Inputs and ground truth are separate: `fixtures/prompts.json`, `fixtures/prompt-labels.json`, `fixtures/documents/`, and `fixtures/document-labels.json`. Fixture generation never imports the detector. Some unavailable document labels are explicitly conceptual content outside a text layer.
 
 | Workflow | TP | FP | FN | Precision | Recall |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -92,6 +106,16 @@ Blank and image-only PDF pages both lack text, conservatively making mixed PDFs 
 | Documents, end to end | 14 | 0 | 5 | 100% | 73.7% |
 
 All 24 document status expectations pass. Five unavailable findings in partial/unsupported cases count as false negatives. These are small, synthetic-corpus measurements, not deployment accuracy claims. Actual timings, RSS/heap samples, environment, method, and per-case results are in [evaluation.md](artifacts/evaluation.md) and [evaluation.json](artifacts/evaluation.json). Chrome timings and coarse memory snapshots are in [browser-results.json](artifacts/browser-results.json). Browser worker/process peak memory and isolated extension overhead are unavailable.
+
+Browser tests run the unpacked extension on the same 96 synthetic prompts used to compare model versions. A correct finding requires both the category and exact character boundaries.
+
+| Scanner | Correct | Incorrect | Missed | Precision | Recall | F1 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Rules | 48 | 0 | 28 | 100.0% | 63.2% | 77.4% |
+| ML | 44 | 9 | 32 | 83.0% | 57.9% | 68.2% |
+| Rules + ML | 58 | 6 | 18 | 90.6% | 76.3% | 82.9% |
+
+The combined scan adds ten correct findings and six false alarms on this development benchmark. Browser reports include the scores and model round-trip timings.
 
 International detector tests check mobile examples in both E.164 and formatted form for all 245 bundled regions, plus financial checksums, localized digits, contextual fields and exact masking. Node tests cover every detector, masks, literal keywords, overlaps, common false positives, UTF-16 offsets, document status/extraction, preflight limits, exact-origin selection, lookalike hosts, and production assets/permissions. Browser tests exercise all three sites' drafts, paste events, editor replacement, keywords, diagnostics, and real file workers. Layout regressions reproduce an editable grid and textarea flex row, asserting that the advisory sits outside/below the full composer at desktop and mobile widths. Lifecycle tests cover × dismissal, no stale reappearance, send-button/form/keyboard cleanup (including attachment-only sends), Shift+Enter, IME, and Enter-as-newline. They also cover textarea fallbacks, history/artifact/clipboard exclusion, ambiguous Claude editors, cancellation, limits, and hung workers. Fixtures block unexpected HTTP(S) requests without contacting live services. Results, per-site latency, and memory snapshots are in [browser-results.md](artifacts/browser-results.md) and [Brave results](artifacts/brave-results.md).
 
@@ -103,7 +127,7 @@ Browser tests require a current Chrome supporting `Extensions.loadUnpacked`; set
 
 ## Architecture and submission
 
-The [international ML training notebook and instructions](ml/README.md) cover dataset generation, Kaggle training, exact-span evaluation and browser timing. The shipped extension currently uses its local rule-based scanner.
+The [international ML training notebook and instructions](ml/README.md) cover dataset generation, Kaggle training, exact-span evaluation and browser timing. The build verifies the selected bundle's model hash and packages its weights and label configuration.
 
 ```text
 src/content/      Shared live scanner and exact-origin entrypoint

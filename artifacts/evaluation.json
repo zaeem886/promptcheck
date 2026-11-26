@@ -5,7 +5,7 @@
     "cpu": "AMD Ryzen 7 4700U with Radeon Graphics         ",
     "logicalCpus": 8,
     "ramBytes": 16504520704,
-    "measuredAt": "2026-11-25T22:03:17.117Z"
+    "measuredAt": "2026-11-26T10:11:20.634Z"
   },
   "method": "One sequential cold/warm mixed run; high resolution performance.now; GC before each case. RSS sampled before/after, heap delta after minus before. Not peak allocation or browser process memory. Prompt timing excludes 300ms UI debounce. Node document timings exclude file I/O and worker startup; browser harness measures UI end-to-end separately.",
   "prompts": {
@@ -18,12 +18,12 @@
       "recall": 0.9875
     },
     "performance": {
-      "totalMs": 59.70850000000007,
-      "medianMs": 0.21249999999997726,
-      "p95Ms": 0.8711000000000695,
-      "maxMs": 18.533899999999903,
-      "maxObservedRssBytes": 94326784,
-      "maxObservedHeapDeltaBytes": 348360
+      "totalMs": 57.170199999999454,
+      "medianMs": 0.20699999999999363,
+      "p95Ms": 0.9719000000000051,
+      "maxMs": 16.771600000000035,
+      "maxObservedRssBytes": 92319744,
+      "maxObservedHeapDeltaBytes": 348424
     },
     "rows": [
       {
@@ -31,69 +31,69 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 18.533899999999903,
-        "rssBefore": 92880896,
-        "rssAfter": 93282304,
-        "heapDelta": 215552
+        "durationMs": 16.771600000000035,
+        "rssBefore": 91250688,
+        "rssAfter": 91607040,
+        "heapDelta": 215568
       },
       {
         "id": "prompt-002",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 7.699700000000007,
-        "rssBefore": 93323264,
-        "rssAfter": 93569024,
-        "heapDelta": 273032
+        "durationMs": 6.890500000000088,
+        "rssBefore": 91631616,
+        "rssAfter": 91815936,
+        "heapDelta": 273048
       },
       {
         "id": "prompt-003",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.24480000000005475,
-        "rssBefore": 93569024,
-        "rssAfter": 93573120,
-        "heapDelta": 36776
+        "durationMs": 0.2135999999999285,
+        "rssBefore": 91815936,
+        "rssAfter": 91820032,
+        "heapDelta": 36792
       },
       {
         "id": "prompt-004",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.3143000000000029,
-        "rssBefore": 93597696,
-        "rssAfter": 93597696,
-        "heapDelta": 36840
+        "durationMs": 0.18819999999993797,
+        "rssBefore": 91828224,
+        "rssAfter": 91828224,
+        "heapDelta": 36856
       },
       {
         "id": "prompt-005",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.323099999999954,
-        "rssBefore": 93597696,
-        "rssAfter": 93597696,
-        "heapDelta": 38408
+        "durationMs": 0.2117000000000644,
+        "rssBefore": 91828224,
+        "rssAfter": 91828224,
+        "heapDelta": 38424
       },
       {
         "id": "prompt-006",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.5023000000001048,
-        "rssBefore": 93683712,
-        "rssAfter": 93696000,
-        "heapDelta": -90080
+        "durationMs": 0.24879999999996016,
+        "rssBefore": 91824128,
+        "rssAfter": 91828224,
+        "heapDelta": 34680
       },
       {
         "id": "prompt-007",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.2441000000000031,
-        "rssBefore": 93712384,
-        "rssAfter": 93712384,
+        "durationMs": 0.24620000000004438,
+        "rssBefore": 91836416,
+        "rssAfter": 91836416,
         "heapDelta": 32064
       },
       {
@@ -101,9 +101,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.22469999999998436,
-        "rssBefore": 93728768,
-        "rssAfter": 93728768,
+        "durationMs": 0.24509999999997945,
+        "rssBefore": 91836416,
+        "rssAfter": 91836416,
         "heapDelta": 31872
       },
       {
@@ -111,9 +111,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.2777999999999565,
-        "rssBefore": 93728768,
-        "rssAfter": 93732864,
+        "durationMs": 0.26480000000003656,
+        "rssBefore": 91836416,
+        "rssAfter": 91840512,
         "heapDelta": 33800
       },
       {
@@ -121,19 +121,19 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.2297999999999547,
-        "rssBefore": 93736960,
-        "rssAfter": 93745152,
-        "heapDelta": 43016
+        "durationMs": 0.25509999999997035,
+        "rssBefore": 91848704,
+        "rssAfter": 91852800,
+        "heapDelta": 31488
       },
       {
         "id": "prompt-011",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.2320999999999458,
-        "rssBefore": 93745152,
-        "rssAfter": 93749248,
+        "durationMs": 0.22709999999995034,
+        "rssBefore": 91852800,
+        "rssAfter": 91852800,
         "heapDelta": 35488
       },
       {
@@ -141,9 +141,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.22710000000006403,
-        "rssBefore": 93749248,
-        "rssAfter": 93749248,
+        "durationMs": 0.20619999999996708,
+        "rssBefore": 91852800,
+        "rssAfter": 91852800,
         "heapDelta": 33712
       },
       {
@@ -151,9 +151,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.16919999999993252,
-        "rssBefore": 93749248,
-        "rssAfter": 93749248,
+        "durationMs": 0.15229999999996835,
+        "rssBefore": 91852800,
+        "rssAfter": 91852800,
         "heapDelta": 33712
       },
       {
@@ -161,9 +161,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.20060000000000855,
-        "rssBefore": 93749248,
-        "rssAfter": 93749248,
+        "durationMs": 0.21320000000002892,
+        "rssBefore": 91852800,
+        "rssAfter": 91852800,
         "heapDelta": 33712
       },
       {
@@ -171,9 +171,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.16060000000004493,
-        "rssBefore": 93749248,
-        "rssAfter": 93777920,
+        "durationMs": 0.16660000000001673,
+        "rssBefore": 91856896,
+        "rssAfter": 91860992,
         "heapDelta": 33712
       },
       {
@@ -181,9 +181,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.15379999999993288,
-        "rssBefore": 93847552,
-        "rssAfter": 93847552,
+        "durationMs": 0.17279999999993834,
+        "rssBefore": 91926528,
+        "rssAfter": 91926528,
         "heapDelta": 33648
       },
       {
@@ -191,9 +191,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.16250000000002274,
-        "rssBefore": 93847552,
-        "rssAfter": 93847552,
+        "durationMs": 0.20229999999992287,
+        "rssBefore": 91926528,
+        "rssAfter": 91926528,
         "heapDelta": 33712
       },
       {
@@ -201,9 +201,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.1591000000000804,
-        "rssBefore": 93847552,
-        "rssAfter": 93847552,
+        "durationMs": 0.17260000000010223,
+        "rssBefore": 91926528,
+        "rssAfter": 91926528,
         "heapDelta": 33712
       },
       {
@@ -211,9 +211,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.15639999999996235,
-        "rssBefore": 93847552,
-        "rssAfter": 93847552,
+        "durationMs": 0.17040000000008604,
+        "rssBefore": 91926528,
+        "rssAfter": 91926528,
         "heapDelta": 33712
       },
       {
@@ -221,9 +221,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.17449999999996635,
-        "rssBefore": 93847552,
-        "rssAfter": 93847552,
+        "durationMs": 0.1971000000000913,
+        "rssBefore": 91926528,
+        "rssAfter": 91926528,
         "heapDelta": 33976
       },
       {
@@ -231,9 +231,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 4.205000000000041,
-        "rssBefore": 93847552,
-        "rssAfter": 94023680,
+        "durationMs": 3.1831999999999425,
+        "rssBefore": 91926528,
+        "rssAfter": 92028928,
         "heapDelta": 171280
       },
       {
@@ -241,9 +241,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.21249999999997726,
-        "rssBefore": 94023680,
-        "rssAfter": 94023680,
+        "durationMs": 0.20640000000003056,
+        "rssBefore": 92028928,
+        "rssAfter": 92028928,
         "heapDelta": 65440
       },
       {
@@ -251,9 +251,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.21240000000000236,
-        "rssBefore": 94023680,
-        "rssAfter": 94023680,
+        "durationMs": 0.19640000000003965,
+        "rssBefore": 92028928,
+        "rssAfter": 92028928,
         "heapDelta": 65408
       },
       {
@@ -261,59 +261,59 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 1.1482999999999493,
-        "rssBefore": 94023680,
-        "rssAfter": 94048256,
-        "heapDelta": 151696
+        "durationMs": 1.106899999999996,
+        "rssBefore": 92028928,
+        "rssAfter": 92028928,
+        "heapDelta": 151728
       },
       {
         "id": "prompt-025",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.5727999999999156,
-        "rssBefore": 94048256,
-        "rssAfter": 94048256,
-        "heapDelta": 114792
+        "durationMs": 2.125699999999938,
+        "rssBefore": 92028928,
+        "rssAfter": 92028928,
+        "heapDelta": 114824
       },
       {
         "id": "prompt-026",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.5141000000000986,
-        "rssBefore": 94048256,
-        "rssAfter": 94113792,
-        "heapDelta": 114016
+        "durationMs": 0.5126000000000204,
+        "rssBefore": 92028928,
+        "rssAfter": 92094464,
+        "heapDelta": 114048
       },
       {
         "id": "prompt-027",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.8711000000000695,
-        "rssBefore": 94113792,
-        "rssAfter": 94117888,
-        "heapDelta": 130920
+        "durationMs": 0.9537000000000262,
+        "rssBefore": 92094464,
+        "rssAfter": 92094464,
+        "heapDelta": 130952
       },
       {
         "id": "prompt-028",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.8828000000000884,
-        "rssBefore": 94117888,
-        "rssAfter": 94117888,
-        "heapDelta": 98688
+        "durationMs": 0.9719000000000051,
+        "rssBefore": 92094464,
+        "rssAfter": 92094464,
+        "heapDelta": 98720
       },
       {
         "id": "prompt-029",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.20849999999995816,
-        "rssBefore": 94117888,
-        "rssAfter": 94117888,
+        "durationMs": 0.20949999999993452,
+        "rssBefore": 92094464,
+        "rssAfter": 92094464,
         "heapDelta": 65472
       },
       {
@@ -321,9 +321,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.18600000000014916,
-        "rssBefore": 94117888,
-        "rssAfter": 94117888,
+        "durationMs": 0.18669999999997344,
+        "rssBefore": 92094464,
+        "rssAfter": 92094464,
         "heapDelta": 65408
       },
       {
@@ -331,49 +331,49 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.5416000000000167,
-        "rssBefore": 94117888,
-        "rssAfter": 94117888,
-        "heapDelta": 116384
+        "durationMs": 0.5669000000000324,
+        "rssBefore": 92094464,
+        "rssAfter": 92094464,
+        "heapDelta": 116432
       },
       {
         "id": "prompt-032",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.563899999999876,
-        "rssBefore": 94117888,
-        "rssAfter": 94121984,
-        "heapDelta": 116680
+        "durationMs": 0.5376999999999725,
+        "rssBefore": 92094464,
+        "rssAfter": 92094464,
+        "heapDelta": 116728
       },
       {
         "id": "prompt-033",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.49710000000004584,
-        "rssBefore": 94121984,
-        "rssAfter": 94121984,
-        "heapDelta": 122224
+        "durationMs": 0.4899000000000342,
+        "rssBefore": 92094464,
+        "rssAfter": 92094464,
+        "heapDelta": 122272
       },
       {
         "id": "prompt-034",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.7559000000001106,
-        "rssBefore": 94121984,
-        "rssAfter": 94216192,
-        "heapDelta": 150008
+        "durationMs": 0.7427000000000135,
+        "rssBefore": 92160000,
+        "rssAfter": 92160000,
+        "heapDelta": 152544
       },
       {
         "id": "prompt-035",
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.34209999999984575,
-        "rssBefore": 94216192,
-        "rssAfter": 94216192,
+        "durationMs": 0.4009999999999536,
+        "rssBefore": 92160000,
+        "rssAfter": 92160000,
         "heapDelta": 79592
       },
       {
@@ -381,9 +381,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.3972000000001117,
-        "rssBefore": 94216192,
-        "rssAfter": 94216192,
+        "durationMs": 0.5852999999999611,
+        "rssBefore": 92160000,
+        "rssAfter": 92160000,
         "heapDelta": 73848
       },
       {
@@ -391,9 +391,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.23029999999994288,
-        "rssBefore": 94216192,
-        "rssAfter": 94216192,
+        "durationMs": 0.2217000000000553,
+        "rssBefore": 92160000,
+        "rssAfter": 92160000,
         "heapDelta": 72664
       },
       {
@@ -401,9 +401,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.3486000000000331,
-        "rssBefore": 94216192,
-        "rssAfter": 94216192,
+        "durationMs": 0.3144999999999527,
+        "rssBefore": 92160000,
+        "rssAfter": 92160000,
         "heapDelta": 73400
       },
       {
@@ -411,9 +411,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.2160999999998694,
-        "rssBefore": 94216192,
-        "rssAfter": 94216192,
+        "durationMs": 0.20150000000001,
+        "rssBefore": 92160000,
+        "rssAfter": 92160000,
         "heapDelta": 72664
       },
       {
@@ -421,9 +421,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.36149999999997817,
-        "rssBefore": 94216192,
-        "rssAfter": 94216192,
+        "durationMs": 0.3089999999999691,
+        "rssBefore": 92160000,
+        "rssAfter": 92160000,
         "heapDelta": 73400
       },
       {
@@ -431,9 +431,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.23309999999992215,
-        "rssBefore": 94216192,
-        "rssAfter": 94216192,
+        "durationMs": 0.22069999999996526,
+        "rssBefore": 92160000,
+        "rssAfter": 92160000,
         "heapDelta": 73056
       },
       {
@@ -441,9 +441,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.37400000000002365,
-        "rssBefore": 94216192,
-        "rssAfter": 94216192,
+        "durationMs": 0.3525000000000773,
+        "rssBefore": 92160000,
+        "rssAfter": 92160000,
         "heapDelta": 73504
       },
       {
@@ -451,9 +451,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.22460000000000946,
-        "rssBefore": 94216192,
-        "rssAfter": 94224384,
+        "durationMs": 0.22700000000008913,
+        "rssBefore": 92160000,
+        "rssAfter": 92160000,
         "heapDelta": 72760
       },
       {
@@ -461,9 +461,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.28490000000010696,
-        "rssBefore": 94224384,
-        "rssAfter": 94224384,
+        "durationMs": 0.26530000000002474,
+        "rssBefore": 92225536,
+        "rssAfter": 92225536,
         "heapDelta": 72968
       },
       {
@@ -471,9 +471,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.1492000000000644,
-        "rssBefore": 94224384,
-        "rssAfter": 94224384,
+        "durationMs": 0.14479999999991833,
+        "rssBefore": 92225536,
+        "rssAfter": 92225536,
         "heapDelta": 28872
       },
       {
@@ -481,9 +481,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.1956000000000131,
-        "rssBefore": 94224384,
-        "rssAfter": 94224384,
+        "durationMs": 0.21240000000000236,
+        "rssBefore": 92250112,
+        "rssAfter": 92250112,
         "heapDelta": 43520
       },
       {
@@ -491,9 +491,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.17429999999990287,
-        "rssBefore": 94224384,
-        "rssAfter": 94224384,
+        "durationMs": 0.16450000000008913,
+        "rssBefore": 92250112,
+        "rssAfter": 92250112,
         "heapDelta": 30144
       },
       {
@@ -501,9 +501,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.1514999999999418,
-        "rssBefore": 94224384,
-        "rssAfter": 94224384,
+        "durationMs": 0.16660000000001673,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 28824
       },
       {
@@ -511,9 +511,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.15670000000000073,
-        "rssBefore": 94224384,
-        "rssAfter": 94224384,
+        "durationMs": 0.15440000000000964,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 42120
       },
       {
@@ -521,9 +521,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.14799999999991087,
-        "rssBefore": 94224384,
-        "rssAfter": 94224384,
+        "durationMs": 0.15029999999990196,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 28888
       },
       {
@@ -531,9 +531,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.1489000000001397,
-        "rssBefore": 94224384,
-        "rssAfter": 94224384,
+        "durationMs": 0.14670000000000982,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 28872
       },
       {
@@ -541,9 +541,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.18170000000009168,
-        "rssBefore": 94224384,
-        "rssAfter": 94224384,
+        "durationMs": 0.18009999999992488,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 43336
       },
       {
@@ -551,9 +551,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.1815999999998894,
-        "rssBefore": 94224384,
-        "rssAfter": 94224384,
+        "durationMs": 0.2257999999999356,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 30144
       },
       {
@@ -561,9 +561,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.1610000000000582,
-        "rssBefore": 94224384,
-        "rssAfter": 94224384,
+        "durationMs": 0.15269999999998163,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 28824
       },
       {
@@ -571,9 +571,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.16059999999993124,
-        "rssBefore": 94224384,
-        "rssAfter": 94224384,
+        "durationMs": 0.20699999999999363,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 43744
       },
       {
@@ -581,9 +581,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.16229999999995925,
-        "rssBefore": 94224384,
-        "rssAfter": 94224384,
+        "durationMs": 0.1413000000000011,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 30512
       },
       {
@@ -591,9 +591,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.17679999999995744,
-        "rssBefore": 94224384,
-        "rssAfter": 94224384,
+        "durationMs": 0.1668000000001939,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 27376
       },
       {
@@ -601,9 +601,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.13609999999994216,
-        "rssBefore": 94224384,
-        "rssAfter": 94224384,
+        "durationMs": 0.17219999999997526,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 27344
       },
       {
@@ -611,9 +611,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.146900000000187,
-        "rssBefore": 94224384,
-        "rssAfter": 94224384,
+        "durationMs": 0.14440000000013242,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 27344
       },
       {
@@ -621,9 +621,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.13930000000004839,
-        "rssBefore": 94224384,
-        "rssAfter": 94224384,
+        "durationMs": 0.16819999999984248,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 27344
       },
       {
@@ -631,9 +631,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.16869999999994434,
-        "rssBefore": 94224384,
-        "rssAfter": 94224384,
+        "durationMs": 0.22199999999998,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 27352
       },
       {
@@ -641,9 +641,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.1331000000000131,
-        "rssBefore": 94224384,
-        "rssAfter": 94224384,
+        "durationMs": 0.14630000000011023,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 27352
       },
       {
@@ -651,9 +651,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.4961000000000695,
-        "rssBefore": 94253056,
-        "rssAfter": 94253056,
+        "durationMs": 0.4755999999999858,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 34072
       },
       {
@@ -661,9 +661,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.21900000000005093,
-        "rssBefore": 94253056,
-        "rssAfter": 94253056,
+        "durationMs": 0.23069999999984248,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 29640
       },
       {
@@ -671,9 +671,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.18039999999996326,
-        "rssBefore": 94253056,
-        "rssAfter": 94253056,
+        "durationMs": 0.15629999999987376,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 29496
       },
       {
@@ -681,9 +681,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.21529999999984284,
-        "rssBefore": 94253056,
-        "rssAfter": 94253056,
+        "durationMs": 0.1636999999998352,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 29496
       },
       {
@@ -691,9 +691,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.19090000000005602,
-        "rssBefore": 94253056,
-        "rssAfter": 94253056,
+        "durationMs": 0.266399999999976,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 29496
       },
       {
@@ -701,9 +701,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.2053000000000793,
-        "rssBefore": 94253056,
-        "rssAfter": 94253056,
+        "durationMs": 0.16300000000001091,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 29496
       },
       {
@@ -711,9 +711,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.24310000000014043,
-        "rssBefore": 94253056,
-        "rssAfter": 94253056,
+        "durationMs": 0.1611000000000331,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 29496
       },
       {
@@ -721,9 +721,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.1711999999999989,
-        "rssBefore": 94253056,
-        "rssAfter": 94253056,
+        "durationMs": 0.195699999999988,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 29496
       },
       {
@@ -731,9 +731,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.49739999999997053,
-        "rssBefore": 94253056,
-        "rssAfter": 94253056,
+        "durationMs": 0.1871000000001004,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 29736
       },
       {
@@ -741,9 +741,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.17029999999999745,
-        "rssBefore": 94253056,
-        "rssAfter": 94253056,
+        "durationMs": 0.17059999999992215,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 29616
       },
       {
@@ -751,9 +751,9 @@
         "tp": 2,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.4017999999998665,
-        "rssBefore": 94253056,
-        "rssAfter": 94253056,
+        "durationMs": 0.4574000000000069,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 33056
       },
       {
@@ -761,9 +761,9 @@
         "tp": 2,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.4579000000001088,
-        "rssBefore": 94253056,
-        "rssAfter": 94253056,
+        "durationMs": 0.33550000000013824,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 34376
       },
       {
@@ -771,9 +771,9 @@
         "tp": 2,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.223700000000008,
-        "rssBefore": 94253056,
-        "rssAfter": 94253056,
+        "durationMs": 0.1993999999999687,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 66616
       },
       {
@@ -781,19 +781,19 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.6829999999999927,
-        "rssBefore": 94253056,
-        "rssAfter": 94253056,
-        "heapDelta": 348360
+        "durationMs": 0.6555000000000746,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
+        "heapDelta": 348424
       },
       {
         "id": "prompt-077",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.5949000000000524,
-        "rssBefore": 94257152,
-        "rssAfter": 94257152,
+        "durationMs": 0.6419000000000779,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 69304
       },
       {
@@ -801,9 +801,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.264699999999948,
-        "rssBefore": 94257152,
-        "rssAfter": 94257152,
+        "durationMs": 0.27739999999994325,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 48792
       },
       {
@@ -811,9 +811,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.1619999999998072,
-        "rssBefore": 94257152,
-        "rssAfter": 94257152,
+        "durationMs": 0.16419999999993706,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 38664
       },
       {
@@ -821,9 +821,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.15189999999984138,
-        "rssBefore": 94257152,
-        "rssAfter": 94257152,
+        "durationMs": 0.1333999999999378,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 30544
       },
       {
@@ -831,9 +831,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.16529999999988831,
-        "rssBefore": 94257152,
-        "rssAfter": 94257152,
+        "durationMs": 0.12229999999999563,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 25504
       },
       {
@@ -841,9 +841,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.1435999999998785,
-        "rssBefore": 94257152,
-        "rssAfter": 94257152,
+        "durationMs": 0.17630000000008295,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 25504
       },
       {
@@ -851,9 +851,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.12609999999995125,
-        "rssBefore": 94257152,
-        "rssAfter": 94257152,
+        "durationMs": 0.11140000000000327,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 25512
       },
       {
@@ -861,9 +861,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.1168999999999869,
-        "rssBefore": 94257152,
-        "rssAfter": 94257152,
+        "durationMs": 0.12210000000004584,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
         "heapDelta": 25504
       },
       {
@@ -871,19 +871,19 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.15760000000000218,
-        "rssBefore": 94257152,
-        "rssAfter": 94257152,
-        "heapDelta": 49888
+        "durationMs": 0.12849999999980355,
+        "rssBefore": 92254208,
+        "rssAfter": 92254208,
+        "heapDelta": -4112
       },
       {
         "id": "prompt-086",
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.740500000000111,
-        "rssBefore": 94257152,
-        "rssAfter": 94322688,
+        "durationMs": 0.9044000000001233,
+        "rssBefore": 92254208,
+        "rssAfter": 92319744,
         "heapDelta": 74664
       },
       {
@@ -891,9 +891,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.12310000000002219,
-        "rssBefore": 94322688,
-        "rssAfter": 94322688,
+        "durationMs": 0.14769999999998618,
+        "rssBefore": 92319744,
+        "rssAfter": 92319744,
         "heapDelta": 25504
       },
       {
@@ -901,9 +901,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.16560000000004038,
-        "rssBefore": 94322688,
-        "rssAfter": 94322688,
+        "durationMs": 0.24129999999991014,
+        "rssBefore": 92319744,
+        "rssAfter": 92319744,
         "heapDelta": 32184
       },
       {
@@ -911,9 +911,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.12740000000007967,
-        "rssBefore": 94322688,
-        "rssAfter": 94322688,
+        "durationMs": 0.12400000000002365,
+        "rssBefore": 92319744,
+        "rssAfter": 92319744,
         "heapDelta": 25512
       },
       {
@@ -921,9 +921,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.6570000000001528,
-        "rssBefore": 94322688,
-        "rssAfter": 94322688,
+        "durationMs": 0.5769999999999982,
+        "rssBefore": 92319744,
+        "rssAfter": 92319744,
         "heapDelta": 68816
       },
       {
@@ -931,9 +931,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.21929999999997563,
-        "rssBefore": 94322688,
-        "rssAfter": 94322688,
+        "durationMs": 0.13380000000006476,
+        "rssBefore": 92319744,
+        "rssAfter": 92319744,
         "heapDelta": 25520
       },
       {
@@ -941,9 +941,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.16440000000011423,
-        "rssBefore": 94322688,
-        "rssAfter": 94322688,
+        "durationMs": 0.20029999999997017,
+        "rssBefore": 92319744,
+        "rssAfter": 92319744,
         "heapDelta": 25504
       },
       {
@@ -951,9 +951,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.13619999999991705,
-        "rssBefore": 94322688,
-        "rssAfter": 94322688,
+        "durationMs": 0.12289999999984502,
+        "rssBefore": 92319744,
+        "rssAfter": 92319744,
         "heapDelta": 25504
       },
       {
@@ -961,9 +961,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.13360000000011496,
-        "rssBefore": 94322688,
-        "rssAfter": 94322688,
+        "durationMs": 0.22019999999997708,
+        "rssBefore": 92319744,
+        "rssAfter": 92319744,
         "heapDelta": 25512
       },
       {
@@ -971,9 +971,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.13169999999990978,
-        "rssBefore": 94322688,
-        "rssAfter": 94322688,
+        "durationMs": 0.14020000000004984,
+        "rssBefore": 92319744,
+        "rssAfter": 92319744,
         "heapDelta": 25816
       },
       {
@@ -981,9 +981,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.15229999999996835,
-        "rssBefore": 94322688,
-        "rssAfter": 94322688,
+        "durationMs": 0.15489999999999782,
+        "rssBefore": 92319744,
+        "rssAfter": 92319744,
         "heapDelta": 47512
       },
       {
@@ -991,9 +991,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.1249000000000251,
-        "rssBefore": 94322688,
-        "rssAfter": 94322688,
+        "durationMs": 0.11779999999998836,
+        "rssBefore": 92319744,
+        "rssAfter": 92319744,
         "heapDelta": 25512
       },
       {
@@ -1001,9 +1001,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.7109000000000378,
-        "rssBefore": 94322688,
-        "rssAfter": 94322688,
+        "durationMs": 0.649599999999964,
+        "rssBefore": 92319744,
+        "rssAfter": 92319744,
         "heapDelta": 70552
       },
       {
@@ -1011,9 +1011,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.3386000000000422,
-        "rssBefore": 94322688,
-        "rssAfter": 94322688,
+        "durationMs": 0.2726999999999862,
+        "rssBefore": 92319744,
+        "rssAfter": 92319744,
         "heapDelta": 48848
       },
       {
@@ -1021,9 +1021,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.13190000000008695,
-        "rssBefore": 94322688,
-        "rssAfter": 94322688,
+        "durationMs": 0.14649999999983265,
+        "rssBefore": 92319744,
+        "rssAfter": 92319744,
         "heapDelta": 25504
       },
       {
@@ -1031,9 +1031,9 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.5943999999999505,
-        "rssBefore": 94322688,
-        "rssAfter": 94322688,
+        "durationMs": 0.6394000000000233,
+        "rssBefore": 92319744,
+        "rssAfter": 92319744,
         "heapDelta": 84648
       },
       {
@@ -1041,9 +1041,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 1,
-        "durationMs": 0.12279999999987012,
-        "rssBefore": 94322688,
-        "rssAfter": 94322688,
+        "durationMs": 0.12940000000003238,
+        "rssBefore": 92319744,
+        "rssAfter": 92319744,
         "heapDelta": 25528
       },
       {
@@ -1051,9 +1051,9 @@
         "tp": 0,
         "fp": 1,
         "fn": 0,
-        "durationMs": 0.7126000000000658,
-        "rssBefore": 94322688,
-        "rssAfter": 94322688,
+        "durationMs": 0.6900000000000546,
+        "rssBefore": 92319744,
+        "rssAfter": 92319744,
         "heapDelta": 90592
       },
       {
@@ -1061,9 +1061,9 @@
         "tp": 0,
         "fp": 1,
         "fn": 0,
-        "durationMs": 0.33580000000006294,
-        "rssBefore": 94322688,
-        "rssAfter": 94326784,
+        "durationMs": 0.29119999999988977,
+        "rssBefore": 92319744,
+        "rssAfter": 92319744,
         "heapDelta": 75192
       }
     ]
@@ -1078,12 +1078,12 @@
       "recall": 0.7368421052631579
     },
     "performance": {
-      "totalMs": 216.1216000000004,
-      "medianMs": 2.9062000000001262,
-      "p95Ms": 20.303700000000163,
-      "maxMs": 105.77340000000004,
-      "maxObservedRssBytes": 104927232,
-      "maxObservedHeapDeltaBytes": 5161872
+      "totalMs": 180.11690000000021,
+      "medianMs": 1.9382000000000517,
+      "p95Ms": 16.403500000000122,
+      "maxMs": 94.44039999999995,
+      "maxObservedRssBytes": 103694336,
+      "maxObservedHeapDeltaBytes": 5177304
     },
     "statusPasses": 24,
     "unavailableFindings": 5,
@@ -1097,10 +1097,10 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.8878999999999451,
-        "rssBefore": 94326784,
-        "rssAfter": 94326784,
-        "heapDelta": 76832
+        "durationMs": 1.1467999999999847,
+        "rssBefore": 92319744,
+        "rssAfter": 92319744,
+        "heapDelta": 73608
       },
       {
         "name": "txt-clear.txt",
@@ -1111,9 +1111,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.6585999999999785,
-        "rssBefore": 94326784,
-        "rssAfter": 94326784,
+        "durationMs": 0.43250000000011823,
+        "rssBefore": 92319744,
+        "rssAfter": 92319744,
         "heapDelta": 75688
       },
       {
@@ -1125,10 +1125,10 @@
         "tp": 2,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.5152000000000498,
-        "rssBefore": 94326784,
-        "rssAfter": 94326784,
-        "heapDelta": 137696
+        "durationMs": 0.4894000000001597,
+        "rssBefore": 92319744,
+        "rssAfter": 92319744,
+        "heapDelta": 139248
       },
       {
         "name": "csv-findings.csv",
@@ -1139,10 +1139,10 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.4287000000001626,
-        "rssBefore": 94326784,
-        "rssAfter": 94326784,
-        "heapDelta": 56416
+        "durationMs": 0.5271999999999935,
+        "rssBefore": 92319744,
+        "rssAfter": 92319744,
+        "heapDelta": 56424
       },
       {
         "name": "csv-clear.csv",
@@ -1153,9 +1153,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.4477999999999156,
-        "rssBefore": 94326784,
-        "rssAfter": 94326784,
+        "durationMs": 0.4278999999999087,
+        "rssBefore": 92319744,
+        "rssAfter": 92319744,
         "heapDelta": 75992
       },
       {
@@ -1167,10 +1167,10 @@
         "tp": 2,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.5576000000000931,
-        "rssBefore": 94334976,
-        "rssAfter": 94334976,
-        "heapDelta": -119104
+        "durationMs": 0.5108000000000175,
+        "rssBefore": 92327936,
+        "rssAfter": 92327936,
+        "heapDelta": -146368
       },
       {
         "name": "pdf-findings.pdf",
@@ -1181,10 +1181,10 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 105.77340000000004,
-        "rssBefore": 94334976,
-        "rssAfter": 104398848,
-        "heapDelta": 5161872
+        "durationMs": 94.44039999999995,
+        "rssBefore": 92327936,
+        "rssAfter": 102813696,
+        "heapDelta": 5177304
       },
       {
         "name": "pdf-clear.pdf",
@@ -1195,10 +1195,10 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 20.303700000000163,
-        "rssBefore": 102371328,
-        "rssAfter": 102764544,
-        "heapDelta": 971120
+        "durationMs": 16.403500000000122,
+        "rssBefore": 100605952,
+        "rssAfter": 101072896,
+        "heapDelta": 971080
       },
       {
         "name": "pdf-mixed.pdf",
@@ -1209,10 +1209,10 @@
         "tp": 2,
         "fp": 0,
         "fn": 0,
-        "durationMs": 15.407699999999977,
-        "rssBefore": 102793216,
-        "rssAfter": 103206912,
-        "heapDelta": 1095960
+        "durationMs": 12.53469999999993,
+        "rssBefore": 101072896,
+        "rssAfter": 101056512,
+        "heapDelta": 1098312
       },
       {
         "name": "docx-findings.docx",
@@ -1223,10 +1223,10 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 11.715199999999868,
-        "rssBefore": 103215104,
-        "rssAfter": 103383040,
-        "heapDelta": 663544
+        "durationMs": 9.605000000000018,
+        "rssBefore": 101126144,
+        "rssAfter": 101507072,
+        "heapDelta": 661808
       },
       {
         "name": "docx-clear.docx",
@@ -1237,10 +1237,10 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 5.072300000000041,
-        "rssBefore": 103395328,
-        "rssAfter": 103493632,
-        "heapDelta": 403256
+        "durationMs": 2.5539000000001124,
+        "rssBefore": 101519360,
+        "rssAfter": 101650432,
+        "heapDelta": 403288
       },
       {
         "name": "docx-mixed.docx",
@@ -1251,10 +1251,10 @@
         "tp": 2,
         "fp": 0,
         "fn": 0,
-        "durationMs": 4.374000000000024,
-        "rssBefore": 103510016,
-        "rssAfter": 103690240,
-        "heapDelta": 500720
+        "durationMs": 2.512899999999945,
+        "rssBefore": 101650432,
+        "rssAfter": 101715968,
+        "heapDelta": 503552
       },
       {
         "name": "partial.pdf",
@@ -1265,10 +1265,10 @@
         "tp": 1,
         "fp": 0,
         "fn": 1,
-        "durationMs": 9.058999999999969,
-        "rssBefore": 103698432,
-        "rssAfter": 103247872,
-        "heapDelta": 794864
+        "durationMs": 5.205199999999877,
+        "rssBefore": 101736448,
+        "rssAfter": 102248448,
+        "heapDelta": 792280
       },
       {
         "name": "image-only.pdf",
@@ -1279,10 +1279,10 @@
         "tp": 0,
         "fp": 0,
         "fn": 1,
-        "durationMs": 3.6493000000000393,
-        "rssBefore": 103411712,
-        "rssAfter": 103546880,
-        "heapDelta": 399600
+        "durationMs": 2.9206000000001495,
+        "rssBefore": 102248448,
+        "rssAfter": 102383616,
+        "heapDelta": 399632
       },
       {
         "name": "broken.pdf",
@@ -1293,10 +1293,10 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 2.9062000000001262,
-        "rssBefore": 103550976,
-        "rssAfter": 103550976,
-        "heapDelta": 173808
+        "durationMs": 1.9382000000000517,
+        "rssBefore": 102383616,
+        "rssAfter": 102383616,
+        "heapDelta": 173840
       },
       {
         "name": "broken.docx",
@@ -1307,9 +1307,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.4805999999998676,
-        "rssBefore": 103550976,
-        "rssAfter": 103550976,
+        "durationMs": 0.3572999999998956,
+        "rssBefore": 102387712,
+        "rssAfter": 102387712,
         "heapDelta": 15968
       },
       {
@@ -1321,10 +1321,10 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 4.628699999999981,
-        "rssBefore": 103550976,
-        "rssAfter": 103604224,
-        "heapDelta": 211184
+        "durationMs": 2.5388000000000375,
+        "rssBefore": 102387712,
+        "rssAfter": 102387712,
+        "heapDelta": 211216
       },
       {
         "name": "unsupported.rtf",
@@ -1335,9 +1335,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 1,
-        "durationMs": 0.04619999999999891,
-        "rssBefore": 103604224,
-        "rssAfter": 103604224,
+        "durationMs": 0.04229999999984102,
+        "rssBefore": 102387712,
+        "rssAfter": 102387712,
         "heapDelta": 1416
       },
       {
@@ -1349,9 +1349,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.058200000000169894,
-        "rssBefore": 103620608,
-        "rssAfter": 103620608,
+        "durationMs": 0.059300000000121145,
+        "rssBefore": 102387712,
+        "rssAfter": 102387712,
         "heapDelta": 1616
       },
       {
@@ -1363,9 +1363,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.2597000000000662,
-        "rssBefore": 103620608,
-        "rssAfter": 103624704,
+        "durationMs": 0.22749999999996362,
+        "rssBefore": 102387712,
+        "rssAfter": 102391808,
         "heapDelta": 8728
       },
       {
@@ -1377,9 +1377,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 0,
-        "durationMs": 0.06570000000010623,
-        "rssBefore": 104927232,
-        "rssAfter": 104927232,
+        "durationMs": 0.20190000000002328,
+        "rssBefore": 103694336,
+        "rssAfter": 103694336,
         "heapDelta": 1464
       },
       {
@@ -1391,10 +1391,10 @@
         "tp": 1,
         "fp": 0,
         "fn": 0,
-        "durationMs": 14.270499999999856,
-        "rssBefore": 104927232,
-        "rssAfter": 103886848,
-        "heapDelta": 203832
+        "durationMs": 12.366999999999962,
+        "rssBefore": 103694336,
+        "rssAfter": 102539264,
+        "heapDelta": 203840
       },
       {
         "name": "page-limit.pdf",
@@ -1405,10 +1405,10 @@
         "tp": 0,
         "fp": 0,
         "fn": 1,
-        "durationMs": 14.261299999999892,
-        "rssBefore": 103886848,
-        "rssAfter": 103550976,
-        "heapDelta": 829664
+        "durationMs": 12.413600000000088,
+        "rssBefore": 102539264,
+        "rssAfter": 102629376,
+        "heapDelta": 829696
       },
       {
         "name": "text-limit.txt",
@@ -1419,9 +1419,9 @@
         "tp": 0,
         "fp": 0,
         "fn": 1,
-        "durationMs": 0.2941000000000713,
-        "rssBefore": 103641088,
-        "rssAfter": 103641088,
+        "durationMs": 0.2601999999999407,
+        "rssBefore": 102629376,
+        "rssAfter": 102629376,
         "heapDelta": 51416
       }
     ]
